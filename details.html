@@ -14,7 +14,7 @@
     #pageSplash { position: fixed; inset: 0; background: var(--white); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.6s ease-out; }
     .leaf-anim { font-size: 55px; animation: leafSwing 1.5s ease-in-out infinite alternate; margin-bottom: 20px; }
     @keyframes leafSwing { from { transform: rotate(-10deg); } to { transform: rotate(10deg); } }
-    .splash-brand { color: var(--coco-green); font-family: 'Playfair Display', serif; font-size: 1.2rem; letter-spacing: 1.5px; font-weight: 700; }
+    .splash-brand { color: var(--coco-green); font-family: 'Playfair Display', serif; font-size: 1.2rem; letter-spacing: 1.5px; text-align: center; font-weight: 700; }
 
     header { position: fixed; top: 0; width: 100%; height: 55px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid var(--border); }
     .back-btn { text-decoration: none; color: var(--coco-green); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; }
@@ -32,7 +32,7 @@
 
     .content { padding: 25px 15px 120px; max-width: 800px; margin: 0 auto; }
     
-    /* PROFESSIONAL INFO CARDS */
+    /* SECTION DESIGN */
     .info-card { background: var(--card-bg); border-radius: 16px; padding: 20px; border: 1px solid var(--border); margin-bottom: 15px; }
     .card-title { font-size: 0.65rem; font-weight: 800; color: var(--coco-green); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
     .card-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
@@ -42,32 +42,27 @@
 
     .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
     .data-item { display: flex; flex-direction: column; gap: 2px; }
-    .label { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; font-weight: 500; }
-    .value { font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
-
+    .label { font-size: 0.58rem; color: var(--text-muted); text-transform: uppercase; font-weight: 500; }
+    .value { font-size: 0.88rem; font-weight: 600; color: var(--text-main); }
     .full-row { grid-column: 1 / -1; }
     .badge-wrap { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
-    .badge { font-size: 0.55rem; padding: 4px 10px; border-radius: 50px; text-transform: uppercase; font-weight: 800; border: 1px solid; }
+    .badge { font-size: 0.52rem; padding: 4px 10px; border-radius: 50px; text-transform: uppercase; font-weight: 800; border: 1px solid; }
 
-    /* ACTION BUTTONS */
     .docs-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 5px; }
     .btn-outline { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px; border: 1px solid var(--coco-green); border-radius: 8px; color: var(--coco-green); text-decoration: none; font-weight: 600; font-size: 0.8rem; }
-    
     .footer-action { position: fixed; bottom: 0; width: 100%; background: #fff; padding: 12px 15px; border-top: 1px solid var(--border); z-index: 1000; }
     .btn-chat { background: var(--coco-green); color: #fff; text-decoration: none; padding: 14px; border-radius: 2px; display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 300; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; }
 
-    /* ADMIN/AGENT PANEL */
-    .agent-panel { border: 2px solid var(--coco-green); background: #fff; }
-    .agent-text { font-size: 0.85rem; color: var(--coco-green); line-height: 1.6; font-weight: 400; font-style: italic; }
+    /* MAP DESIGN */
+    .map-box { width: 100%; height: 250px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 12px; }
+    .btn-nav { width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; background: #000; color: #fff; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.85rem; }
+
+    @media (min-width: 768px) { .data-grid { grid-template-columns: repeat(3, 1fr); } }
   </style>
 </head>
 <body>
 
-  <div id="pageSplash">
-    <div class="leaf-anim">🌿</div>
-    <div class="splash-brand">THE COCO HUA HIN 88</div>
-  </div>
-
+  <div id="pageSplash"><div class="leaf-anim">🌿</div><div class="splash-brand">THE COCO HUA HIN 88</div></div>
   <header><a href="index.html" class="back-btn">✕ Close</a><div class="logo-small">THE COCO HUA HIN 88</div><div style="width:40px;"></div></header>
 
   <div class="gallery-container">
@@ -81,72 +76,74 @@
     
     <div class="info-card">
       <div id="badgeBox" class="badge-wrap"></div>
-      <h1 class="main-title" id="plotName">Plot...</h1>
+      <h1 class="main-title" id="plotName">Plot ...</h1>
       <div class="main-price" id="priceLabel">฿0</div>
-      
       <div class="data-grid">
         <div class="data-item"><span class="label">Bedrooms</span><span class="value" id="valBed">-</span></div>
         <div class="data-item"><span class="label">Bathrooms</span><span class="value" id="valBath">-</span></div>
-        <div class="data-item"><span class="label">Living Area</span><span class="value" id="valLiving">-</span></div>
-        <div class="data-item"><span class="label">Land Size</span><span class="value" id="valLand">-</span></div>
-        <div class="data-item"><span class="label">Ownership</span><span class="value" id="valOwner">-</span></div>
-        <div class="data-item"><span class="label">Title Deed</span><span class="value" id="valTitle">-</span></div>
-      </div>
-    </div>
-
-    <div class="info-card">
-      <h2 class="card-title">Property Features</h2>
-      <div class="data-grid">
-        <div class="data-item"><span class="label">Type</span><span class="value" id="valType">-</span></div>
-        <div class="data-item"><span class="label">Furnishing</span><span class="value" id="valFurnish">-</span></div>
-        <div class="data-item"><span class="label">Kitchen</span><span class="value" id="valKitchen">-</span></div>
-        <div class="data-item"><span class="label">Direction</span><span class="value" id="valDirect">-</span></div>
-        <div class="data-item"><span class="label">Pool Size</span><span class="value" id="valPool">-</span></div>
         <div class="data-item"><span class="label">Parking</span><span class="value" id="valPark">-</span></div>
-        <div class="data-item full-row"><span class="label">Extras</span><span class="value" id="valExtras">-</span></div>
+        <div class="data-item"><span class="label">Living Area</span><span class="value" id="valLiving">-</span></div>
+        <div class="data-item"><span class="label">Land Size (sq.m)</span><span class="value" id="valLandM">-</span></div>
+        <div class="data-item"><span class="label">Land Size (sq.w)</span><span class="value" id="valLandW">-</span></div>
       </div>
     </div>
 
     <div class="info-card">
-      <h2 class="card-title">Location & Proximity</h2>
+      <h2 class="card-title">Technical Specifications</h2>
       <div class="data-grid">
+        <div class="data-item"><span class="label">Pool Size</span><span class="value" id="valPoolSize">-</span></div>
+        <div class="data-item"><span class="label">Pool Depth</span><span class="value" id="valPoolDepth">-</span></div>
+        <div class="data-item"><span class="label">House Direction</span><span class="value" id="valDirect">-</span></div>
+        <div class="data-item"><span class="label">Kitchen Type</span><span class="value" id="valKitchen">-</span></div>
+        <div class="data-item"><span class="label">Furnishing</span><span class="value" id="valFurnish">-</span></div>
+        <div class="data-item"><span class="label">Year Built</span><span class="value" id="valYear">-</span></div>
+        <div class="data-item"><span class="label">Electricity</span><span class="value" id="valElectric">-</span></div>
+        <div class="data-item"><span class="label">Water Source</span><span class="value" id="valWater">-</span></div>
+        <div class="data-item"><span class="label">Pet Friendly</span><span class="value" id="valPet">-</span></div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h2 class="card-title">Location & Ownership</h2>
+      <div class="data-grid">
+        <div class="data-item"><span class="label">Ownership Type</span><span class="value" id="valOwnerType">-</span></div>
+        <div class="data-item"><span class="label">Title Deed</span><span class="value" id="valTitle">-</span></div>
+        <div class="data-item"><span class="label">Transfer Expenses</span><span class="value" id="valTransfer">-</span></div>
+        <div class="data-item"><span class="label">Common Fee</span><span class="value" id="valFee">-</span></div>
+        <div class="data-item"><span class="label">Price per Sq.m</span><span class="value" id="valPriceSq">-</span></div>
         <div class="data-item"><span class="label">Zone</span><span class="value" id="valZone">-</span></div>
-        <div class="data-item"><span class="label">District</span><span class="value" id="valDistrict">-</span></div>
-        <div class="data-item"><span class="label">Beach Distance</span><span class="value" id="valBeach">-</span></div>
-        <div class="data-item"><span class="label">Key Locations</span><span class="value" id="valKeyLoc">-</span></div>
+        <div class="data-item full-row"><span class="label">Address</span><span class="value" id="valAddress">-</span></div>
+        <div class="data-item full-row"><span class="label">Proximity</span><span class="value" id="valBeach">-</span></div>
+        <div class="data-item full-row"><span class="label">Key Points</span><span class="value" id="valKeyLoc">-</span></div>
       </div>
     </div>
 
     <div class="info-card">
       <h2 class="card-title">Bespoke Narrative</h2>
-      <p class="value" style="font-size: 0.75rem; color: var(--coco-green); margin-bottom: 10px;" id="valSelling">Key Highlight...</p>
-      <p class="data-item label" style="line-height: 1.8; text-transform: none; color: var(--text-main);" id="valDesc">Detailed description...</p>
+      <p class="value" style="color: var(--coco-green); margin-bottom: 10px;" id="valKeySell">-</p>
+      <p style="font-size:0.85rem; line-height:1.7; color:var(--text-main); font-weight:300; white-space:pre-line;" id="valDesc">Loading narrative...</p>
     </div>
 
-    <div id="agentCard" class="info-card agent-panel" style="display:none;">
-      <h2 class="card-title">Secret Agent Brief</h2>
-      <div class="agent-text" id="valAgentPoints">Talking points...</div>
-      <div class="docs-grid" style="margin-top:15px;">
-        <a id="linkAgentPDF" href="" target="_blank" class="btn-outline">📥 Download Agent PDF (Internal)</a>
-      </div>
+    <div class="info-card" id="mapSection" style="display:none;">
+      <h2 class="card-title">Project Navigation</h2>
+      <div class="map-box"><iframe id="mapFrame" width="100%" height="100%" frameborder="0"></iframe></div>
+      <a id="navLink" href="" target="_blank" class="btn-nav">📍 Navigate to Project</a>
     </div>
 
     <div class="info-card">
-      <h2 class="card-title">Assets & Tours</h2>
+      <h2 class="card-title">Digital Assets</h2>
       <div class="docs-grid">
-        <a id="link360" href="" target="_blank" class="btn-outline" style="display:none;">🕶️ 360° Virtual Tour</a>
-        <a id="linkVideo" href="" target="_blank" class="btn-outline" style="display:none;">🎬 Watch Video Tour</a>
-        <a id="linkFloor" href="" target="_blank" class="btn-outline" style="display:none;">📐 Floor Plan (PDF)</a>
-        <a id="linkCustPDF" href="" target="_blank" class="btn-outline" style="display:none;">📄 Customer Brochure (PDF)</a>
+        <a id="btn360" href="" target="_blank" class="btn-outline" style="display:none;">🕶️ Virtual Tour</a>
+        <a id="btnVid" href="" target="_blank" class="btn-outline" style="display:none;">🎬 Video Presentation</a>
+        <a id="btnFloor" href="" target="_blank" class="btn-outline" style="display:none;">📐 Floor Plan (PDF)</a>
+        <a id="btnBrochure" href="" target="_blank" class="btn-outline" style="display:none;">📄 Project Brochure (PDF)</a>
       </div>
     </div>
 
-    <div id="adminPanel" style="display:none;">
-      <h2 class="card-title">Admin: Precision Navigation</h2>
-      <div style="width:100%; height:200px; border-radius:12px; overflow:hidden; margin-bottom:10px;">
-        <iframe id="mapFrame" width="100%" height="100%" frameborder="0"></iframe>
-      </div>
-      <a id="navLink" href="" target="_blank" class="btn-chat" style="background:#000;">📍 Navigate to Plot</a>
+    <div id="agentPanel" class="info-card" style="display:none; border: 2px solid var(--coco-green);">
+      <h2 class="card-title">Agent-Only Resources</h2>
+      <p class="agent-text" id="valAgentTalking" style="font-style:italic; margin-bottom:15px; font-size:0.85rem; color:var(--coco-green);"></p>
+      <a id="btnAgentPDF" href="" target="_blank" class="btn-outline" style="background:var(--coco-green); color:#fff;">📥 Internal Agent Guide (PDF)</a>
     </div>
 
   </main>
@@ -155,97 +152,88 @@
 
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
-    const params = new URLSearchParams(window.location.search);
-    const hpId = params.get('id');
-    const isAuth = (params.get('key') === 'supercoco') || (localStorage.getItem('coco_admin_auth') === 'supercoco');
-
+    const hpId = new URLSearchParams(window.location.search).get('id');
+    const isAuth = (new URLSearchParams(window.location.search).get('key')==='supercoco') || (localStorage.getItem('coco_admin_auth')==='supercoco');
     let currentSlide = 0, totalSlides = 0;
 
-    async function loadDetail() {
+    async function init() {
       if(!hpId) return;
       try {
         const res = await fetch(`${SCRIPT_URL}?mode=getUnitDetail&id=${hpId}`);
         const json = await res.json();
         if(json.ok) {
-          renderUI(json.data);
-          setTimeout(() => { document.getElementById('pageSplash').style.opacity = '0'; setTimeout(() => document.getElementById('pageSplash').style.display = 'none', 600); }, 600);
+          renderData(json.data);
+          setTimeout(() => { document.getElementById('pageSplash').style.opacity='0'; setTimeout(()=>document.getElementById('pageSplash').style.display='none', 600); }, 600);
         }
       } catch(e) {}
     }
 
-    function renderUI(u) {
-      // OVERVIEW
+    function renderData(u) {
+      // Main
       document.getElementById('plotName').textContent = `Plot ${u.Plot || u.HP_ID}`;
-      let p = u.Listing_Type === 'Rent' ? u.Monthly_Rent : u.Sale_Price;
-      document.getElementById('priceLabel').textContent = `฿${(parseFloat(String(p).replace(/[^0-9.]/g,''))||0).toLocaleString()}${u.Listing_Type==='Rent'?'/mo':''}`;
+      let price = u.Listing_Type==='Rent'?u.Monthly_Rent:u.Sale_Price;
+      document.getElementById('priceLabel').textContent = `฿${(parseFloat(String(price).replace(/[^0-9.]/g,''))||0).toLocaleString()}${u.Listing_Type==='Rent'?'/mo':''}`;
       
-      const bb = document.getElementById('badgeBox');
-      bb.innerHTML = `
-        <span class="badge" style="color:#2ecc8a; border-color:#2ecc8a; background:#effff6;">${u.Status || 'Available'}</span>
-        ${u.Badge ? `<span class="badge" style="color:var(--coco-green); border-color:var(--coco-green);">${u.Badge}</span>` : ''}
-      `;
+      const bBox = document.getElementById('badgeBox');
+      bBox.innerHTML = `<span class="badge" style="color:#2ecc8a; border-color:#2ecc8a;">${u.Status || 'Available'}</span>`;
+      if(u.Badge) bBox.innerHTML += `<span class="badge" style="color:var(--coco-green); border-color:var(--coco-green);">${u.Badge}</span>`;
 
-      document.getElementById('valBed').textContent = u.Bedrooms || '-';
-      document.getElementById('valBath').textContent = u.Bathrooms || '-';
-      document.getElementById('valLiving').textContent = u.Living_Area_sq_m ? `${u.Living_Area_sq_m} m²` : '-';
-      document.getElementById('valLand').textContent = u.Land_Area_sq_m ? `${u.Land_Area_sq_m} m²` : '-';
-      document.getElementById('valOwner').textContent = u.Ownership_Type || '-';
-      document.getElementById('valTitle').textContent = u.Land_Title_Deed_Type || '-';
-
-      // FEATURES
-      document.getElementById('valType').textContent = u.Type || '-';
-      document.getElementById('valFurnish').textContent = u.Furnishing || '-';
-      document.getElementById('valKitchen').textContent = u.Kitchen_Type || '-';
-      document.getElementById('valDirect').textContent = u.Direction || '-';
-      document.getElementById('valPool').textContent = u.Pool_Size ? `${u.Pool_Size} (${u.Pool_Depth || ''})` : '-';
-      document.getElementById('valPark').textContent = u.Parking || '-';
-      document.getElementById('valExtras').textContent = u.Extras || '-';
-
-      // LOCATION
-      document.getElementById('valZone').textContent = u.Zone || '-';
-      document.getElementById('valDistrict').textContent = u.District || '-';
-      document.getElementById('valBeach').textContent = u.Distance_to_Beach || '-';
-      document.getElementById('valKeyLoc').textContent = u.Key_Location_Distance || '-';
-
-      // NARRATIVE
-      document.getElementById('valSelling').textContent = u.Key_Selling_Points || '';
-      document.getElementById('valDesc').textContent = u.Description || '';
-
-      // ASSETS & DOCS
-      if(u.Virtual_Tour) { const b=document.getElementById('link360'); b.href=u.Virtual_Tour; b.style.display='flex'; }
-      if(u.Video_Link) { const b=document.getElementById('linkVideo'); b.href=u.Video_Link; b.style.display='flex'; }
-      if(u.FloorPlan_PDF) { const b=document.getElementById('linkFloor'); b.href=u.FloorPlan_PDF; b.style.display='flex'; }
-      if(u.Customer_PDF) { const b=document.getElementById('linkCustPDF'); b.href=u.Customer_PDF; b.style.display='flex'; }
-
-      // AGENT STEALTH CARD
-      if(isAuth) {
-        document.getElementById('agentCard').style.display = 'block';
-        document.getElementById('valAgentPoints').textContent = u.Agent_Talking_Points || 'No agent talking points recorded.';
-        if(u.Agent_PDF) document.getElementById('linkAgentPDF').href = u.Agent_PDF;
-        else document.getElementById('linkAgentPDF').style.display = 'none';
-
-        if(u.Coordinates) {
-          document.getElementById('adminPanel').style.display = 'block';
-          document.getElementById('mapFrame').src = `https://maps.google.com/maps?q=${u.Coordinates.trim()}&t=k&z=18&ie=UTF8&iwloc=&output=embed`;
-          document.getElementById('navLink').href = `https://www.google.com/maps/dir/?api=1&destination=${u.Coordinates.trim()}`;
-        }
+      // Technical Data
+      const map = {
+        valBed: 'Bedrooms', valBath: 'Bathrooms', valPark: 'Parking', 
+        valLiving: 'Living_Area_sq_m', valLandM: 'Land_Area_sq_m', valLandW: 'Land_Area_sq_w',
+        valPoolSize: 'Pool_Size', valPoolDepth: 'Pool_Depth', valDirect: 'Direction',
+        valKitchen: 'Kitchen_Type', valFurnish: 'Furnishing', valYear: 'Year_Built',
+        valElectric: 'Electricity', valWater: 'Water_Source', valPet: 'Pet_Friendly',
+        valOwnerType: 'Ownership_Type', valTitle: 'Land_Title_Deed_Type', 
+        valTransfer: 'Transfer_Expenses', valFee: 'Common_Fee', valPriceSq: 'Price_sq_m',
+        valZone: 'Zone', valAddress: 'Address', valBeach: 'Distance_to_Beach', 
+        valKeyLoc: 'Key_Location_Distance', valKeySell: 'Key_Selling_Points', valDesc: 'Description'
+      };
+      
+      for(let id in map) {
+        let val = u[map[id]];
+        if(id==='valLiving'||id==='valLandM') val = val ? val + " m²" : "-";
+        if(id==='valLandW') val = val ? val + " sq.w" : "-";
+        document.getElementById(id).textContent = val || "-";
       }
 
-      // GALLERY
+      // Map & Navigation
+      if(u.Coordinates && u.Coordinates !== "#") {
+        document.getElementById('mapSection').style.display = 'block';
+        document.getElementById('mapFrame').src = `https://maps.google.com/maps?q=${u.Coordinates.trim()}&t=k&z=17&ie=UTF8&iwloc=&output=embed`;
+        document.getElementById('navLink').href = `https://www.google.com/maps/dir/?api=1&destination=${u.Coordinates.trim()}`;
+      }
+
+      // Assets
+      if(u.Virtual_Tour) { document.getElementById('btn360').href=u.Virtual_Tour; document.getElementById('btn360').style.display='flex'; }
+      if(u.Video_Link) { document.getElementById('btnVid').href=u.Video_Link; document.getElementById('btnVid').style.display='flex'; }
+      if(u.FloorPlan_PDF) { document.getElementById('btnFloor').href=u.FloorPlan_PDF; document.getElementById('btnFloor').style.display='flex'; }
+      if(u.Customer_PDF) { document.getElementById('btnBrochure').href=u.Customer_PDF; document.getElementById('btnBrochure').style.display='flex'; }
+
+      // Agent Content (Restricted)
+      if(isAuth) {
+        document.getElementById('agentPanel').style.display = 'block';
+        document.getElementById('valAgentTalking').textContent = u.Agent_Talking_Points || "-";
+        if(u.Agent_PDF) document.getElementById('btnAgentPDF').href = u.Agent_PDF;
+        else document.getElementById('btnAgentPDF').style.display = 'none';
+      }
+
+      // Gallery
       const s=document.getElementById('slider'), d=document.getElementById('dots'), imgs=u.__album||[u.Thumbnail_Image];
       totalSlides = imgs.length;
-      s.innerHTML = imgs.map(img => `<img src="${img}">`).join('');
-      d.innerHTML = imgs.map((_, i) => `<div class="dot ${i===0?'active':''}"></div>`).join('');
+      s.innerHTML = imgs.map(i=>`<img src="${i}">`).join('');
+      d.innerHTML = imgs.map((_,i)=>`<div class="dot ${i===0?'active':''}"></div>`).join('');
     }
 
-    function moveSlide(step) {
-      if (totalSlides === 0) return;
-      currentSlide = (currentSlide + step + totalSlides) % totalSlides;
-      document.getElementById('slider').style.transform = `translateX(-${currentSlide * 100}%)`;
-      document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+    function moveSlide(st) {
+      if(totalSlides===0) return;
+      currentSlide = (currentSlide + st + totalSlides) % totalSlides;
+      document.getElementById('slider').style.transform = `translateX(-${currentSlide*100}%)`;
+      document.querySelectorAll('.dot').forEach((dt,i) => dt.classList.toggle('active', i===currentSlide));
     }
 
-    loadDetail();
+    init();
   </script>
 </body>
 </html>
