@@ -4,39 +4,30 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
   <title>Asset Details | The CoCo</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet"/>
   <style>
-    :root { --coco: #2D5A27; --gold: #D4AF37; --white: #FFFFFF; --border: rgba(45, 90, 39, 0.08); }
+    :root { --coco: #2D5A27; --gold: #CEA86C; --border: rgba(45, 90, 39, 0.08); }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Montserrat', sans-serif; background: #fff; color: #1A3017; -webkit-font-smoothing: antialiased; }
 
-    header { position: fixed; top: 0; width: 100%; height: 55px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; }
-    .back { text-decoration: none; color: var(--coco); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+    header { position: fixed; top: 0; width: 100%; height: 55px; background: #fff; z-index: 1000; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; }
+    .back { text-decoration: none; color: var(--coco); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; }
 
-    /* GALLERY - กู้คืนแถบรูปเล็ก */
     .gallery { margin-top: 55px; background: #f8f8f8; position: relative; }
-    .main-stage { height: 42vh; overflow: hidden; display: flex; transition: transform 0.4s ease-out; }
+    .main-stage { height: 42vh; overflow: hidden; display: flex; transition: transform 0.4s ease; }
     .main-stage img { width: 100%; height: 100%; object-fit: cover; flex-shrink: 0; }
     
     .thumb-strip { display: flex; gap: 8px; padding: 12px 15px; overflow-x: auto; scrollbar-width: none; background: #fff; }
-    .thumb-strip::-webkit-scrollbar { display: none; }
-    .t-img { width: 60px; height: 45px; border-radius: 4px; object-fit: cover; opacity: 0.5; border: 1.5px solid transparent; transition: 0.2s; flex-shrink: 0; cursor: pointer; }
+    .t-img { width: 60px; height: 45px; border-radius: 4px; object-fit: cover; opacity: 0.4; border: 1.5px solid transparent; flex-shrink: 0; }
     .t-img.active { opacity: 1; border-color: var(--coco); transform: scale(1.05); }
 
     .content { padding: 10px 15px 120px; max-width: 900px; margin: 0 auto; }
     .info-card { background: #F9FBF9; border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 15px; }
     
-    /* Typography - ปรับฟอนต์ให้บางเฉียบ (Weight 300) */
     .label { font-size: 0.55rem; color: #6B7A68; text-transform: uppercase; font-weight: 300; letter-spacing: 1.5px; margin-bottom: 3px; }
-    .val { font-size: 0.82rem; font-weight: 300; color: #1A3017; letter-spacing: 0.2px; }
+    .val { font-size: 0.82rem; font-weight: 300; color: #1A3017; }
     .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
     .gold { color: var(--gold); font-weight: 400; }
-
-    .section-title { font-size: 0.62rem; font-weight: 700; color: var(--coco); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
-    .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-    .map-box { width: 100%; height: 250px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); margin: 10px 0; }
-    .btn-nav { width: 100%; background: #000; color: #fff; text-decoration: none; padding: 14px; border-radius: 8px; display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 500; font-size: 0.85rem; }
 
     .footer { position: fixed; bottom: 0; width: 100%; background: #fff; padding: 12px 15px; border-top: 1px solid var(--border); z-index: 1000; }
     .btn-chat { background: var(--coco); color: #fff; text-decoration: none; padding: 14px; border-radius: 4px; display: block; text-align: center; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 300; }
@@ -44,7 +35,7 @@
 </head>
 <body>
 
-  <header><a href="index.html" class="back">✕ Close</a><div style="font-family:'Playfair Display',serif; color:var(--coco); font-size:0.9rem; font-weight:700;">THE COCO</div><div style="width:40px;"></div></header>
+  <header><a href="index.html" class="back">✕ Close</a><div style="font-family:'Playfair Display',serif; color:var(--coco); font-size:0.9rem;">THE COCO</div><div style="width:40px;"></div></header>
 
   <div class="gallery">
     <div class="main-stage" id="slider"></div>
@@ -64,23 +55,15 @@
     </div>
 
     <div class="info-card" style="border-left: 4px solid var(--coco);">
-      <h2 class="section-title">Common Fees & Charges</h2>
       <div class="grid">
         <div><div class="label">Monthly Rate</div><div class="val" id="vFeeM">-</div></div>
         <div><div class="label">Yearly Total</div><div class="val gold" id="vFeeY">-</div></div>
-        <div><div class="label">Project Status</div><div class="val" id="vStatus">-</div></div>
       </div>
     </div>
 
     <div class="info-card">
-      <h2 class="section-title">Location & Navigation</h2>
-      <div class="map-box" id="mapBox" style="display:none;"><iframe id="mapFrame" width="100%" height="100%" frameborder="0"></iframe></div>
-      <a id="navLink" href="" target="_blank" class="btn-nav" style="display:none;">📍 Navigate to Project</a>
-    </div>
-
-    <div class="info-card">
-      <h2 class="section-title">Bespoke Narrative</h2>
-      <p style="font-size:0.82rem; line-height:1.8; color:var(--text-main); font-weight:300;" id="vDesc">Loading narrative...</p>
+        <div class="label">Bespoke Narrative</div>
+        <p style="font-size:0.82rem; line-height:1.8; color:var(--text-main); font-weight:300;" id="vDesc">-</p>
     </div>
   </main>
 
@@ -91,43 +74,31 @@
     const hpId = new URLSearchParams(window.location.search).get('id');
 
     async function init() {
-      // 1. ดึง Cache ทันที (0ms)
-      const cached = localStorage.getItem(`coco_detail_${hpId}`);
-      if (cached) {
-        const {data} = JSON.parse(cached);
-        render(data);
-        fetchDetail(true); // อัปเดตเบื้องหลัง
-        return;
-      }
-      await fetchDetail();
-    }
-
-    async function fetchDetail(silent = false) {
+      if(!hpId) return;
       try {
         const res = await fetch(`${SCRIPT_URL}?mode=getUnitDetail&id=${hpId}`);
         const json = await res.json();
-        localStorage.setItem(`coco_detail_${hpId}`, JSON.stringify({data: json.data, time: Date.now()}));
-        if (!silent) render(json.data);
+        if(json.ok) render(json.data);
       } catch(e) { console.error(e); }
     }
 
     function render(u) {
-      document.getElementById('pName').textContent = `Plot ${u.Plot || u.HP_ID}`;
-      document.getElementById('pPrice').textContent = `฿${(parseFloat(String(u.Sale_Price).replace(/[^0-9.]/g,''))||0).toLocaleString()}`;
+      // Logic การคำนวณที่หน้าเครื่องลูกค้า (Client-side Math)
+      const price = parseFloat(String(u.Sale_Price).replace(/[^0-9.]/g, '')) || 0;
+      const area = parseFloat(String(u.Living_Area_sq_m).replace(/[^0-9.]/g, '')) || 1;
+      const feeRate = parseFloat(String(u.Common_Fee_Rate).replace(/[^0-9.]/g, '')) || 0;
+
+      document.getElementById('pName').textContent = `Plot ${u.Plot}`;
+      document.getElementById('pPrice').textContent = `฿${price.toLocaleString()}`;
       document.getElementById('vBB').textContent = `${u.Bedrooms} Bed | ${u.Bathrooms} Bath`;
       document.getElementById('vLiving').textContent = `${u.Living_Area_sq_m} m²`;
-      document.getElementById('vLand').textContent = `${u.Land_Area_sq_m} m² (${u.Land_Area_sq_w || '-'} sq.w)`;
-      document.getElementById('vPriceSq').textContent = `฿${(parseFloat(String(u.Price_sq_m).replace(/[^0-9.]/g,''))||0).toLocaleString()} / m²`;
-      document.getElementById('vFeeM').textContent = `฿${(parseFloat(String(u.Common_Fee_Rate).replace(/[^0-9.]/g,''))||0).toLocaleString()} / m²`;
-      document.getElementById('vFeeY').textContent = `฿${(parseFloat(String(u.Common_Fee_Yearly).replace(/[^0-9.]/g,''))||0).toLocaleString()} / Yr`;
-      document.getElementById('vStatus').textContent = u.Status || "-";
+      document.getElementById('vLand').textContent = `${u.Land_Area_sq_m} m²`;
+      
+      // ผลลัพธ์จากการคำนวณสด
+      document.getElementById('vPriceSq').textContent = `฿${Math.round(price/area).toLocaleString()} / m²`;
+      document.getElementById('vFeeM').textContent = `฿${feeRate.toLocaleString()} / m²`;
+      document.getElementById('vFeeY').textContent = `฿${Math.round(feeRate * area * 12).toLocaleString()} / Yr`;
       document.getElementById('vDesc').textContent = u.Description || "-";
-
-      if(u.Coordinates && u.Coordinates !== "#") {
-        document.getElementById('mapBox').style.display = 'block'; document.getElementById('navLink').style.display = 'flex';
-        document.getElementById('mapFrame').src = `https://maps.google.com/maps?q=${u.Coordinates.trim()}&t=k&z=17&ie=UTF8&iwloc=&output=embed`;
-        document.getElementById('navLink').href = `https://www.google.com/maps/dir/?api=1&destination=${u.Coordinates.trim()}`;
-      }
 
       const imgs = u.__album || [u.Thumbnail_Image];
       document.getElementById('slider').innerHTML = imgs.map(i => `<img src="${i}" loading="lazy">`).join('');
@@ -136,11 +107,8 @@
 
     function goTo(idx) {
       document.getElementById('slider').style.transform = `translateX(-${idx*100}%)`;
-      const ts = document.querySelectorAll('.t-img');
-      ts.forEach((img, i) => img.classList.toggle('active', i === idx));
-      ts[idx].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      document.querySelectorAll('.t-img').forEach((img, i) => img.classList.toggle('active', i === idx));
     }
-
     init();
   </script>
 </body>
