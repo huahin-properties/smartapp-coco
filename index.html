@@ -12,13 +12,10 @@
     header { position: fixed; top: 0; width: 100%; height: 55px; background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; }
     .logo { font-family: 'Playfair Display', serif; font-size: 0.9rem; color: var(--coco); text-decoration: none; font-weight: 700; text-transform: uppercase; }
     .admin-gate { text-decoration: none; width: 34px; height: 34px; background: #0F172A; color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
-    
     .hero { padding: 75px 15px 10px; text-align: center; }
     .search-bar { width: 100%; max-width: 550px; border: 1px solid var(--border); border-radius: 50px; padding: 12px 20px; font-size: 0.85rem; outline: none; margin-bottom: 10px; background: #F9FBF9; }
-    
     .filter-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; max-width: 550px; margin: 0 auto 15px; padding: 0 15px; }
     .filter-sel { background: #FFFFFF; border: 1px solid var(--border); border-radius: 8px; padding: 10px; color: var(--coco); font-size: 0.62rem; font-weight: 600; outline: none; text-align: center; text-transform: uppercase; }
-
     .prop-grid { padding: 0 12px 40px; display: grid; grid-template-columns: 1fr; gap: 10px; }
     .card { background: #F8FAFC; border-radius: 15px; display: flex; height: 100px; overflow: hidden; text-decoration: none; color: inherit; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
     .card-img { width: 120px; flex-shrink: 0; background: #eee; }
@@ -27,91 +24,68 @@
     .p-title { font-size: 0.8rem; font-weight: 700; color: var(--coco); margin-bottom: 2px; }
     .p-price { font-size: 0.95rem; font-weight: 700; color: var(--coco); }
     .p-meta { font-size: 0.55rem; color: #6B7A68; text-transform: uppercase; font-weight: 500; margin-top: 4px; }
-    .status-badge { font-size: 0.45rem; font-weight: 800; border: 1px solid; padding: 1px 4px; border-radius: 3px; display: inline-block; margin-left: 5px; }
-
     @media (min-width: 768px) { .prop-grid { grid-template-columns: 1fr 1fr; } }
   </style>
 </head>
 <body>
   <div id="pageSplash"><div style="font-size:50px;">🌿</div></div>
   <header><a href="#" class="logo">THE COCO</a><a href="gateway.html" class="admin-gate">🔒</a></header>
-
   <section class="hero">
     <input type="text" id="q" class="search-bar" placeholder="Search Plot..." oninput="applyFilters()">
     <div class="filter-grid">
       <select id="fPlot" class="filter-sel" onchange="applyFilters()"><option value="">All Plots</option></select>
-      <select id="fSort" class="filter-sel" onchange="applyFilters()"><option value="">Sort By</option><option value="low">Lowest Price</option><option value="high">Highest Price</option></select>
+      <select id="fSort" class="filter-sel" onchange="applyFilters()"><option value="">Sort By</option><option value="low">Price: Low</option><option value="high">Price: High</option></select>
       <select id="fBed" class="filter-sel" onchange="applyFilters()"><option value="">Bedrooms</option><option value="3">3 Bed</option><option value="4">4 Bed</option><option value="5">5 Bed</option></select>
     </div>
   </section>
-
   <main class="prop-grid" id="grid"></main>
-
   <script>
     const API = 'https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
+    const PROJECT = 'CoCo Hua Hin 88'; // ✅ ระบุโครงการเป้าหมายที่นี่
     let fullData = [];
 
     async function init() {
-      const cached = localStorage.getItem('coco_v84_cache');
-      if (cached) { fullData = JSON.parse(cached); updateUI(fullData); setTimeout(() => hideSplash(), 300); }
-
+      const cached = localStorage.getItem('coco_v86_cache');
+      if (cached) { fullData = JSON.parse(cached); updateUI(fullData); setTimeout(hideSplash, 300); }
       try {
-        const res = await fetch(`${API}?mode=getListSmall&t=${Date.now()}`);
+        // ✅ บังคับกรองโครงการ CoCo ตั้งแต่ตอนดึงข้อมูล
+        const res = await fetch(`${API}?mode=getListSmall&project=${encodeURIComponent(PROJECT)}&t=${Date.now()}`);
         const data = await res.json();
         if (Array.isArray(data)) {
-          fullData = data;
-          localStorage.setItem('coco_v84_cache', JSON.stringify(data));
-          updateUI(data);
-          hideSplash();
+          fullData = data; localStorage.setItem('coco_v86_cache', JSON.stringify(data));
+          updateUI(data); hideSplash();
         }
       } catch (e) { hideSplash(); }
     }
-
     function updateUI(items) {
-      // ✅ สร้างรายการ Plot เฉพาะของ CoCo เท่านั้น (ป้องกัน Z-09 หลุดรอดเข้ามา)
       const sel = document.getElementById('fPlot');
       const plots = [...new Set(items.map(u => u.Plot).filter(Boolean))].sort();
       sel.innerHTML = '<option value="">All Plots</option>';
       plots.forEach(p => { const opt = document.createElement('option'); opt.value = p; opt.textContent = `Plot ${p}`; sel.appendChild(opt); });
       render(items);
     }
-
     function applyFilters() {
       const q = document.getElementById('q').value.toLowerCase();
       const plot = document.getElementById('fPlot').value;
       const bed = document.getElementById('fBed').value;
       const sort = document.getElementById('fSort').value;
-
-      let filtered = fullData.filter(u => 
-        (u.HP_ID.toLowerCase().includes(q) || u.Plot.toLowerCase().includes(q)) &&
-        (plot === "" || u.Plot === plot) &&
-        (bed === "" || parseInt(u.Bedrooms) === parseInt(bed))
-      );
-
+      let filtered = fullData.filter(u => (u.HP_ID.toLowerCase().includes(q) || u.Plot.toLowerCase().includes(q)) && (plot==="" || u.Plot===plot) && (bed==="" || parseInt(u.Bedrooms)===parseInt(bed)));
       if (sort === "low") filtered.sort((a,b) => (parseFloat(String(a.Sale_Price).replace(/[^0-9.]/g,''))||0) - (parseFloat(String(b.Sale_Price).replace(/[^0-9.]/g,''))||0));
       if (sort === "high") filtered.sort((a,b) => (parseFloat(String(b.Sale_Price).replace(/[^0-9.]/g,''))||0) - (parseFloat(String(a.Sale_Price).replace(/[^0-9.]/g,''))||0));
-
       render(filtered);
     }
-
     function render(items) {
       document.getElementById('grid').innerHTML = items.map(u => {
         let p = parseFloat(String(u.Sale_Price || 0).replace(/[^0-9.]/g, ''));
-        let sClass = (u.Status||'').toLowerCase().includes('sold') ? 'color:#E74C3C; border-color:#E74C3C;' : 'color:#2ECC8A; border-color:#2ECC8A;';
         return `<a href="details.html?id=${u.HP_ID}" class="card">
           <div class="card-img"><img src="${u.Thumbnail_Image || 'https://via.placeholder.com/120x100'}" loading="lazy"></div>
           <div class="card-info">
             <div class="p-title">Plot ${u.Plot || u.HP_ID}</div>
             <div class="p-price">฿${p.toLocaleString()}</div>
-            <div class="p-meta">
-              ${u.Bedrooms||0} Bed | ${u.Living_Area_sq_m||0} m²
-              <span class="status-badge" style="${sClass}">${u.Status}</span>
-            </div>
-          </div>
-        </a>`;
+            <div class="p-meta">${u.Bedrooms||0} Bed | ${u.Living_Area_sq_m||0} m² | <span style="color:#2ECC8A;">${u.Status}</span></div>
+          </div></a>`;
       }).join('');
     }
-
     function hideSplash() { const s = document.getElementById('pageSplash'); if(s) { s.style.opacity = '0'; setTimeout(()=>s.style.display='none', 400); } }
     init();
   </script>
