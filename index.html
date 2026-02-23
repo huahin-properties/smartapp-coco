@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-  <title>The CoCo Hua Hin 88 | Exclusive Portfolio</title>
+  <title>The CoCo Hua Hin 88 | Instant Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
   <style>
     :root { --coco-green: #2D5A27; --white: #FFFFFF; --text-main: #1A3017; --text-muted: #6B7A68; --border: rgba(45, 90, 39, 0.08); --row-h: 85px; --thumb-w: 110px; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background-color: var(--white); color: var(--text-main); font-family: 'Montserrat', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-    #pageSplash { position: fixed; inset: 0; background: var(--white); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.4s ease-out; pointer-events: none; }
+    #pageSplash { position: fixed; inset: 0; background: var(--white); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.3s ease-out; pointer-events: none; }
     .leaf-anim { font-size: 50px; animation: leafSwing 1.5s ease-in-out infinite alternate; margin-bottom: 20px; }
     @keyframes leafSwing { from { transform: rotate(-10deg); } to { transform: rotate(10deg); } }
-    .splash-brand { color: var(--coco-green); font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; letter-spacing: 2px; }
+    .splash-brand { color: var(--coco-green); font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; }
 
     header { position: fixed; top: 0; width: 100%; height: 55px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid var(--border); }
     .logo { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700; color: var(--coco-green); text-decoration: none; text-transform: uppercase; }
@@ -27,7 +27,6 @@
 
     .prop-list { padding: 0 12px 40px; display: grid; grid-template-columns: 1fr; gap: 10px; }
     .card { background: #fff; border: 1px solid var(--border); border-radius: 8px; display: flex; height: var(--row-h); overflow: hidden; text-decoration: none; color: inherit; transition: 0.2s; }
-    .card:active { transform: scale(0.98); }
     .card-img { width: var(--thumb-w); flex-shrink: 0; background: #f0f0f0; }
     .card-img img { width: 100%; height: 100%; object-fit: cover; }
     
@@ -65,23 +64,53 @@
 
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
+    const CACHE_KEY = 'coco_index_cache';
+    const CACHE_TIME = 15 * 60 * 1000; // จำไว้ 15 นาที
     let rawData = [];
 
     async function init() {
+      // 1. ลองดึงจากความจำเครื่องก่อน
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const cacheObj = JSON.parse(cached);
+        if (Date.now() - cacheObj.time < CACHE_TIME) {
+          console.log("⚡ Loading from Cache");
+          rawData = cacheObj.data;
+          displayData();
+          hideSplash();
+          // แอบดึงข้อมูลใหม่เบื้องหลังเพื่ออัปเดตความจำ
+          fetchData(true); 
+          return;
+        }
+      }
+      // 2. ถ้าไม่มีความจำ หรือข้อมูลเก่าเกินไป ให้ดึงใหม่ปกติ
+      await fetchData();
+    }
+
+    async function fetchData(silent = false) {
       try {
         const res = await fetch(`${SCRIPT_URL}?mode=getUnitList&projectName=CoCo Hua Hin 88`);
         const json = await res.json();
         rawData = json.data;
-        updatePlotOptions(rawData);
-        renderList(rawData);
-        hideSplash();
+        // บันทึกลงความจำเครื่อง
+        localStorage.setItem(CACHE_KEY, JSON.stringify({ data: rawData, time: Date.now() }));
+        if (!silent) {
+          displayData();
+          hideSplash();
+        }
       } catch (err) { console.error(err); hideSplash(); }
     }
 
-    function hideSplash() { const s = document.getElementById('pageSplash'); if(s) { s.style.opacity = '0'; setTimeout(()=>s.style.display='none', 400); } }
+    function displayData() {
+      updatePlotOptions(rawData);
+      renderList(rawData);
+    }
+
+    function hideSplash() { const s = document.getElementById('pageSplash'); if(s) { s.style.opacity = '0'; setTimeout(()=>s.style.display='none', 300); } }
 
     function updatePlotOptions(items) {
       const sel = document.getElementById('plotFilter');
+      sel.innerHTML = '<option value="">All Plots</option>';
       const plots = [...new Set(items.map(p => p.Plot).filter(Boolean))].sort();
       plots.forEach(p => { const opt = document.createElement('option'); opt.value = p; opt.textContent = `Plot ${p}`; sel.appendChild(opt); });
     }
