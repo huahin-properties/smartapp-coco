@@ -1,76 +1,52 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DASHBOARD | THE COCO ADMIN</title>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Inventory | The CoCo</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; }
-    .status-available { background: #EFFFF6; color: #2ECC8A; border: 1px solid #2ECC8A; }
-    .status-sold { background: #FDEDEC; color: #E74C3C; border: 1px solid #E74C3C; }
+    .m-header { background: #1E293B; border-radius: 3.5rem; padding: 2.5rem 4rem; color: #fff; margin: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+    .m-table { background: #fff; border-radius: 3rem; margin: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.02); }
+    table { width: 100%; text-align: center; font-size: 0.85rem; }
+    th { background: #1E293B; color: #fff; padding: 1.8rem; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px; }
+    td { padding: 1.2rem; border-bottom: 1px solid #F1F5F9; font-weight: 500; color: #475569; }
+    .dot-wrap { display: flex; justify-content: center; gap: 5px; background: #F1F5F9; padding: 5px 10px; border-radius: 20px; width: fit-content; margin: 0 auto; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #CBD5E1; }
+    .dot.green { background: #10B981; }
+    .vis-pill { background: #E0F2FE; color: #0369A1; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; }
   </style>
 </head>
-<body class="p-4 md:p-10 italic">
-  <div class="max-w-6xl mx-auto">
-    <div class="bg-slate-900 rounded-[2.5rem] px-8 py-8 text-white mb-6 shadow-2xl flex items-center justify-between">
-      <div class="min-w-0">
-        <p class="text-blue-400 text-[10px] font-bold uppercase tracking-widest mb-1">Master Inventory</p>
-        <h1 id="projectTitle" class="text-2xl font-bold tracking-tight italic truncate">THE COCO HUA HIN 88</h1>
-      </div>
-      <a href="index.html" class="w-14 h-14 rounded-2xl bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all">
-        <i class="fa-solid fa-house text-xl"></i>
-      </a>
-    </div>
-
-    <div class="flex gap-4 mb-8">
-      <button class="px-8 py-4 bg-slate-900 text-white rounded-2xl font-bold text-xs uppercase tracking-widest shadow-lg">Properties</button>
-      <button onclick="alert('Land Manager is coming soon!')" class="px-8 py-4 bg-white text-slate-400 rounded-2xl font-bold text-xs uppercase tracking-widest hover:text-slate-900 transition-all">Land Manager</button>
-    </div>
-
-    <div class="bg-white rounded-[2.5rem] shadow-xl overflow-hidden border border-slate-100">
-      <table class="w-full text-center">
-        <thead class="bg-slate-900 text-white text-[10px] uppercase tracking-widest">
-          <tr>
-            <th class="py-6 pl-8 text-left">Cover</th>
-            <th class="text-left">Unit ID</th>
-            <th class="text-left">Plot</th>
-            <th>Status</th>
-            <th>Manage</th>
-          </tr>
-        </thead>
-        <tbody id="unitList" class="text-xs font-semibold text-slate-600">
-          <tr><td colspan="5" class="py-20 animate-pulse text-slate-300">Syncing Database...</td></tr>
-        </tbody>
-      </table>
-    </div>
+<body class="italic">
+  <div class="m-header">
+    <h1 class="text-3xl font-bold">CoCo Hua Hin 88</h1>
+    <a href="index.html" class="bg-white/10 p-4 rounded-2xl hover:bg-white/20"><i class="fa-solid fa-house text-white"></i></a>
   </div>
-
+  <div class="m-table">
+    <table>
+      <thead><tr><th class="text-left pl-12">Cover</th><th class="text-left">Unit ID</th><th class="text-left">Plot</th><th>Status</th><th>Visibility</th><th>Manage</th></tr></thead>
+      <tbody id="list"><tr><td colspan="6" class="py-24 animate-pulse uppercase tracking-widest text-slate-300">🔄 Syncing Master Database...</td></tr></tbody>
+    </table>
+  </div>
   <script>
-    // ✅ Updated with your URL
-    const API_URL = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
-    const TOKEN = localStorage.getItem("HP_AUTH_TOKEN");
-    if(!TOKEN) location.href = 'gateway.html';
-
-    async function loadData() {
-      try {
-        const res = await fetch(`${API_URL}?mode=getUnitList&project=HP00`);
-        const out = await res.json();
-        const list = document.getElementById('unitList');
-        list.innerHTML = out.map(u => `
-          <tr class="border-b border-slate-50 hover:bg-slate-50 transition-all">
-            <td class="py-4 pl-8 text-left"><img src="${u.Thumbnail_Image}" class="w-10 h-14 rounded-xl object-cover shadow-sm"></td>
-            <td class="text-left font-bold text-slate-900 text-[10px]">${u.HP_ID}</td>
-            <td class="text-left font-extrabold text-slate-800 text-lg">${u.Plot || '-'}</td>
-            <td><span class="px-3 py-1 rounded-full text-[9px] uppercase font-bold ${u.Status==='Available'?'status-available':'status-sold'}">${u.Status || 'N/A'}</span></td>
-            <td><a href="edit.html?id=${u.HP_ID}" class="p-3 text-orange-500 hover:scale-125 transition-transform inline-block"><i class="fa-solid fa-pen-to-square text-lg"></i></a></td>
-          </tr>
-        `).join('');
-      } catch(e) { console.error(e); }
+    const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
+    async function load() {
+      const res = await fetch(`${API}?mode=getUnitList`);
+      const data = await res.json();
+      document.getElementById('list').innerHTML = data.map(u => `
+        <tr>
+          <td class="text-left pl-12"><img src="${u.Thumbnail_Image}" class="w-12 h-16 rounded-xl object-cover shadow-sm"></td>
+          <td class="text-left font-bold italic">${u.HP_ID}</td>
+          <td class="text-left font-extrabold text-xl text-slate-900">${u.Plot || '-'}</td>
+          <td><div class="dot-wrap"><div class="dot ${u.Status==='Available'?'green':''}"></div><div class="dot"></div></div></td>
+          <td><span class="vis-pill">Live</span></td>
+          <td><a href="edit.html?id=${u.HP_ID}" class="text-orange-500 text-xl hover:scale-125 transition-all"><i class="fa-regular fa-pen-to-square"></i></a></td>
+        </tr>
+      `).join('');
     }
-    loadData();
+    load();
   </script>
 </body>
 </html>
