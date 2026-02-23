@@ -3,135 +3,98 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-  <title>Plot Details | The CoCo Hua Hin 88</title>
-  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@200;300;400;500;600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <title>Unit Details | The CoCo Hua Hin 88</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@200;300;400&family=Montserrat:wght@200;300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --coco-green: #2D5A27; --coco-sage: #F7FAF7; --white: #FFFFFF;
-      --text-main: #1A3017; --text-muted: #6B7A68; --border: rgba(45, 90, 39, 0.1);
+      --coco-green: #2D5A27; --white: #FFFFFF; --text-main: #1A3017; 
+      --text-muted: #6B7A68; --border: rgba(45, 90, 39, 0.08);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background-color: var(--white); color: var(--text-main); font-family: 'Montserrat', 'Sarabun', sans-serif; -webkit-font-smoothing: antialiased; }
 
     header { position: fixed; top: 0; width: 100%; height: 55px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid var(--border); }
-    .back-btn { text-decoration: none; color: var(--coco-green); font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
-    .logo-small { font-weight: 800; color: var(--coco-green); font-size: 0.85rem; text-transform: uppercase; }
+    .back-btn { text-decoration: none; color: var(--coco-green); font-weight: 300; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; }
+    .logo-small { font-family: 'Playfair Display', serif; color: var(--coco-green); font-size: 0.95rem; font-weight: 700; }
 
-    .gallery-container { width: 100%; height: 50vh; background: #f0f0f0; position: relative; overflow: hidden; margin-top: 55px; }
+    .gallery-container { width: 100%; height: 50vh; background: #f8f8f8; position: relative; overflow: hidden; margin-top: 55px; }
     .slider { display: flex; transition: transform 0.4s ease-out; height: 100%; }
     .slider img { width: 100%; height: 100%; object-fit: cover; flex-shrink: 0; }
-    
     .dots { position: absolute; bottom: 15px; width: 100%; display: flex; justify-content: center; gap: 6px; }
-    .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.5); }
-    .dot.active { background: #fff; width: 15px; border-radius: 10px; }
+    .dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.5); }
+    .dot.active { background: #fff; width: 12px; border-radius: 10px; }
 
     .content { padding: 20px 15px 100px; max-width: 800px; margin: 0 auto; }
     .top-info { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
-    .plot-id { font-size: 1.5rem; font-weight: 800; color: var(--coco-green); }
-    .price-tag { font-size: 1.3rem; font-weight: 800; color: var(--coco-green); }
+    .plot-id { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--coco-green); }
+    .price-tag { font-family: 'Montserrat', sans-serif; font-size: 1.2rem; font-weight: 500; color: var(--coco-green); }
 
     .tag-row { display: flex; gap: 8px; margin-bottom: 20px; align-items: center; }
-    .status-badge { padding: 4px 10px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; border: 1px solid; text-transform: uppercase; }
-    .s-available { color: #2ECC8A; border-color: #2ECC8A; background: #EFFFF6; }
-    .s-off-plan { color: #CEA86C; border-color: #CEA86C; background: #FFF9F0; }
+    .status-badge { padding: 4px 10px; border-radius: 2px; font-size: 0.58rem; font-weight: 300; border: 1px solid; text-transform: uppercase; letter-spacing: 1.5px; }
+    .s-available { color: #2ECC8A; border-color: #2ECC8A; }
+    .s-off-plan { color: #CEA86C; border-color: #CEA86C; }
 
-    .specs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; background: var(--coco-sage); padding: 15px; border-radius: 12px; margin-bottom: 25px; border: 1px solid var(--border); }
+    .specs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; background: #f9fbf9; padding: 15px; border-radius: 2px; margin-bottom: 25px; border: 1px solid var(--border); }
     .spec-item { text-align: center; }
-    .spec-val { font-size: 1.1rem; font-weight: 800; color: var(--coco-green); display: block; }
-    .spec-label { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-top: 2px; }
+    .spec-val { font-size: 1.1rem; font-weight: 600; color: var(--coco-green); display: block; }
+    .spec-label { font-size: 0.52rem; color: var(--text-muted); text-transform: uppercase; font-weight: 400; letter-spacing: 1px; margin-top: 2px; }
 
-    .section-title { font-size: 0.8rem; font-weight: 800; color: var(--coco-green); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; border-left: 3px solid var(--coco-green); padding-left: 10px; }
-    .desc-text { font-size: 0.9rem; line-height: 1.7; color: var(--text-main); margin-bottom: 25px; white-space: pre-line; }
+    .section-title { font-size: 0.68rem; font-weight: 600; color: var(--coco-green); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; border-left: 2px solid var(--coco-green); padding-left: 10px; }
+    .desc-text { font-size: 0.88rem; line-height: 1.8; color: var(--text-main); font-weight: 300; margin-bottom: 25px; white-space: pre-line; }
 
     .footer-action { position: fixed; bottom: 0; width: 100%; background: #fff; padding: 12px 15px; border-top: 1px solid var(--border); z-index: 1000; }
-    .btn-main-contact { background: var(--coco-green); color: #fff; text-decoration: none; padding: 14px; border-radius: 10px; display: block; text-align: center; font-weight: 800; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px; }
-
-    @media (min-width: 768px) { .gallery-container { height: 65vh; } }
+    .btn-main-chat { 
+      background: var(--coco-green); 
+      color: #fff; 
+      text-decoration: none; 
+      padding: 14px; 
+      border-radius: 2px; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center;
+      gap: 10px;
+      font-weight: 300; 
+      font-size: 0.9rem; 
+      text-transform: uppercase; 
+      letter-spacing: 2px; 
+    }
   </style>
 </head>
 <body>
-
-  <header>
-    <a href="index.html" class="back-btn">✕ Back</a>
-    <div class="logo-small">THE COCO <span>HUA HIN</span></div>
-    <div style="width: 40px;"></div>
-  </header>
-
-  <div class="gallery-container">
-    <div class="slider" id="slider"></div>
-    <div class="dots" id="dots"></div>
-  </div>
-
+  <header><a href="index.html" class="back-btn">✕ Close</a><div class="logo-small">THE COCO HUA HIN</div><div style="width:40px;"></div></header>
+  <div class="gallery-container"><div class="slider" id="slider"></div><div class="dots" id="dots"></div></div>
   <main class="content">
-    <div class="top-info">
-      <div>
-        <h1 class="plot-id" id="plotTitle">Plot Loading...</h1>
-        <div style="font-size: 0.65rem; color: var(--text-muted); font-weight: 600;" id="unitId">#HP00-0000</div>
-      </div>
-      <div class="price-tag" id="priceTag">฿0</div>
-    </div>
-
-    <div class="tag-row">
-      <div id="statusBadge" class="status-badge">Available</div>
-      <div id="furnishTag" style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted);">Fully Furnished</div>
-    </div>
-
+    <div class="top-info"><div><h1 class="plot-id" id="plotT">Plot...</h1></div><div class="price-tag" id="priceT">฿0</div></div>
+    <div class="tag-row"><div id="statusB" class="status-badge">Available</div><div id="furnishT" style="font-size:0.62rem; font-weight:300; color:var(--text-muted); letter-spacing:0.5px;">Furnishing</div></div>
     <div class="specs-grid">
-      <div class="spec-item"><span class="spec-val" id="specBed">0</span><span class="spec-label">Bedrooms</span></div>
-      <div class="spec-item"><span class="spec-val" id="specBath">0</span><span class="spec-label">Bathrooms</span></div>
-      <div class="spec-item"><span class="spec-val" id="specLand">0</span><span class="spec-label">SQ.M LAND</span></div>
+      <div class="spec-item"><span class="spec-val" id="sBed">0</span><span class="spec-label">Bedrooms</span></div>
+      <div class="spec-item"><span class="spec-val" id="sBath">0</span><span class="spec-label">Bathrooms</span></div>
+      <div class="spec-item"><span class="spec-val" id="sLand">0</span><span class="spec-label">Sq.m Land</span></div>
     </div>
-
-    <h2 class="section-title">Property Highlights</h2>
-    <p class="desc-text" id="descText">Loading information...</p>
-
-    <h2 class="section-title">Location</h2>
-    <p class="desc-text" id="locText" style="font-weight: 600;">Hua Hin, Thailand</p>
+    <h2 class="section-title">Property Narrative</h2><p class="desc-text" id="descT">An exclusive luxury opportunity within The CoCo Hua Hin 88.</p>
+    <h2 class="section-title">Location</h2><p class="desc-text" id="locT" style="font-weight:400;">Hua Hin, Thailand</p>
   </main>
-
-  <div class="footer-action">
-    <a href="https://line.me/R/ti/p/@qap7218t" class="btn-main-contact">Enquire This Plot</a>
-  </div>
-
+  <div class="footer-action"><a href="https://line.me/R/ti/p/@qap7218t" class="btn-main-chat">💬 Chat with Concierge</a></div>
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
     const hpId = new URLSearchParams(window.location.search).get('id');
-    let currentSlide = 0, totalSlides = 0;
-
-    async function loadDetail() {
-      if (!hpId) return;
-      try {
-        const res = await fetch(`${SCRIPT_URL}?mode=getUnitDetail&id=${hpId}`);
-        const json = await res.json();
-        if (json.ok) renderUI(json.data);
-      } catch (err) { console.error(err); }
+    async function load() { if(!hpId) return; try { const r=await fetch(`${SCRIPT_URL}?mode=getUnitDetail&id=${hpId}`); const j=await r.json(); if(j.ok) render(j.data); } catch(e){} }
+    function render(u) {
+      document.getElementById('plotT').textContent=`Plot ${u.Plot||u.HP_ID}`;
+      let p = u.Listing_Type==='Rent'?u.Monthly_Rent:u.Sale_Price;
+      document.getElementById('priceT').textContent=`฿${(parseFloat(String(p).replace(/[^0-9.]/g,''))||0).toLocaleString()}${u.Listing_Type==='Rent'?'/mo':''}`;
+      document.getElementById('statusB').textContent=u.Status||'Available';
+      document.getElementById('statusB').className=`status-badge ${String(u.Status).toLowerCase().includes('off')?'s-off-plan':'s-available'}`;
+      document.getElementById('furnishT').textContent=u.Furnishing||'-';
+      document.getElementById('sBed').textContent=u.Bedrooms||'0';
+      document.getElementById('sBath').textContent=u.Bathrooms||'0';
+      document.getElementById('sLand').textContent=u.Land_Size||'-';
+      document.getElementById('locT').textContent=`${(u.Zone||"").replace("โซน","")} | ${(u.District||"").replace("อำเภอ","")}`;
+      const s=document.getElementById('slider'), d=document.getElementById('dots'), imgs=u.__album||[u.Thumbnail_Image];
+      s.innerHTML=imgs.map(img=>`<img src="${img}">`).join('');
+      d.innerHTML=imgs.map((_,i)=>`<div class="dot ${i===0?'active':''}"></div>`).join('');
     }
-
-    function renderUI(u) {
-      document.getElementById('plotTitle').textContent = `Plot ${u.Plot || u.HP_ID}`;
-      document.getElementById('unitId').textContent = `#${u.HP_ID}`;
-      let p = u.Listing_Type === 'Rent' ? u.Monthly_Rent : u.Sale_Price;
-      document.getElementById('priceTag').textContent = `฿${(parseFloat(String(p).replace(/[^0-9.]/g,'')) || 0).toLocaleString()}${u.Listing_Type==='Rent'?'/mo':''}`;
-      
-      const badge = document.getElementById('statusBadge');
-      badge.textContent = u.Status || 'Available';
-      badge.className = `status-badge ${String(u.Status).toLowerCase().includes('off') ? 's-off-plan' : 's-available'}`;
-      
-      document.getElementById('furnishTag').textContent = u.Furnishing || '-';
-      document.getElementById('specBed').textContent = u.Bedrooms || '0';
-      document.getElementById('specBath').textContent = u.Bathrooms || '0';
-      document.getElementById('specLand').textContent = u.Land_Size || '-';
-      document.getElementById('descText').textContent = u.Description || 'Exclusive residence within The CoCo Hua Hin 88. Contact sales for private viewing.';
-      document.getElementById('locText').textContent = `${(p.Zone||"").replace("โซน","")} | ${(p.District||"").replace("อำเภอ","")}`;
-
-      const slider = document.getElementById('slider');
-      const dots = document.getElementById('dots');
-      const images = u.__album || [u.Thumbnail_Image];
-      totalSlides = images.length;
-      slider.innerHTML = images.map(img => `<img src="${img}">`).join('');
-      dots.innerHTML = images.map((_, i) => `<div class="dot ${i===0?'active':''}"></div>`).join('');
-    }
-    loadDetail();
+    load();
   </script>
 </body>
 </html>
