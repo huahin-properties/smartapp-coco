@@ -3,12 +3,16 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-  <title>The CoCo | Performance Edition</title>
+  <title>The CoCo Hua Hin 88 | Official Catalog</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet"/>
   <style>
-    :root { --coco: #2D5A27; --gold: #CEA86C; --border: rgba(45, 90, 39, 0.08); }
+    :root { --coco: #2D5A27; --white: #FFFFFF; --border: rgba(45, 90, 39, 0.08); }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #fff; color: #1A3017; font-family: 'Montserrat', sans-serif; -webkit-font-smoothing: antialiased; }
+    body { background: var(--white); color: #1A3017; font-family: 'Montserrat', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+    /* SKELETON UI - โครงร่างขณะโหลดข้อมูลใหม่ (ทำให้ไม่รู้สึกช้า) */
+    .skeleton { background: linear-gradient(90deg, #f8fbf8 25%, #f0f4f0 50%, #f8fbf8 75%); background-size: 200% 100%; animation: skeleton-load 1.5s infinite; border-radius: 12px; }
+    @keyframes skeleton-load { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
     header { position: fixed; top: 0; width: 100%; height: 55px; background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; }
     .logo { font-family: 'Playfair Display', serif; font-size: 0.9rem; color: var(--coco); text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
@@ -16,30 +20,39 @@
     .hero { padding: 75px 15px 10px; text-align: center; }
     .search-input { width: 100%; max-width: 550px; border: 1px solid var(--border); border-radius: 50px; padding: 12px 20px; font-size: 0.85rem; outline: none; box-shadow: 0 4px 15px rgba(0,0,0,0.02); margin-bottom: 12px; }
 
+    /* กู้คืน FILTER ครบชุด */
     .filters-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; max-width: 550px; margin: 0 auto 15px; }
     .filter-select { background: #FFFFFF; border: 1px solid var(--border); border-radius: 8px; padding: 10px; color: var(--coco); font-size: 0.65rem; font-weight: 600; outline: none; text-align: center; text-transform: uppercase; }
 
+    /* กู้คืนดีไซน์การ์ดที่สมบูรณ์ */
     .prop-list { padding: 0 12px 40px; display: grid; grid-template-columns: 1fr; gap: 12px; }
-    .card { background: #fff; border: 1px solid var(--border); border-radius: 12px; display: flex; height: 110px; overflow: hidden; text-decoration: none; color: inherit; transition: 0.2s; }
-    .card-img { width: 140px; background: #eee; flex-shrink: 0; }
+    .card { background: #fff; border: 1px solid var(--border); border-radius: 12px; display: flex; height: 100px; overflow: hidden; text-decoration: none; color: inherit; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.01); }
+    .card:active { transform: scale(0.98); }
+    .card-img { width: 135px; background: #f5f5f5; flex-shrink: 0; }
     .card-img img { width: 100%; height: 100%; object-fit: cover; }
     
-    .card-info { flex: 1; padding: 8px 12px; display: flex; flex-direction: column; justify-content: space-between; min-width: 0; }
-    .p-name { font-size: 0.75rem; font-weight: 600; color: var(--coco); }
+    .card-info { flex: 1; padding: 8px 15px; display: flex; flex-direction: column; justify-content: center; min-width: 0; gap: 3px; }
+    .info-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+    .p-name { font-size: 0.8rem; font-weight: 600; color: var(--coco); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .p-price { font-size: 0.95rem; font-weight: 700; color: var(--coco); }
+    .p-specs { font-size: 0.62rem; color: #6B7A68; font-weight: 300; }
     
-    .p-finance { display: flex; flex-direction: column; gap: 1px; margin: 4px 0; }
-    .fin-item { font-size: 0.52rem; color: #6B7A68; font-weight: 300; text-transform: uppercase; letter-spacing: 0.5px; }
-    .fin-val { font-weight: 400; color: var(--gold); }
-    .p-specs { font-size: 0.6rem; color: #6B7A68; font-weight: 400; }
+    /* สถานะใต้ราคา (Status Tag) */
+    .status-tag { font-size: 0.48rem; padding: 2px 6px; border-radius: 4px; font-weight: 700; text-transform: uppercase; border: 1px solid; display: inline-block; }
+    .s-available { color: #2ECC8A; border-color: #2ECC8A; background: #EFFFF6; }
+    .s-sold { color: #E74C3C; border-color: #E74C3C; background: #FDEDEC; }
+    .s-reserved { color: #F39C12; border-color: #F39C12; background: #FEF5E7; }
+    .s-construction { color: #3498DB; border-color: #3498DB; background: #EBF5FB; }
+
+    @media (min-width: 768px) { .prop-list { grid-template-columns: 1fr 1fr; gap: 15px; } }
   </style>
 </head>
 <body>
 
-  <header><a href="#" class="logo">THE COCO <b>HUA HIN</b></a><div style="width:40px;"></div></header>
+  <header><a href="#" class="logo">THE COCO <b>HUA HIN 88</b></a><div style="width:40px;"></div></header>
 
   <section class="hero">
-    <input type="text" id="searchInput" class="search-input" placeholder="Quick Search...">
+    <input type="text" id="searchInput" class="search-input" placeholder="Quick Search Plot or ID...">
     <div class="filters-grid">
       <select id="plotFilter" class="filter-select"><option value="">All Plots</option></select>
       <select id="sortFilter" class="filter-select"><option value="">Sorting</option><option value="low-high">Lowest Price</option><option value="high-low">Highest Price</option></select>
@@ -47,30 +60,31 @@
     </div>
   </section>
 
-  <main class="prop-list" id="propGrid"></main>
+  <main class="prop-list" id="propGrid">
+    <div class="card skeleton" style="height:100px;"></div>
+    <div class="card skeleton" style="height:100px;"></div>
+    <div class="card skeleton" style="height:100px;"></div>
+  </main>
 
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
     let rawData = [];
 
-    // ฟังก์ชันคำนวณอัจฉริยะ (Smart Calculation)
-    function calculateData(p) {
-      const price = parseFloat(String(p.Sale_Price).replace(/[^0-9.]/g, '')) || 0;
-      const area = parseFloat(String(p.Living_Area_sq_m).replace(/[^0-9.]/g, '')) || 1; // กันหารศูนย์
-      const feeRate = parseFloat(String(p.Common_Fee_Rate).replace(/[^0-9.]/g, '')) || 0;
-      
-      return {
-        pricePerSq: Math.round(price / area),
-        yearlyFee: Math.round(feeRate * area * 12),
-        displayPrice: price
-      };
-    }
-
     async function init() {
+      // 1. ดึงข้อมูลจากความจำเครื่อง (0ms) เพื่อความเร็วสูงสุด
+      const cached = localStorage.getItem('coco_index_v54');
+      if (cached) {
+        rawData = JSON.parse(cached);
+        renderList(rawData);
+        updateFilters(rawData);
+      }
+      
+      // 2. ดึงข้อมูลสดจาก Google Sheets เบื้องหลัง
       try {
         const res = await fetch(`${SCRIPT_URL}?mode=getUnitList&projectName=CoCo Hua Hin 88`);
         const json = await res.json();
         rawData = json.data;
+        localStorage.setItem('coco_index_v54', JSON.stringify(rawData)); // จำข้อมูลไว้
         renderList(rawData);
         updateFilters(rawData);
       } catch (err) { console.error(err); }
@@ -79,17 +93,25 @@
     function renderList(items) {
       const grid = document.getElementById('propGrid');
       grid.innerHTML = items.map(p => {
-        const calc = calculateData(p); // คำนวณสดที่นี่
+        let priceNum = parseFloat(String(p.Sale_Price).replace(/[^0-9.]/g, '')) || 0;
+        
+        // กำหนดสีของ Status Tag ตามข้อมูลจริง
+        let status = p.Status || 'Available';
+        let statusClass = 's-available';
+        if(status.toLowerCase().includes('sold')) statusClass = 's-sold';
+        else if(status.toLowerCase().includes('reser')) statusClass = 's-reserved';
+        else if(status.toLowerCase().includes('const')) statusClass = 's-construction';
+
         return `
           <a href="details.html?id=${p.HP_ID}" class="card">
             <div class="card-img"><img src="${p.Thumbnail_Image}" loading="lazy"></div>
             <div class="card-info">
-              <div style="display:flex; justify-content:space-between;"><span class="p-name">Plot ${p.Plot}</span><span class="p-price">฿${calc.displayPrice.toLocaleString()}</span></div>
-              <div class="p-finance">
-                <div class="fin-item">Price/m²: <span class="fin-val">฿${calc.pricePerSq.toLocaleString()}</span></div>
-                <div class="fin-item">Common Fee: <span class="fin-val">฿${calc.yearlyFee.toLocaleString()} / Year</span></div>
+              <div class="info-row"><span class="p-name">Plot ${p.Plot || p.HP_ID}</span><span class="p-price">฿${priceNum.toLocaleString()}</span></div>
+              <div class="info-row">
+                <div class="p-specs">${p.Bedrooms} Bed | ${p.Bathrooms} Bath | ${p.Living_Area_sq_m} m²</div>
+                <span class="status-tag ${statusClass}">${status}</span>
               </div>
-              <div class="p-specs">${p.Bedrooms} Bed | ${p.Bathrooms} Bath | ${p.Living_Area_sq_m} m²</div>
+              <div style="font-size:0.55rem; color:#999; text-transform:uppercase; letter-spacing:0.5px; margin-top:2px;">${p.Zone || ''}</div>
             </div>
           </a>`;
       }).join('');
@@ -97,10 +119,28 @@
 
     function updateFilters(items) {
       const sel = document.getElementById('plotFilter');
+      const current = sel.value;
       const plots = [...new Set(items.map(p => p.Plot).filter(Boolean))].sort();
+      sel.innerHTML = '<option value="">All Plots</option>';
       plots.forEach(p => { const opt = document.createElement('option'); opt.value = p; opt.textContent = `Plot ${p}`; sel.appendChild(opt); });
+      sel.value = current;
     }
 
+    function filterData() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const plot = document.getElementById('plotFilter').value;
+      const bed = document.getElementById('bedFilter').value;
+      const sort = document.getElementById('sortFilter').value;
+      let filtered = rawData.filter(p => (q==="" || `${p.HP_ID} ${p.Plot}`.toLowerCase().includes(q)) && (plot==="" || p.Plot===plot) && (bed==="" || parseInt(p.Bedrooms)===parseInt(bed)));
+      if(sort==="low-high") filtered.sort((a,b)=> (parseFloat(String(a.Sale_Price).replace(/[^0-9.]/g,''))||0) - (parseFloat(String(b.Sale_Price).replace(/[^0-9.]/g,''))||0));
+      else if(sort==="high-low") filtered.sort((a,b)=> (parseFloat(String(b.Sale_Price).replace(/[^0-9.]/g,''))||0) - (parseFloat(String(a.Sale_Price).replace(/[^0-9.]/g,''))||0));
+      renderList(filtered);
+    }
+
+    document.getElementById('searchInput').addEventListener('input', filterData);
+    document.getElementById('plotFilter').addEventListener('change', filterData);
+    document.getElementById('bedFilter').addEventListener('change', filterData);
+    document.getElementById('sortFilter').addEventListener('change', filterData);
     init();
   </script>
 </body>
