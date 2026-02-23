@@ -10,7 +10,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background-color: var(--white); color: #1A3017; font-family: 'Montserrat', sans-serif; -webkit-font-smoothing: antialiased; }
 
-    /* SIGNATURE SPLASH SCREEN */
+    /* SPLASH SCREEN */
     #pageSplash { position: fixed; inset: 0; background: #FFFFFF; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.4s; }
     .leaf-anim { font-size: 55px; animation: leafSwing 1.5s infinite alternate; margin-bottom: 20px; }
     @keyframes leafSwing { from { transform: rotate(-12deg); } to { transform: rotate(12deg); } }
@@ -19,7 +19,7 @@
     header { position: fixed; top: 0; width: 100%; height: 55px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; }
     .back { text-decoration: none; color: var(--coco); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; }
 
-    /* ✅ GALLERY SYSTEM (รักษามาตรฐานบริษัท 16:10) */
+    /* GALLERY SYSTEM (16:10 Ratio) */
     .gallery-container { margin-top: 65px; padding: 0 15px; max-width: 1100px; margin-left: auto; margin-right: auto; }
     .gallery-card { background: #000; border-radius: 18px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.15); margin-bottom: 20px; }
     .main-stage { position: relative; width: 100%; aspect-ratio: 16 / 10; background: #000; overflow: hidden; } 
@@ -41,13 +41,11 @@
     .gold { color: var(--gold); font-weight: 600; }
     .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
-    /* ✅ NEARBY LIST STYLING (กู้คืนมา) */
+    /* MAP & NEARBY (Moved to Bottom) */
     .nearby-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 0.5px solid var(--border); }
     .loc-name { font-size: 0.78rem; font-weight: 300; }
     .loc-dist { font-size: 0.75rem; font-weight: 400; color: var(--coco); }
     .loc-time { font-size: 0.55rem; color: #6B7A68; text-transform: uppercase; letter-spacing: 0.5px; }
-
-    /* ✅ MAP BOX (กู้คืนมา) */
     .map-box { width: 100%; height: 230px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); margin: 10px 0; }
     .btn-nav { width: 100%; background: #000; color: #fff; text-decoration: none; padding: 14px; border-radius: 8px; display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 500; font-size: 0.85rem; margin-top: 10px; }
 
@@ -88,17 +86,6 @@
       </div>
     </div>
 
-    <div class="info-card">
-      <h2 class="section-title">Location & Navigation</h2>
-      <div class="map-box" id="mapBox" style="display:none;"><iframe id="mapFrame" width="100%" height="100%" frameborder="0"></iframe></div>
-      <a id="navLink" href="" target="_blank" class="btn-nav" style="display:none;">📍 Start GPS Navigation</a>
-    </div>
-
-    <div class="info-card">
-      <h2 class="section-title">Nearby Lifestyle & Amenities</h2>
-      <div id="nearbyGrid"></div>
-    </div>
-
     <div class="info-card" style="border-left: 4px solid var(--coco);">
       <h2 class="section-title">Ownership & Fees</h2>
       <div class="grid">
@@ -123,6 +110,18 @@
       <h2 class="section-title">Description</h2>
       <p id="vDesc" style="font-size: 0.82rem; line-height: 1.8; color: #444; font-weight: 300; white-space: pre-line;">-</p>
     </div>
+
+    <div class="info-card">
+      <h2 class="section-title">Location & Navigation</h2>
+      <div class="map-box" id="mapBox" style="display:none;"><iframe id="mapFrame" width="100%" height="100%" frameborder="0"></iframe></div>
+      <a id="navLink" href="" target="_blank" class="btn-nav" style="display:none;">📍 Start GPS Navigation</a>
+    </div>
+
+    <div class="info-card">
+      <h2 class="section-title">Nearby Lifestyle & Amenities</h2>
+      <div id="nearbyGrid"></div>
+    </div>
+
   </main>
 
   <div class="footer"><a href="https://line.me/R/ti/p/@qap7218t" class="btn-chat">💬 Live Chat Concierge</a></div>
@@ -132,7 +131,6 @@
     const hpId = new URLSearchParams(window.location.search).get('id');
     let images = [], idx = 0;
 
-    // ข้อมูลสถานที่สำคัญ (กู้คืนมา)
     const LANDMARKS = [
       { name: "Hua Hin Beach", lat: 12.5696, lon: 99.9602 },
       { name: "Cicada Market", lat: 12.5342, lon: 99.9655 },
@@ -148,7 +146,7 @@
       const dLon = (lon2 - lon1) * Math.PI / 180;
       const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLon/2) * Math.sin(dLon/2);
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-      return R * c * 1.35; // คํานวณตามระยะถนนจริงโดยประมาณ
+      return R * c * 1.35; 
     }
 
     async function init() {
@@ -192,7 +190,6 @@
       document.getElementById('vUtil').textContent = `Elec: ${u.Electricity || '-'} | Water: ${u.Water_Source || '-'}`;
       document.getElementById('vDesc').textContent = u.Description || "-";
 
-      // ✅ ประมวลผลแผนที่และสถานที่ใกล้เคียง (กู้คืนมา)
       if (u.Coordinates && u.Coordinates !== "#") {
         document.getElementById('mapBox').style.display = 'block';
         document.getElementById('navLink').style.display = 'flex';
