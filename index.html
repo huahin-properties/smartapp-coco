@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
-  <title>CoCo Portfolio | V83 Filtered</title>
+  <title>CoCo Hua Hin 88 | Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet"/>
   <style>
     :root { --coco: #2D5A27; --border: rgba(45,90,39,0.08); }
@@ -10,24 +10,24 @@
     body { background: #fff; color: #1A3017; font-family: 'Montserrat', sans-serif; -webkit-font-smoothing: antialiased; }
     #pageSplash { position: fixed; inset: 0; background: #FFFFFF; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.4s; }
     header { position: fixed; top: 0; width: 100%; height: 55px; background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; }
-    .logo { font-family: 'Playfair Display', serif; font-size: 0.9rem; color: var(--coco); text-decoration: none; font-weight: 700; }
+    .logo { font-family: 'Playfair Display', serif; font-size: 0.9rem; color: var(--coco); text-decoration: none; font-weight: 700; text-transform: uppercase; }
     .admin-gate { text-decoration: none; width: 34px; height: 34px; background: #0F172A; color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
     
     .hero { padding: 75px 15px 10px; text-align: center; }
     .search-bar { width: 100%; max-width: 550px; border: 1px solid var(--border); border-radius: 50px; padding: 12px 20px; font-size: 0.85rem; outline: none; margin-bottom: 10px; background: #F9FBF9; }
     
-    /* ⚡ [NEW] FILTER BAR SYSTEM */
     .filter-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; max-width: 550px; margin: 0 auto 15px; padding: 0 15px; }
     .filter-sel { background: #FFFFFF; border: 1px solid var(--border); border-radius: 8px; padding: 10px; color: var(--coco); font-size: 0.62rem; font-weight: 600; outline: none; text-align: center; text-transform: uppercase; }
 
     .prop-grid { padding: 0 12px 40px; display: grid; grid-template-columns: 1fr; gap: 10px; }
-    .card { background: #fff; border: 1px solid var(--border); border-radius: 10px; display: flex; height: 90px; overflow: hidden; text-decoration: none; color: inherit; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
-    .card-img { width: 120px; flex-shrink: 0; }
+    .card { background: #F8FAFC; border-radius: 15px; display: flex; height: 100px; overflow: hidden; text-decoration: none; color: inherit; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+    .card-img { width: 120px; flex-shrink: 0; background: #eee; }
     .card-img img { width: 100%; height: 100%; object-fit: cover; }
-    .card-info { flex: 1; padding: 8px 12px; display: flex; flex-direction: column; justify-content: center; }
-    .p-title { font-size: 0.75rem; font-weight: 600; color: var(--coco); }
-    .p-price { font-size: 0.9rem; font-weight: 700; color: var(--coco); }
-    .p-meta { font-size: 0.55rem; color: #6B7A68; text-transform: uppercase; margin-top: 2px; }
+    .card-info { flex: 1; padding: 10px 15px; display: flex; flex-direction: column; justify-content: center; }
+    .p-title { font-size: 0.8rem; font-weight: 700; color: var(--coco); margin-bottom: 2px; }
+    .p-price { font-size: 0.95rem; font-weight: 700; color: var(--coco); }
+    .p-meta { font-size: 0.55rem; color: #6B7A68; text-transform: uppercase; font-weight: 500; margin-top: 4px; }
+    .status-badge { font-size: 0.45rem; font-weight: 800; border: 1px solid; padding: 1px 4px; border-radius: 3px; display: inline-block; margin-left: 5px; }
 
     @media (min-width: 768px) { .prop-grid { grid-template-columns: 1fr 1fr; } }
   </style>
@@ -40,17 +40,8 @@
     <input type="text" id="q" class="search-bar" placeholder="Search Plot..." oninput="applyFilters()">
     <div class="filter-grid">
       <select id="fPlot" class="filter-sel" onchange="applyFilters()"><option value="">All Plots</option></select>
-      <select id="fSort" class="filter-sel" onchange="applyFilters()">
-        <option value="">Sort By</option>
-        <option value="low">Lowest Price</option>
-        <option value="high">Highest Price</option>
-      </select>
-      <select id="fBed" class="filter-sel" onchange="applyFilters()">
-        <option value="">Bedrooms</option>
-        <option value="2">2 Bed</option>
-        <option value="3">3 Bed</option>
-        <option value="4">4 Bed</option>
-      </select>
+      <select id="fSort" class="filter-sel" onchange="applyFilters()"><option value="">Sort By</option><option value="low">Lowest Price</option><option value="high">Highest Price</option></select>
+      <select id="fBed" class="filter-sel" onchange="applyFilters()"><option value="">Bedrooms</option><option value="3">3 Bed</option><option value="4">4 Bed</option><option value="5">5 Bed</option></select>
     </div>
   </section>
 
@@ -61,27 +52,28 @@
     let fullData = [];
 
     async function init() {
-      const cached = localStorage.getItem('coco_v83');
-      if (cached) { fullData = JSON.parse(cached); updateUI(fullData); setTimeout(() => hideSplash(), 200); }
+      const cached = localStorage.getItem('coco_v84_cache');
+      if (cached) { fullData = JSON.parse(cached); updateUI(fullData); setTimeout(() => hideSplash(), 300); }
 
       try {
-        const res = await fetch(`${API}?mode=getListSmall&v=${Date.now()}`);
-        const json = await res.json();
-        if (Array.isArray(json)) {
-          fullData = json;
-          localStorage.setItem('coco_v83', JSON.stringify(fullData));
-          updateUI(fullData);
-          populatePlotFilter(fullData);
+        const res = await fetch(`${API}?mode=getListSmall&t=${Date.now()}`);
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          fullData = data;
+          localStorage.setItem('coco_v84_cache', JSON.stringify(data));
+          updateUI(data);
           hideSplash();
         }
       } catch (e) { hideSplash(); }
     }
 
-    function populatePlotFilter(items) {
+    function updateUI(items) {
+      // ✅ สร้างรายการ Plot เฉพาะของ CoCo เท่านั้น (ป้องกัน Z-09 หลุดรอดเข้ามา)
       const sel = document.getElementById('fPlot');
       const plots = [...new Set(items.map(u => u.Plot).filter(Boolean))].sort();
       sel.innerHTML = '<option value="">All Plots</option>';
       plots.forEach(p => { const opt = document.createElement('option'); opt.value = p; opt.textContent = `Plot ${p}`; sel.appendChild(opt); });
+      render(items);
     }
 
     function applyFilters() {
@@ -96,8 +88,8 @@
         (bed === "" || parseInt(u.Bedrooms) === parseInt(bed))
       );
 
-      if (sort === "low") filtered.sort((a, b) => (parseFloat(String(a.Sale_Price).replace(/[^0-9.]/g, '')) || 0) - (parseFloat(String(b.Sale_Price).replace(/[^0-9.]/g, '')) || 0));
-      if (sort === "high") filtered.sort((a, b) => (parseFloat(String(b.Sale_Price).replace(/[^0-9.]/g, '')) || 0) - (parseFloat(String(a.Sale_Price).replace(/[^0-9.]/g, '')) || 0));
+      if (sort === "low") filtered.sort((a,b) => (parseFloat(String(a.Sale_Price).replace(/[^0-9.]/g,''))||0) - (parseFloat(String(b.Sale_Price).replace(/[^0-9.]/g,''))||0));
+      if (sort === "high") filtered.sort((a,b) => (parseFloat(String(b.Sale_Price).replace(/[^0-9.]/g,''))||0) - (parseFloat(String(a.Sale_Price).replace(/[^0-9.]/g,''))||0));
 
       render(filtered);
     }
@@ -105,18 +97,21 @@
     function render(items) {
       document.getElementById('grid').innerHTML = items.map(u => {
         let p = parseFloat(String(u.Sale_Price || 0).replace(/[^0-9.]/g, ''));
+        let sClass = (u.Status||'').toLowerCase().includes('sold') ? 'color:#E74C3C; border-color:#E74C3C;' : 'color:#2ECC8A; border-color:#2ECC8A;';
         return `<a href="details.html?id=${u.HP_ID}" class="card">
-          <div class="card-img"><img src="${u.Thumbnail_Image || 'https://via.placeholder.com/120x90'}" loading="lazy"></div>
+          <div class="card-img"><img src="${u.Thumbnail_Image || 'https://via.placeholder.com/120x100'}" loading="lazy"></div>
           <div class="card-info">
             <div class="p-title">Plot ${u.Plot || u.HP_ID}</div>
             <div class="p-price">฿${p.toLocaleString()}</div>
-            <div class="p-meta">${u.Bedrooms||0} Bed | ${u.Living_Area_sq_m||0} m² | ${u.Status}</div>
+            <div class="p-meta">
+              ${u.Bedrooms||0} Bed | ${u.Living_Area_sq_m||0} m²
+              <span class="status-badge" style="${sClass}">${u.Status}</span>
+            </div>
           </div>
         </a>`;
       }).join('');
     }
 
-    function updateUI(items) { render(items); }
     function hideSplash() { const s = document.getElementById('pageSplash'); if(s) { s.style.opacity = '0'; setTimeout(()=>s.style.display='none', 400); } }
     init();
   </script>
