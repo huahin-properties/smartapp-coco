@@ -1,58 +1,124 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
   <title>Asset Specifications | CoCo Hua Hin 88</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet"/>
   <style>
-    :root { --coco: #2D5A27; --gold: #CEA86C; --white: #FFFFFF; --border: rgba(45, 90, 39, 0.08); --card-bg: #F9FBF9; }
+    :root { --coco: #2D5A27; --gold: #CEA86C; --white: #FFFFFF; --border: rgba(45, 90, 39, 0.08); --card-bg: #F9FBF9; --navy: #0B1829; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background-color: var(--white); color: #1A3017; font-family: 'Montserrat', sans-serif; -webkit-font-smoothing: antialiased; }
 
     /* SIGNATURE SPLASH SCREEN */
-    #pageSplash { position: fixed; inset: 0; background: #FFFFFF; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.4s ease-out; }
-    .leaf-anim { font-size: 55px; animation: leafSwing 1.5s ease-in-out infinite alternate; margin-bottom: 20px; }
+    #pageSplash { position: fixed; inset: 0; background: #FFFFFF; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.4s; }
+    .leaf-anim { font-size: 55px; animation: leafSwing 1.5s infinite alternate; margin-bottom: 20px; }
     @keyframes leafSwing { from { transform: rotate(-12deg); } to { transform: rotate(12deg); } }
     .splash-brand { color: var(--coco); font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; letter-spacing: 1.5px; }
 
     header { position: fixed; top: 0; width: 100%; height: 55px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; }
     .back { text-decoration: none; color: var(--coco); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; }
 
-    /* ✅ แก้ไขจุดนี้: GALLERY SYSTEM ปรับรูปให้ใหญ่ขึ้น */
-    .gallery { margin-top: 55px; background: #000; position: relative; }
+    /* ============================================================
+       ✅ ส่วนที่แก้ไข: GALLERY SYSTEM (ลอกค่าจากบริษัท 100%)
+      
+    ============================================================ */
+    .gallery-container { margin-top: 65px; padding: 0 15px; max-width: 1100px; margin-left: auto; margin-right: auto; }
     
-    /* ปรับความสูงจาก 42vh เป็น 65vh เพื่อให้รูปดูใหญ่และสวยงามในจอคอม */
-    .main-stage { height: 65vh; overflow: hidden; position: relative; } 
-    
-    .slider { display: flex; transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); height: 100%; }
-    .slider img { width: 100%; height: 100%; object-fit: cover; flex-shrink: 0; }
-    
-    .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.4); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; z-index: 10; backdrop-filter: blur(4px); cursor: pointer; }
-    .prev { left: 20px; } .next { right: 20px; }
-
-    .thumb-strip { display: flex; gap: 8px; padding: 15px; overflow-x: auto; scrollbar-width: none; background: #fff; justify-content: center; }
-    .thumb-strip::-webkit-scrollbar { display: none; }
-    .t-img { width: 80px; height: 55px; border-radius: 6px; object-fit: cover; opacity: 0.5; border: 2px solid transparent; flex-shrink: 0; transition: 0.3s; }
-    .t-img.active { opacity: 1; border-color: var(--coco); transform: scale(1.08); }
-
-    /* CONTENT SECTIONS (สวยงามตามเดิม) */
-    .content { padding: 15px 20px 120px; max-width: 900px; margin: 0 auto; }
-    .info-card { background: var(--card-bg); border-radius: 16px; padding: 25px; margin-bottom: 20px; border: 1px solid var(--border); box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
-    .section-title { font-size: 0.65rem; font-weight: 700; color: var(--coco); text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-    .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-    .label { font-size: 0.55rem; color: #6B7A68; text-transform: uppercase; font-weight: 300; letter-spacing: 1.5px; margin-bottom: 4px; }
-    .val { font-size: 0.9rem; font-weight: 400; color: #1A3017; }
-    .gold { color: var(--gold); font-weight: 600; }
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-
-    .footer { position: fixed; bottom: 0; width: 100%; background: #fff; padding: 15px; border-top: 1px solid var(--border); z-index: 1000; }
-    .btn-chat { background: var(--coco); color: #fff; text-decoration: none; padding: 16px; border-radius: 8px; display: block; text-align: center; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 400; box-shadow: 0 10px 20px rgba(45, 90, 39, 0.15); }
-    
-    /* เพิ่มการปรับแต่งสำหรับจอใหญ่ (Desktop) */
-    @media (min-width: 1024px) {
-        .main-stage { height: 75vh; } /* ในคอมให้ใหญ่ขึ้นอีกเป็น 75% ของจอ */
+    .gallery-card { 
+        background: #000; 
+        border-radius: 18px; 
+        border: 1px solid var(--border); 
+        overflow: hidden; 
+        box-shadow: 0 15px 35px rgba(0,0,0,0.15); 
+        margin-bottom: 20px;
     }
+
+    /* ล็อคสัดส่วน 16:10 เหมือนฝั่งบริษัท */
+    .main-stage { 
+        position: relative; 
+        width: 100%; 
+        aspect-ratio: 16 / 10; 
+        background: #000; 
+        overflow: hidden; 
+    } 
+
+    .main-img { 
+        width: 100%; 
+        height: 100%; 
+        object-fit: cover; 
+        transition: opacity 0.3s ease; 
+    }
+
+    /* ปุ่มลูกศรแบบคลาสสิกของบริษัท */
+    .nav-arrow { 
+        position: absolute; 
+        top: 50%; 
+        transform: translateY(-50%); 
+        width: 44px; 
+        height: 44px; 
+        border-radius: 50%; 
+        background: rgba(0,0,0,0.3); 
+        color: white; 
+        border: 1px solid rgba(255,255,255,0.1); 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        cursor: pointer; 
+        z-index: 10; 
+    }
+
+    .thumb-row { 
+        display: flex; 
+        gap: 10px; 
+        padding: 12px; 
+        overflow-x: auto; 
+        background: rgba(0,0,0,0.03); 
+        scrollbar-width: none; 
+    }
+    .thumb-row::-webkit-scrollbar { display: none; }
+
+    /* ขนาดรูปเล็กตามค่าของบริษัท */
+    .thumb { 
+        width: 90px; 
+        aspect-ratio: 16 / 10; 
+        border-radius: 8px; 
+        object-fit: cover; 
+        opacity: 0.5; 
+        cursor: pointer; 
+        border: 2px solid transparent; 
+        flex-shrink: 0; 
+        transition: 0.2s;
+    }
+    .thumb.active { opacity: 1; border-color: var(--coco); }
+
+    /* TAGS ภายในรูปภาพ */
+    .tag-count { 
+        position: absolute; 
+        right: 15px; 
+        bottom: 15px; 
+        background: rgba(0,0,0,0.6); 
+        color: white;
+        padding: 4px 10px; 
+        border-radius: 50px; 
+        font-size: 10px; 
+        font-weight: 600;
+    }
+
+    /* ============================================================ */
+
+    /* CONTENT SECTIONS (คงเดิมตามความพอใจของคุณ) */
+    .content { padding: 10px 15px 120px; max-width: 900px; margin: 0 auto; }
+    .info-card { background: var(--card-bg); border-radius: 12px; padding: 22px; margin-bottom: 15px; border: 1px solid var(--border); }
+    .section-title { font-size: 0.65rem; font-weight: 700; color: var(--coco); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .label { font-size: 0.55rem; color: #6B7A68; text-transform: uppercase; font-weight: 300; letter-spacing: 1.2px; margin-bottom: 3px; }
+    .val { font-size: 0.82rem; font-weight: 400; color: #1A3017; }
+    .gold { color: var(--gold); font-weight: 600; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+    .footer { position: fixed; bottom: 0; width: 100%; background: #fff; padding: 12px 15px; border-top: 1px solid var(--border); z-index: 1000; }
+    .btn-chat { background: var(--coco); color: #fff; text-decoration: none; padding: 15px; border-radius: 4px; display: block; text-align: center; font-size: 0.88rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 300; }
   </style>
 </head>
 <body>
@@ -62,21 +128,24 @@
     <div class="splash-brand">THE COCO</div>
   </div>
 
-  <header><a href="index.html" class="back">✕ Close</a><div style="font-family:'Playfair Display',serif; color:var(--coco); font-weight:700; letter-spacing:1px;">THE COCO</div><div style="width:40px;"></div></header>
+  <header><a href="index.html" class="back">✕ Close</a><div style="font-family:'Playfair Display',serif; color:var(--coco); font-weight:700;">THE COCO</div><div style="width:40px;"></div></header>
 
-  <div class="gallery">
-    <div class="main-stage">
-      <div class="slider" id="slider"></div>
-      <button class="nav-btn prev" onclick="moveSlide(-1)">❮</button>
-      <button class="nav-btn next" onclick="moveSlide(1)">❯</button>
+  <div class="gallery-container">
+    <div class="gallery-card">
+      <div class="main-stage">
+        <img id="mainImg" class="main-img" src="">
+        <div class="nav-arrow" style="left:10px" onclick="changeSlide(-1)">❮</div>
+        <div class="nav-arrow" style="right:10px" onclick="changeSlide(1)">❯</div>
+        <div class="tag-count" id="countLabel">0 / 0</div>
+      </div>
+      <div class="thumb-row" id="thumbStrip"></div>
     </div>
-    <div class="thumb-strip" id="thumbStrip"></div>
   </div>
 
   <main class="content">
     <div class="info-card">
-      <h1 id="pPlot" style="font-family:'Playfair Display',serif; font-size: 2.2rem; color: var(--coco); margin-bottom: 8px;">Plot ...</h1>
-      <div id="pPrice" style="font-size: 1.6rem; font-weight: 500; color: var(--coco); margin-bottom: 25px;">฿0</div>
+      <h1 id="pPlot" style="font-family:'Playfair Display',serif; font-size: 1.8rem; color: var(--coco); margin-bottom: 5px;">Plot ...</h1>
+      <div id="pPrice" style="font-size: 1.4rem; font-weight: 500; color: var(--coco); margin-bottom: 20px;">฿0</div>
       <div class="grid">
         <div><div class="label">Bed / Bath</div><div class="val" id="vBB">-</div></div>
         <div><div class="label">Living Area</div><div class="val" id="vLiving">-</div></div>
@@ -85,7 +154,7 @@
       </div>
     </div>
 
-    <div class="info-card" style="border-left: 5px solid var(--coco);">
+    <div class="info-card" style="border-left: 4px solid var(--coco);">
       <h2 class="section-title">Ownership & Fees</h2>
       <div class="grid">
         <div><div class="label">Monthly Fee</div><div class="val" id="vFeeM">-</div></div>
@@ -107,16 +176,16 @@
 
     <div class="info-card">
       <h2 class="section-title">Description</h2>
-      <p id="vDesc" style="font-size: 0.85rem; line-height: 1.8; color: #444; font-weight: 300; white-space: pre-line;">-</p>
+      <p id="vDesc" style="font-size: 0.82rem; line-height: 1.8; color: #444; font-weight: 300; white-space: pre-line;">-</p>
     </div>
   </main>
 
-  <div class="footer"><a href="https://line.me/R/ti/p/@qap7218t" class="btn-chat">💬 Live Chat with Concierge</a></div>
+  <div class="footer"><a href="https://line.me/R/ti/p/@qap7218t" class="btn-chat">💬 Live Chat Concierge</a></div>
 
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
     const hpId = new URLSearchParams(window.location.search).get('id');
-    let currentSlide = 0, totalSlides = 0;
+    let images = [], idx = 0;
 
     async function init() {
       if(!hpId) return;
@@ -159,20 +228,34 @@
       document.getElementById('vUtil').textContent = `Elec: ${u.Electricity || '-'} | Water: ${u.Water_Source || '-'}`;
       document.getElementById('vDesc').textContent = u.Description || "-";
 
-      const imgs = u.__album || [u.Thumbnail_Image];
-      totalSlides = imgs.length;
-      document.getElementById('slider').innerHTML = imgs.map(i => `<img src="${i}" loading="lazy">`).join('');
-      document.getElementById('thumbStrip').innerHTML = imgs.map((i,idx) => `<img src="${i}" class="t-img ${idx===0?'active':''}" onclick="goTo(${idx})">`).join('');
+      // จัดการรูปภาพสไตล์บริษัท
+      images = u.__album || [u.Thumbnail_Image];
+      if (images.length > 0) { 
+          renderThumbs(); 
+          setMain(0); 
+      }
     }
 
-    function moveSlide(step) { if(totalSlides <= 1) return; goTo((currentSlide + step + totalSlides) % totalSlides); }
-    function goTo(idx) {
-      currentSlide = idx;
-      document.getElementById('slider').style.transform = `translateX(-${idx*100}%)`;
-      const ts = document.querySelectorAll('.t-img');
-      ts.forEach((img, i) => img.classList.toggle('active', i === idx));
-      if(ts[idx]) ts[idx].scrollIntoView({ behavior: 'smooth', inline: 'center' });
+    function setMain(i) {
+      idx = (i + images.length) % images.length;
+      const mainImg = document.getElementById('mainImg');
+      mainImg.style.opacity = '0'; // เอฟเฟกต์ Fade
+      setTimeout(() => {
+          mainImg.src = images[idx];
+          mainImg.style.opacity = '1';
+          document.getElementById('countLabel').textContent = `${idx + 1} / ${images.length}`;
+          document.querySelectorAll('.thumb').forEach((t, k) => t.classList.toggle('active', k === idx));
+      }, 150);
     }
+
+    function changeSlide(n) { setMain(idx + n); }
+
+    function renderThumbs() {
+      document.getElementById('thumbStrip').innerHTML = images.map((src, i) => 
+          `<img class="thumb" src="${src}" onclick="setMain(${i})">`
+      ).join('');
+    }
+
     init();
   </script>
 </body>
