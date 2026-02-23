@@ -48,7 +48,6 @@
     .loc-dist { font-size: 0.75rem; font-weight: 400; color: var(--coco); }
     .loc-time { font-size: 0.55rem; color: #6B7A68; text-transform: uppercase; letter-spacing: 0.5px; }
 
-    /* MAP BOX */
     .map-box { width: 100%; height: 230px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); margin: 10px 0; }
     .btn-nav { width: 100%; background: #000; color: #fff; text-decoration: none; padding: 14px; border-radius: 8px; display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 500; font-size: 0.85rem; margin-top: 10px; }
 
@@ -104,9 +103,8 @@
     <div class="info-card">
       <h2 class="section-title">Specifications</h2>
       <div class="grid">
-        <div><div class="label">Pool Info</div><div class="val" id="vPool">-</div></div>
+        <div><div class="label">Status</div><div class="val" id="vStatus">-</div></div> <div><div class="label">Furnishing</div><div class="val" id="vFurnish">-</div></div> <div><div class="label">Kitchen Type</div><div class="val" id="vKitchen">-</div></div> <div><div class="label">Parking</div><div class="val" id="vParking">-</div></div> <div><div class="label">Pool Info</div><div class="val" id="vPool">-</div></div>
         <div><div class="label">Direction</div><div class="val" id="vDirect">-</div></div>
-        <div><div class="label">Furnishing</div><div class="val" id="vFurnish">-</div></div>
         <div><div class="label">Utility Info</div><div class="val" id="vUtil">-</div></div>
       </div>
     </div>
@@ -136,7 +134,6 @@
     const hpId = new URLSearchParams(window.location.search).get('id');
     let images = [], idx = 0;
 
-    // ✅ อัปเดตรายชื่อสถานที่สำคัญเป็น 12 แห่ง
     const LANDMARKS = [
       { name: "Hua Hin Beach", lat: 12.5696, lon: 99.9602 },
       { name: "Cicada Market", lat: 12.5342, lon: 99.9655 },
@@ -196,9 +193,15 @@
       document.getElementById('vFeeY').textContent = `฿${Math.round(f * a * 12).toLocaleString()} / Yr`;
       document.getElementById('vOwner').textContent = `${u.Ownership_Type || '-'} (${u.Land_Title_Deed_Type || '-'})`;
       document.getElementById('vTransfer').textContent = u.Transfer_Expenses || "-";
+      
+      // ✅ แมพข้อมูล 4 รายการใหม่
+      document.getElementById('vStatus').textContent = u.Status || "-";
+      document.getElementById('vFurnish').textContent = u.Furnishing || "-";
+      document.getElementById('vKitchen').textContent = u.Kitchen_Type || "-";
+      document.getElementById('vParking').textContent = u.Parking || "-";
+      
       document.getElementById('vPool').textContent = `${u.Pool_Size || '-'} (${u.Pool_Depth || '-'})`;
       document.getElementById('vDirect').textContent = u.Direction || "-";
-      document.getElementById('vFurnish').textContent = u.Furnishing || "-";
       document.getElementById('vUtil').textContent = `Elec: ${u.Electricity || '-'} | Water: ${u.Water_Source || '-'}`;
       document.getElementById('vDesc').textContent = u.Description || "-";
 
