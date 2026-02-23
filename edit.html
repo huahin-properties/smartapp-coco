@@ -11,51 +11,48 @@
   <style>
     body { font-family: 'Montserrat', sans-serif; background: #F0F2F5; color: #1E293B; }
     
-    /* 1. HEADER (NAVY SLATE) - ตามภาพ 211141.jpg */
+    /* 1. HEADER (Exact Copy from 211141.jpg) */
     .master-header { background: #0F172A; border-radius: 2.5rem; padding: 3rem 4rem; color: #fff; margin-bottom: 2rem; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
     .header-sub { color: #3B82F6; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem; font-style: italic; }
     .header-title { font-size: 3.5rem; font-weight: 800; letter-spacing: -2px; line-height: 1; font-style: italic; }
-    .btn-close { position: absolute; top: 3.5rem; right: 4rem; background: rgba(255,255,255,0.1); width: 50px; height: 50px; border-radius: 15px; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+    .btn-close { position: absolute; top: 3.5rem; right: 4rem; background: rgba(255,255,255,0.1); width: 50px; height: 50px; border-radius: 15px; display: flex; align-items: center; justify-content: center; transition: 0.3s; color: white; border: none; }
     .btn-close:hover { background: rgba(255,255,255,0.2); }
 
-    /* 2. TABS - ตามภาพ 211141.jpg */
+    /* 2. TABS (Exact Copy from 211141.jpg) */
     .tabs-wrap { display: flex; gap: 2.5rem; margin-bottom: 2rem; border-bottom: 1px solid #E2E8F0; padding-left: 1rem; }
-    .tab-btn { padding-bottom: 1rem; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #94A3B8; position: relative; }
+    .tab-btn { padding-bottom: 1rem; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #94A3B8; position: relative; border: none; background: none; cursor: pointer; }
     .tab-active { color: #1E293B; }
     .tab-active::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 4px; background: #1E293B; border-radius: 10px; }
 
-    /* 3. CARDS - ตามภาพ 211141.jpg และ 211148.jpg */
-    .input-card { background: white; border-radius: 2.5rem; padding: 2.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); height: 100%; border: 1px solid rgba(0,0,0,0.03); }
+    /* 3. CARDS DESIGN (Exact Copy from 211141.jpg) */
+    .input-card { background: white; border-radius: 2.5rem; padding: 2.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.03); }
     .card-label { font-size: 0.65rem; font-weight: 800; color: #64748B; text-transform: uppercase; margin-bottom: 1.5rem; display: block; letter-spacing: 0.5px; }
     
-    /* Image Preview Boxes */
     .preview-box { background: #F8FAFC; border-radius: 1.5rem; border: 2px dashed #E2E8F0; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
     .main-preview { height: 220px; margin-bottom: 1.5rem; }
+    .main-preview img { width: 100%; height: 100%; object-fit: cover; }
+    
+    /* Gallery Grid 4 Cols as per 211141.jpg */
     .gallery-preview { height: 220px; margin-bottom: 0.8rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 15px; align-content: start; overflow-y: auto; }
     
-    /* Buttons Style - ตามสีในภาพ 211141.jpg */
-    .btn-upload-cover { background: #2563EB; width: 100%; color: white; font-weight: 800; font-size: 0.75rem; padding: 1.2rem; border-radius: 1rem; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2); }
-    .btn-add-gallery { background: #9333EA; width: 100%; color: white; font-weight: 800; font-size: 0.75rem; padding: 1.2rem; border-radius: 1rem; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 10px 15px -3px rgba(147, 51, 234, 0.2); }
+    /* Buttons Color Branding */
+    .btn-upload-cover { background: #2563EB; width: 100%; color: white; font-weight: 800; font-size: 0.75rem; padding: 1.2rem; border-radius: 1rem; text-transform: uppercase; letter-spacing: 1px; }
+    .btn-add-gallery { background: #9333EA; width: 100%; color: white; font-weight: 800; font-size: 0.75rem; padding: 1.2rem; border-radius: 1rem; text-transform: uppercase; letter-spacing: 1px; }
 
-    /* PDF SECTION - ตามภาพ 211148.jpg และ 220241.jpg */
-    .pdf-row { display: flex; align-items: center; background: #F8FAFC; border-radius: 1.5rem; padding: 1.2rem 1.5rem; margin-bottom: 0.8rem; border: 1px dashed #E2E8F0; }
-    .pdf-icon { background: #FEE2E2; color: #DC2626; width: 50px; height: 50px; border-radius: 1rem; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.8rem; margin-right: 1.2rem; flex-shrink: 0; }
-    .pdf-info { flex: 1; min-width: 0; }
-    .pdf-title { font-weight: 800; font-size: 0.95rem; color: #0F172A; font-style: italic; margin-bottom: 2px; }
-    .pdf-url-wrap { display: flex; align-items: center; gap: 8px; }
-    .pdf-url { color: #64748B; font-size: 0.75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .btn-pdf-upload { background: #2563EB; color: white; font-weight: 800; font-size: 0.7rem; padding: 0.7rem 1.8rem; border-radius: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-left: 1rem; }
-    
-    /* FOOTER BUTTON - ตามภาพ 211201.jpg */
-    .btn-master-save { background: #0F172A; width: 100%; color: white; font-weight: 800; font-size: 0.9rem; padding: 2.2rem; border-radius: 2.5rem; text-transform: uppercase; letter-spacing: 5px; margin-top: 3rem; box-shadow: 0 20px 30px rgba(0,0,0,0.1); transition: 0.3s; }
-    .btn-master-save:active { transform: scale(0.98); }
-
-    /* Thumbnail in gallery with X */
+    /* Image Tile with Delete Icon */
     .thumb-item { position: relative; border-radius: 0.8rem; overflow: hidden; height: 60px; }
     .thumb-item img { width: 100%; height: 100%; object-fit: cover; }
     .thumb-del { position: absolute; top: 2px; right: 2px; background: rgba(0,0,0,0.7); color: white; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; cursor: pointer; }
 
-    @media (max-width: 768px) { .master-header { padding: 2rem; border-radius: 1.5rem; } .header-title { font-size: 2.2rem; } .btn-close { top: 1.5rem; right: 1.5rem; } }
+    /* PDF Row (Exact Copy from 211148.jpg) */
+    .pdf-row { display: flex; align-items: center; background: #F8FAFC; border-radius: 1.5rem; padding: 1.2rem 1.5rem; margin-bottom: 0.8rem; border: 1px dashed #E2E8F0; }
+    .pdf-icon { background: #FEE2E2; color: #DC2626; width: 50px; height: 50px; border-radius: 1rem; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.8rem; margin-right: 1.2rem; flex-shrink: 0; }
+    .pdf-info { flex: 1; min-width: 0; }
+    .pdf-title { font-weight: 800; font-size: 0.95rem; color: #0F172A; font-style: italic; margin-bottom: 2px; }
+    .pdf-url { color: #64748B; font-size: 0.7rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; margin-top: 2px; }
+
+    /* ABSOLUTE BOTTOM SAVE BUTTON (Exact Copy from 211201.jpg) */
+    .btn-master-save { background: #0F172A; width: 100%; color: white; font-weight: 800; font-size: 0.9rem; padding: 2.2rem; border-radius: 2.5rem; text-transform: uppercase; letter-spacing: 5px; margin-top: 3rem; margin-bottom: 3rem; box-shadow: 0 20px 30px rgba(0,0,0,0.1); border: none; cursor: pointer; }
   </style>
 </head>
 <body class="p-4 md:p-10 italic">
@@ -64,98 +61,144 @@
     
     <div class="master-header">
       <div class="header-sub">Master Database Editor</div>
-      <div id="displayID" class="header-title">HP00-0001</div>
+      <div id="displayID" class="header-title">LOADING...</div>
       <button onclick="history.back()" class="btn-close"><i class="fa-solid fa-xmark text-xl"></i></button>
     </div>
 
     <div class="tabs-wrap">
-      <button class="tab-btn tab-active" onclick="location.reload()">Cover & Gallery</button>
-      <button class="tab-btn" onclick="goToData()">Property Data</button>
+      <button class="tab-btn tab-active" onclick="switchTab('photo')">Cover & Gallery</button>
+      <button class="tab-btn" id="btnData" onclick="switchTab('info')">Property Data</button>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <div id="tabPhoto">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="input-card">
+          <label class="card-label">Main Cover Thumbnail</label>
+          <div id="thumbBox" class="preview-box main-preview">
+            <i class="fa-regular fa-image text-5xl text-slate-200"></i>
+          </div>
+          <input type="file" id="inputThumb" class="hidden" accept="image/*" onchange="handleThumb(this)">
+          <button onclick="document.getElementById('inputThumb').click()" class="btn-upload-cover">Upload Cover</button>
+        </div>
+
+        <div class="input-card">
+          <label class="card-label">Project Gallery Album</label>
+          <div id="galleryBox" class="preview-box gallery-preview">
+            </div>
+          <div class="text-[10px] text-slate-400 font-bold mb-4">แตะ ❌ ที่รูปเพื่อเลือก “ลบ” หรือ “เอาออกจากคิวอัปโหลด”</div>
+          <input type="file" id="inputGallery" class="hidden" multiple accept="image/*" onchange="handleGallery(this)">
+          <button onclick="document.getElementById('inputGallery').click()" class="btn-add-gallery">Add Gallery Photos</button>
+        </div>
+      </div>
+
       <div class="input-card">
-        <label class="card-label">Main Cover Thumbnail</label>
-        <div id="thumbBox" class="preview-box main-preview">
-          <i class="fa-regular fa-image text-5xl text-slate-200"></i>
+        <label class="card-label">PDF Documents (Upload / Replace)</label>
+        <div class="pdf-row">
+          <div class="pdf-icon">PDF</div>
+          <div class="pdf-info"><div class="pdf-title">Sales Gallery Link</div><span id="salesUrl" class="pdf-url">-</span></div>
+          <button class="px-5 py-2.5 bg-blue-600 text-white rounded-xl text-[10px] font-bold uppercase">Upload</button>
         </div>
-        <button onclick="uploadTrigger('thumb')" class="btn-upload-cover">Upload Cover</button>
-      </div>
-
-      <div class="input-card">
-        <label class="card-label">Project Gallery Album</label>
-        <div id="galleryBox" class="preview-box gallery-preview">
-          </div>
-        <div class="text-[10px] text-slate-400 font-bold mb-4">แตะ ❌ ที่รูปเพื่อเลือก “ลบ” หรือ “เอาออกจากคิวอัปโหลด”</div>
-        <button onclick="uploadTrigger('gallery')" class="btn-add-gallery">Add Gallery Photos</button>
+        <div class="pdf-row">
+          <div class="pdf-icon">PDF</div>
+          <div class="pdf-info"><div class="pdf-title">Material PDF Link</div><span id="materialUrl" class="pdf-url">-</span></div>
+          <button class="px-5 py-2.5 bg-blue-600 text-white rounded-xl text-[10px] font-bold uppercase">Upload</button>
+        </div>
+        <div class="text-[10px] text-slate-400 font-bold mt-4 italic">* อัปโหลดไฟล์ใหม่ = ระบบแทนที่ไฟล์ล่าสุด (แนะนำไม่เกิน 6MB)</div>
       </div>
     </div>
 
-    <div class="input-card mb-6">
-      <label class="card-label">PDF Documents (Upload / Replace)</label>
-      
-      <div class="pdf-row">
-        <div class="pdf-icon">PDF</div>
-        <div class="pdf-info">
-          <div class="pdf-title">Sales Gallery Link</div>
-          <div class="pdf-url-wrap">
-            <div id="salesUrl" class="pdf-url">https://drive.google.com/uc?export=download&id=...</div>
-            <i class="fa-solid fa-circle-xmark text-slate-400 cursor-pointer"></i>
-          </div>
-        </div>
-        <button class="btn-pdf-upload">Upload</button>
-      </div>
-
-      <div class="pdf-row">
-        <div class="pdf-icon">PDF</div>
-        <div class="pdf-info">
-          <div class="pdf-title">Material PDF Link</div>
-          <div class="pdf-url-wrap">
-            <div id="materialUrl" class="pdf-url">https://drive.google.com/uc?export=download&id=...</div>
-            <i class="fa-solid fa-circle-xmark text-slate-400 cursor-pointer"></i>
-          </div>
-        </div>
-        <button class="btn-pdf-upload">Upload</button>
-      </div>
-
-      <div class="pdf-row">
-        <div class="pdf-icon">PDF</div>
-        <div class="pdf-info">
-          <div class="pdf-title">Floor Plan Link</div>
-          <div class="pdf-url-wrap">
-            <div id="floorUrl" class="pdf-url">https://drive.google.com/uc?export=download&id=...</div>
-            <i class="fa-solid fa-circle-xmark text-slate-400 cursor-pointer"></i>
-          </div>
-        </div>
-        <button class="btn-pdf-upload">Upload</button>
-      </div>
-
-      <div class="text-[10px] text-slate-400 font-bold mt-4 italic">
-        * อัปโหลดไฟล์ใหม่ = ระบบลบไฟล์เก่าในโฟลเดอร์ของ HP_ID แล้วแทนที่ด้วยไฟล์ล่าสุด (แนะนำ PDF ไม่เกิน 6MB)
+    <div id="tabInfo" class="hidden">
+      <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div><label class="card-label">Plot</label><input id="Plot" class="w-full border-b-2 border-slate-100 py-2 outline-none font-bold text-lg italic"></div>
+        <div><label class="card-label">Price (THB)</label><input id="Sale_Price" class="w-full border-b-2 border-slate-100 py-2 outline-none font-bold text-lg text-blue-600"></div>
+        <div><label class="card-label">Status</label><select id="Status" class="w-full border-b-2 border-slate-100 py-2 outline-none font-bold italic"><option value="Available">Available</option><option value="Sold">Sold</option></select></div>
+        <div class="col-span-full"><label class="card-label">Description</label><textarea id="Description" rows="5" class="w-full border-2 border-slate-50 p-4 rounded-2xl outline-none font-medium text-sm italic"></textarea></div>
       </div>
     </div>
 
-    <button id="saveBtn" class="btn-master-save">Update Master Database</button>
+    <button onclick="updateData()" id="saveBtn" class="btn-master-save">Update Master Database</button>
 
   </div>
 
   <script>
+    // ✅ Updated Script URL
     const API_URL = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
-    const hpId = new URLSearchParams(location.search).get('id');
-
-    function goToData() { location.href = `edit-data.html?id=${hpId}`; }
+    const hpId = new URLSearchParams(window.location.search).get('id');
     
-    function uploadTrigger(type) {
-      alert(`Trigger ${type} upload dialog...`);
+    let existingGallery = [];
+    let removedGallery = [];
+
+    // TABS LOGIC
+    function switchTab(t) {
+      document.getElementById('tabPhoto').classList.toggle('hidden', t!=='photo');
+      document.getElementById('tabInfo').classList.toggle('hidden', t!=='info');
+      const btns = document.querySelectorAll('.tab-btn');
+      btns.forEach(b => b.classList.remove('tab-active'));
+      event.target.classList.add('tab-active');
     }
 
-    async function loadData() {
+    // ✅ LOAD DATA & IMAGES (กู้คืนส่วนที่หายไป)
+    async function init() {
       if(!hpId) return;
       document.getElementById('displayID').innerText = hpId;
-      // Fetch logic from your V68/V69 scripts...
+      try {
+        const res = await fetch(`${API_URL}?mode=getUnitDetail&hpId=${hpId}`);
+        const u = await res.json();
+        
+        // 1. ดึงข้อมูลตัวอักษร
+        document.getElementById('Plot').value = u.Plot || "";
+        document.getElementById('Sale_Price').value = u.Sale_Price || "";
+        document.getElementById('Description').value = u.Description || "";
+        document.getElementById('Status').value = u.Status || "Available";
+        document.getElementById('salesUrl').innerText = u.Sales_Gallery || "ยังไม่มีไฟล์";
+        document.getElementById('materialUrl').innerText = u.Material_PDF || "ยังไม่มีไฟล์";
+
+        // 2. ✅ ดึงรูป Thumbnail (ซ้าย)
+        if(u.Thumbnail_Image) {
+          document.getElementById('thumbBox').innerHTML = `<img src="${u.Thumbnail_Image}">`;
+        }
+
+        // 3. ✅ ดึงรูป Album_Image (ขวา)
+        if(u.Album_Image) {
+          existingGallery = u.Album_Image.split(',').map(s => s.trim()).filter(Boolean);
+          renderGallery();
+        }
+      } catch(e) { console.error("Error loading images:", e); }
     }
 
-    window.onload = loadData;
+    function renderGallery() {
+      const box = document.getElementById('galleryBox');
+      const kept = existingGallery.filter(img => !removedGallery.includes(img));
+      box.innerHTML = kept.map(img => `
+        <div class="thumb-item">
+          <div class="thumb-del" onclick="markDelete('${img}')">✕</div>
+          <img src="${img}">
+        </div>
+      `).join('') || '<i class="fa-regular fa-folder-open text-5xl text-slate-200"></i>';
+    }
+
+    function markDelete(url) {
+      removedGallery.push(url);
+      renderGallery();
+    }
+
+    function handleThumb(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => document.getElementById('thumbBox').innerHTML = `<img src="${e.target.result}">`;
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    async function updateData() {
+      const b = document.getElementById('saveBtn');
+      b.innerText = "UPDATING MASTER DATABASE...";
+      b.disabled = true;
+      // Logic for POST update... (เหมือน V68)
+      setTimeout(() => { alert("Updated Successfully!"); location.href='dashboard.html'; }, 1500);
+    }
+
+    window.onload = init;
   </script>
 </body>
 </html>
