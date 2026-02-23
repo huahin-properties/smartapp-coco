@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-  <title>Private Collection | The CoCo Hua Hin 88</title>
-  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@200;300;400;500&family=Montserrat:wght@200;300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+  <title>Asset Details | The CoCo Hua Hin 88</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@200;300;400;500;600&family=Montserrat:wght@200;300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
   <style>
-    :root { --coco-green: #2D5A27; --white: #FFFFFF; --text-main: #1A3017; --text-muted: #6B7A68; --border: rgba(45, 90, 39, 0.08); }
+    :root { --coco-green: #2D5A27; --white: #FFFFFF; --text-main: #1A3017; --text-muted: #6B7A68; --border: rgba(45, 90, 39, 0.08); --card-bg: #F9FBF9; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background-color: var(--white); color: var(--text-main); font-family: 'Montserrat', 'Sarabun', sans-serif; -webkit-font-smoothing: antialiased; }
 
@@ -14,7 +14,7 @@
     #pageSplash { position: fixed; inset: 0; background: var(--white); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.6s ease-out; }
     .leaf-anim { font-size: 55px; animation: leafSwing 1.5s ease-in-out infinite alternate; margin-bottom: 20px; }
     @keyframes leafSwing { from { transform: rotate(-10deg); } to { transform: rotate(10deg); } }
-    .splash-brand { color: var(--coco-green); font-family: 'Playfair Display', serif; font-size: 1.2rem; letter-spacing: 1.5px; text-align: center; font-weight: 700; }
+    .splash-brand { color: var(--coco-green); font-family: 'Playfair Display', serif; font-size: 1.2rem; letter-spacing: 1.5px; font-weight: 700; }
 
     header { position: fixed; top: 0; width: 100%; height: 55px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid var(--border); }
     .back-btn { text-decoration: none; color: var(--coco-green); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; }
@@ -30,25 +30,35 @@
     .dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.5); }
     .dot.active { background: #fff; width: 12px; border-radius: 10px; }
 
-    .content { padding: 20px 15px 100px; max-width: 800px; margin: 0 auto; }
-    .plot-id { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--coco-green); margin-bottom: 5px; }
-    .price-tag { font-family: 'Montserrat', sans-serif; font-size: 1.2rem; font-weight: 500; color: var(--coco-green); margin-bottom: 15px; }
-
-    .specs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; background: #f9fbf9; padding: 15px; border-radius: 2px; margin-bottom: 25px; border: 1px solid var(--border); }
-    .spec-item { text-align: center; }
-    .spec-val { font-size: 1.05rem; font-weight: 600; color: var(--coco-green); display: block; }
-    .spec-label { font-size: 0.52rem; color: var(--text-muted); text-transform: uppercase; font-weight: 400; letter-spacing: 1px; }
-
-    /* PRIVACY MAP SECTION (จุดที่แก้ไข) */
-    .section-title { font-size: 0.68rem; font-weight: 600; color: var(--coco-green); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; border-left: 2px solid var(--coco-green); padding-left: 10px; }
-    .map-box { width: 100%; height: 230px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 15px; position: relative; }
-    #mapFrame { width: 100%; height: 100%; border: none; }
+    .content { padding: 25px 15px 120px; max-width: 800px; margin: 0 auto; }
     
-    .nav-action-bar { margin-bottom: 30px; }
-    .btn-nav { width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; background: #FFFFFF; color: var(--coco-green); border: 1px solid var(--coco-green); padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.85rem; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+    /* PROFESSIONAL INFO CARDS */
+    .info-card { background: var(--card-bg); border-radius: 16px; padding: 20px; border: 1px solid var(--border); margin-bottom: 15px; }
+    .card-title { font-size: 0.65rem; font-weight: 800; color: var(--coco-green); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+    .card-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
+    .main-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--coco-green); margin-bottom: 5px; }
+    .main-price { font-size: 1.4rem; font-weight: 600; color: var(--coco-green); margin-bottom: 15px; }
+
+    .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .data-item { display: flex; flex-direction: column; gap: 2px; }
+    .label { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; font-weight: 500; }
+    .value { font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
+
+    .full-row { grid-column: 1 / -1; }
+    .badge-wrap { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
+    .badge { font-size: 0.55rem; padding: 4px 10px; border-radius: 50px; text-transform: uppercase; font-weight: 800; border: 1px solid; }
+
+    /* ACTION BUTTONS */
+    .docs-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 5px; }
+    .btn-outline { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px; border: 1px solid var(--coco-green); border-radius: 8px; color: var(--coco-green); text-decoration: none; font-weight: 600; font-size: 0.8rem; }
+    
     .footer-action { position: fixed; bottom: 0; width: 100%; background: #fff; padding: 12px 15px; border-top: 1px solid var(--border); z-index: 1000; }
-    .btn-main-chat { background: var(--coco-green); color: #fff; text-decoration: none; padding: 14px; border-radius: 2px; display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 300; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; }
+    .btn-chat { background: var(--coco-green); color: #fff; text-decoration: none; padding: 14px; border-radius: 2px; display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 300; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; }
+
+    /* ADMIN/AGENT PANEL */
+    .agent-panel { border: 2px solid var(--coco-green); background: #fff; }
+    .agent-text { font-size: 0.85rem; color: var(--coco-green); line-height: 1.6; font-weight: 400; font-style: italic; }
   </style>
 </head>
 <body>
@@ -68,36 +78,87 @@
   </div>
 
   <main class="content">
-    <h1 class="plot-id" id="plotT">Plot...</h1>
-    <div class="price-tag" id="priceT">฿0</div>
-
-    <div class="specs-grid">
-      <div class="spec-item"><span class="spec-val" id="sBed">0</span><span class="spec-label">Bedrooms</span></div>
-      <div class="spec-item"><span class="spec-val" id="sBath">0</span><span class="spec-label">Bathrooms</span></div>
-      <div class="spec-item"><span class="spec-val" id="sLand">0</span><span class="spec-label">Sq.m Land</span></div>
-    </div>
-
-    <h2 class="section-title">Property Narrative</h2>
-    <p style="font-size:0.88rem; line-height:1.8; color:var(--text-main); font-weight:300; margin-bottom:25px; white-space:pre-line;" id="descT">Loading...</p>
-
-    <div id="mapSection" style="display:none;">
-      <h2 class="section-title" id="mapLabel">Location Area</h2>
-      <div class="map-box">
-        <iframe id="mapFrame" loading="lazy" allowfullscreen src=""></iframe>
-      </div>
-      <div class="nav-action-bar" id="navBar" style="display:none;">
-        <a href="" id="navLink" target="_blank" class="btn-nav">📍 Navigate to Project</a>
+    
+    <div class="info-card">
+      <div id="badgeBox" class="badge-wrap"></div>
+      <h1 class="main-title" id="plotName">Plot...</h1>
+      <div class="main-price" id="priceLabel">฿0</div>
+      
+      <div class="data-grid">
+        <div class="data-item"><span class="label">Bedrooms</span><span class="value" id="valBed">-</span></div>
+        <div class="data-item"><span class="label">Bathrooms</span><span class="value" id="valBath">-</span></div>
+        <div class="data-item"><span class="label">Living Area</span><span class="value" id="valLiving">-</span></div>
+        <div class="data-item"><span class="label">Land Size</span><span class="value" id="valLand">-</span></div>
+        <div class="data-item"><span class="label">Ownership</span><span class="value" id="valOwner">-</span></div>
+        <div class="data-item"><span class="label">Title Deed</span><span class="value" id="valTitle">-</span></div>
       </div>
     </div>
+
+    <div class="info-card">
+      <h2 class="card-title">Property Features</h2>
+      <div class="data-grid">
+        <div class="data-item"><span class="label">Type</span><span class="value" id="valType">-</span></div>
+        <div class="data-item"><span class="label">Furnishing</span><span class="value" id="valFurnish">-</span></div>
+        <div class="data-item"><span class="label">Kitchen</span><span class="value" id="valKitchen">-</span></div>
+        <div class="data-item"><span class="label">Direction</span><span class="value" id="valDirect">-</span></div>
+        <div class="data-item"><span class="label">Pool Size</span><span class="value" id="valPool">-</span></div>
+        <div class="data-item"><span class="label">Parking</span><span class="value" id="valPark">-</span></div>
+        <div class="data-item full-row"><span class="label">Extras</span><span class="value" id="valExtras">-</span></div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h2 class="card-title">Location & Proximity</h2>
+      <div class="data-grid">
+        <div class="data-item"><span class="label">Zone</span><span class="value" id="valZone">-</span></div>
+        <div class="data-item"><span class="label">District</span><span class="value" id="valDistrict">-</span></div>
+        <div class="data-item"><span class="label">Beach Distance</span><span class="value" id="valBeach">-</span></div>
+        <div class="data-item"><span class="label">Key Locations</span><span class="value" id="valKeyLoc">-</span></div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h2 class="card-title">Bespoke Narrative</h2>
+      <p class="value" style="font-size: 0.75rem; color: var(--coco-green); margin-bottom: 10px;" id="valSelling">Key Highlight...</p>
+      <p class="data-item label" style="line-height: 1.8; text-transform: none; color: var(--text-main);" id="valDesc">Detailed description...</p>
+    </div>
+
+    <div id="agentCard" class="info-card agent-panel" style="display:none;">
+      <h2 class="card-title">Secret Agent Brief</h2>
+      <div class="agent-text" id="valAgentPoints">Talking points...</div>
+      <div class="docs-grid" style="margin-top:15px;">
+        <a id="linkAgentPDF" href="" target="_blank" class="btn-outline">📥 Download Agent PDF (Internal)</a>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h2 class="card-title">Assets & Tours</h2>
+      <div class="docs-grid">
+        <a id="link360" href="" target="_blank" class="btn-outline" style="display:none;">🕶️ 360° Virtual Tour</a>
+        <a id="linkVideo" href="" target="_blank" class="btn-outline" style="display:none;">🎬 Watch Video Tour</a>
+        <a id="linkFloor" href="" target="_blank" class="btn-outline" style="display:none;">📐 Floor Plan (PDF)</a>
+        <a id="linkCustPDF" href="" target="_blank" class="btn-outline" style="display:none;">📄 Customer Brochure (PDF)</a>
+      </div>
+    </div>
+
+    <div id="adminPanel" style="display:none;">
+      <h2 class="card-title">Admin: Precision Navigation</h2>
+      <div style="width:100%; height:200px; border-radius:12px; overflow:hidden; margin-bottom:10px;">
+        <iframe id="mapFrame" width="100%" height="100%" frameborder="0"></iframe>
+      </div>
+      <a id="navLink" href="" target="_blank" class="btn-chat" style="background:#000;">📍 Navigate to Plot</a>
+    </div>
+
   </main>
 
-  <div class="footer-action"><a href="https://line.me/R/ti/p/@qap7218t" class="btn-main-chat">💬 Chat with Concierge</a></div>
+  <div class="footer-action"><a href="https://line.me/R/ti/p/@qap7218t" class="btn-chat">💬 Chat with Concierge</a></div>
 
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
     const params = new URLSearchParams(window.location.search);
     const hpId = params.get('id');
-    const isAdmin = params.get('role') === 'admin'; // เช็คว่าเป็น Admin หรือไม่
+    const isAuth = (params.get('key') === 'supercoco') || (localStorage.getItem('coco_admin_auth') === 'supercoco');
+
     let currentSlide = 0, totalSlides = 0;
 
     async function loadDetail() {
@@ -109,50 +170,79 @@
           renderUI(json.data);
           setTimeout(() => { document.getElementById('pageSplash').style.opacity = '0'; setTimeout(() => document.getElementById('pageSplash').style.display = 'none', 600); }, 600);
         }
-      } catch(e) { console.error(e); }
+      } catch(e) {}
     }
 
     function renderUI(u) {
-      document.getElementById('plotT').textContent = `Plot ${u.Plot || u.HP_ID}`;
+      // OVERVIEW
+      document.getElementById('plotName').textContent = `Plot ${u.Plot || u.HP_ID}`;
       let p = u.Listing_Type === 'Rent' ? u.Monthly_Rent : u.Sale_Price;
-      document.getElementById('priceT').textContent = `฿${(parseFloat(String(p).replace(/[^0-9.]/g,''))||0).toLocaleString()}${u.Listing_Type==='Rent'?'/mo':''}`;
-      document.getElementById('sBed').textContent = u.Bedrooms || '0';
-      document.getElementById('sBath').textContent = u.Bathrooms || '0';
-      document.getElementById('sLand').textContent = u.Land_Size || '-';
-      document.getElementById('descT').textContent = u.Description || '-';
+      document.getElementById('priceLabel').textContent = `฿${(parseFloat(String(p).replace(/[^0-9.]/g,''))||0).toLocaleString()}${u.Listing_Type==='Rent'?'/mo':''}`;
+      
+      const bb = document.getElementById('badgeBox');
+      bb.innerHTML = `
+        <span class="badge" style="color:#2ecc8a; border-color:#2ecc8a; background:#effff6;">${u.Status || 'Available'}</span>
+        ${u.Badge ? `<span class="badge" style="color:var(--coco-green); border-color:var(--coco-green);">${u.Badge}</span>` : ''}
+      `;
 
-      const s = document.getElementById('slider'), d = document.getElementById('dots'), imgs = u.__album || [u.Thumbnail_Image];
+      document.getElementById('valBed').textContent = u.Bedrooms || '-';
+      document.getElementById('valBath').textContent = u.Bathrooms || '-';
+      document.getElementById('valLiving').textContent = u.Living_Area_sq_m ? `${u.Living_Area_sq_m} m²` : '-';
+      document.getElementById('valLand').textContent = u.Land_Area_sq_m ? `${u.Land_Area_sq_m} m²` : '-';
+      document.getElementById('valOwner').textContent = u.Ownership_Type || '-';
+      document.getElementById('valTitle').textContent = u.Land_Title_Deed_Type || '-';
+
+      // FEATURES
+      document.getElementById('valType').textContent = u.Type || '-';
+      document.getElementById('valFurnish').textContent = u.Furnishing || '-';
+      document.getElementById('valKitchen').textContent = u.Kitchen_Type || '-';
+      document.getElementById('valDirect').textContent = u.Direction || '-';
+      document.getElementById('valPool').textContent = u.Pool_Size ? `${u.Pool_Size} (${u.Pool_Depth || ''})` : '-';
+      document.getElementById('valPark').textContent = u.Parking || '-';
+      document.getElementById('valExtras').textContent = u.Extras || '-';
+
+      // LOCATION
+      document.getElementById('valZone').textContent = u.Zone || '-';
+      document.getElementById('valDistrict').textContent = u.District || '-';
+      document.getElementById('valBeach').textContent = u.Distance_to_Beach || '-';
+      document.getElementById('valKeyLoc').textContent = u.Key_Location_Distance || '-';
+
+      // NARRATIVE
+      document.getElementById('valSelling').textContent = u.Key_Selling_Points || '';
+      document.getElementById('valDesc').textContent = u.Description || '';
+
+      // ASSETS & DOCS
+      if(u.Virtual_Tour) { const b=document.getElementById('link360'); b.href=u.Virtual_Tour; b.style.display='flex'; }
+      if(u.Video_Link) { const b=document.getElementById('linkVideo'); b.href=u.Video_Link; b.style.display='flex'; }
+      if(u.FloorPlan_PDF) { const b=document.getElementById('linkFloor'); b.href=u.FloorPlan_PDF; b.style.display='flex'; }
+      if(u.Customer_PDF) { const b=document.getElementById('linkCustPDF'); b.href=u.Customer_PDF; b.style.display='flex'; }
+
+      // AGENT STEALTH CARD
+      if(isAuth) {
+        document.getElementById('agentCard').style.display = 'block';
+        document.getElementById('valAgentPoints').textContent = u.Agent_Talking_Points || 'No agent talking points recorded.';
+        if(u.Agent_PDF) document.getElementById('linkAgentPDF').href = u.Agent_PDF;
+        else document.getElementById('linkAgentPDF').style.display = 'none';
+
+        if(u.Coordinates) {
+          document.getElementById('adminPanel').style.display = 'block';
+          document.getElementById('mapFrame').src = `https://maps.google.com/maps?q=${u.Coordinates.trim()}&t=k&z=18&ie=UTF8&iwloc=&output=embed`;
+          document.getElementById('navLink').href = `https://www.google.com/maps/dir/?api=1&destination=${u.Coordinates.trim()}`;
+        }
+      }
+
+      // GALLERY
+      const s=document.getElementById('slider'), d=document.getElementById('dots'), imgs=u.__album||[u.Thumbnail_Image];
       totalSlides = imgs.length;
       s.innerHTML = imgs.map(img => `<img src="${img}">`).join('');
       d.innerHTML = imgs.map((_, i) => `<div class="dot ${i===0?'active':''}"></div>`).join('');
-
-      // ระบบควบคุมแผนที่ (Coordinates Logic)
-      if (u.Coordinates && u.Coordinates !== "#" && u.Coordinates.trim() !== "") {
-        const coords = u.Coordinates.trim();
-        document.getElementById('mapSection').style.display = 'block';
-        
-        if (isAdmin) {
-          // โหมด Admin: เห็นจุด Pin ชัดเจน ซูมใกล้ (z=18)
-          document.getElementById('mapLabel').textContent = "Exact Location (Admin View)";
-          document.getElementById('mapFrame').src = `https://www.google.com/maps/embed/v1/view?key=YOUR_API_KEY_HERE&center=${coords}&zoom=18&maptype=satellite`; // หมายเหตุ: ถ้าไม่ใช้ Key จะใช้ Embed ธรรมดา
-          document.getElementById('mapFrame').src = `https://maps.google.com/maps?q=${coords}&t=k&z=18&ie=UTF8&iwloc=&output=embed`;
-          document.getElementById('navBar').style.display = 'block';
-          document.getElementById('navLink').href = `https://www.google.com/maps/dir/?api=1&destination=${coords}`;
-        } else {
-          // โหมด User ทั่วไป: เห็นแค่โซนกว้างๆ ซูมออกไกล (z=14) และซ่อนปุ่มนำทาง
-          document.getElementById('mapLabel').textContent = "Property Zone (Approximate)";
-          document.getElementById('mapFrame').src = `https://maps.google.com/maps?q=${coords}&t=m&z=14&ie=UTF8&iwloc=near&output=embed`;
-          document.getElementById('navBar').style.display = 'none';
-        }
-      }
     }
 
     function moveSlide(step) {
       if (totalSlides === 0) return;
       currentSlide = (currentSlide + step + totalSlides) % totalSlides;
       document.getElementById('slider').style.transform = `translateX(-${currentSlide * 100}%)`;
-      const allDots = document.querySelectorAll('.dot');
-      allDots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+      document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === currentSlide));
     }
 
     loadDetail();
