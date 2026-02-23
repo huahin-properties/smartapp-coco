@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>Plot Details | The CoCo Hua Hin 88</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@200;300;400;500;600&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --coco-green: #2D5A27; 
+      --coco-sage: #F0F4F0;
+      --white: #FFFFFF;
+      --text-main: #1A3017;
+      --text-muted: #6B7A68;
+      --border: rgba(45, 90, 39, 0.1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: var(--white); color: var(--text-main); font-family: 'Montserrat', 'Sarabun', sans-serif; -webkit-font-smoothing: antialiased; }
+
+    /* Header */
+    header { 
+      position: fixed; top: 0; width: 100%; height: 60px; 
+      display: flex; align-items: center; justify-content: space-between; 
+      padding: 0 20px; background: rgba(255, 255, 255, 0.95); 
+      backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid var(--border);
+    }
+    .back-btn { text-decoration: none; color: var(--coco-green); font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; gap: 5px; }
+    .logo-small { font-weight: 800; color: var(--coco-green); font-size: 0.9rem; text-transform: uppercase; }
+
+    /* Image Gallery Slider */
+    .gallery-container { width: 100%; height: 60vh; background: #eee; position: relative; overflow: hidden; margin-top: 60px; }
+    .slider { display: flex; transition: transform 0.4s ease-out; height: 100%; }
+    .slider img { width: 100%; height: 100%; object-fit: cover; flex-shrink: 0; }
+    
+    .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.7); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--coco-green); font-weight: bold; }
+    .prev { left: 15px; } .next { right: 15px; }
+    .dots { position: absolute; bottom: 20px; width: 100%; display: flex; justify-content: center; gap: 8px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.5); }
+    .dot.active { background: #fff; width: 20px; border-radius: 10px; }
+
+    /* Content Info */
+    .content { padding: 25px 20px 100px; max-width: 800px; margin: 0 auto; }
+    .top-info { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+    .plot-id { font-size: 1.8rem; font-weight: 800; color: var(--coco-green); }
+    .price-tag { font-size: 1.4rem; font-weight: 800; color: var(--coco-green); }
+
+    .tag-row { display: flex; gap: 10px; margin-bottom: 25px; }
+    .status-badge { padding: 5px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 800; border: 1px solid; text-transform: uppercase; }
+    .s-available { color: #2ECC8A; border-color: #2ECC8A; background: #EFFFF6; }
+    .s-off-plan { color: #CEA86C; border-color: #CEA86C; background: #FFF9F0; }
+
+    .specs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; background: var(--coco-sage); padding: 20px; border-radius: 15px; margin-bottom: 25px; }
+    .spec-item { text-align: center; }
+    .spec-val { font-size: 1.1rem; font-weight: 800; color: var(--coco-green); display: block; }
+    .spec-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
+
+    .section-title { font-size: 0.85rem; font-weight: 800; color: var(--coco-green); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; border-left: 4px solid var(--coco-green); padding-left: 10px; }
+    .desc-text { font-size: 0.95rem; line-height: 1.8; color: var(--text-main); margin-bottom: 30px; white-space: pre-line; }
+
+    /* Footer Action */
+    .footer-action { position: fixed; bottom: 0; width: 100%; background: #fff; padding: 15px 20px; border-top: 1px solid var(--border); display: grid; grid-template-columns: 1fr; z-index: 1000; }
+    .btn-main-contact { background: var(--coco-green); color: #fff; text-decoration: none; padding: 16px; border-radius: 12px; text-align: center; font-weight: 800; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 5px 15px rgba(45,90,39,0.3); }
+
+    @media (min-width: 768px) { .gallery-container { height: 70vh; } }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="back-btn">✕ <span>Close</span></a>
+    <div class="logo-small">The CoCo <span>Hua Hin 88</span></div>
+    <div style="width: 40px;"></div>
+  </header>
+
+  <div class="gallery-container">
+    <div class="slider" id="slider"></div>
+    <button class="nav-btn prev" onclick="moveSlide(-1)">❮</button>
+    <button class="nav-btn next" onclick="moveSlide(1)">❯</button>
+    <div class="dots" id="dots"></div>
+  </div>
+
+  <main class="content">
+    <div class="top-info">
+      <div>
+        <h1 class="plot-id" id="plotTitle">Plot ...</h1>
+        <div style="font-size: 0.75rem; color: var(--text-muted);" id="unitId">#HP00-0000</div>
+      </div>
+      <div class="price-tag" id="priceTag">฿0</div>
+    </div>
+
+    <div class="tag-row">
+      <div id="statusBadge" class="status-badge">Available</div>
+      <div id="furnishTag" style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); align-self: center;">Fully Furnished</div>
+    </div>
+
+    <div class="specs-grid">
+      <div class="spec-item"><span class="spec-val" id="specBed">0</span><span class="spec-label">Bedrooms</span></div>
+      <div class="spec-item"><span class="spec-val" id="specBath">0</span><span class="spec-label">Bathrooms</span></div>
+      <div class="spec-item"><span class="spec-val" id="specLand">0</span><span class="spec-label">Sq.m Land</span></div>
+    </div>
+
+    <h2 class="section-title">Property Details</h2>
+    <p class="desc-text" id="descText">Loading property information...</p>
+
+    <h2 class="section-title">Location</h2>
+    <p class="desc-text" id="locText" style="font-weight: 600;">Hua Hin | Prachuap Khiri Khan</p>
+  </main>
+
+  <div class="footer-action">
+    <a href="https://line.me/R/ti/p/@qap7218t" class="btn-main-contact">Contact Sales Team</a>
+  </div>
+
+  <script>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
+    const urlParams = new URLSearchParams(window.location.search);
+    const hpId = urlParams.get('id');
+    let currentSlide = 0;
+    let totalSlides = 0;
+
+    async function loadDetail() {
+      if (!hpId) return;
+      try {
+        const res = await fetch(`${SCRIPT_URL}?mode=getUnitDetail&id=${hpId}`);
+        const json = await res.json();
+        if (json.ok) renderUI(json.data);
+      } catch (err) { console.error(err); }
+    }
+
+    function renderUI(u) {
+      document.getElementById('plotTitle').textContent = `Plot ${u.Plot || u.HP_ID}`;
+      document.getElementById('unitId').textContent = `#${u.HP_ID}`;
+      document.getElementById('priceTag').textContent = `฿${(parseFloat(String(u.Listing_Type==='Rent'?u.Monthly_Rent:u.Sale_Price).replace(/[^0-9.]/g,'')) || 0).toLocaleString()}${u.Listing_Type==='Rent'?'/mo':''}`;
+      
+      const badge = document.getElementById('statusBadge');
+      badge.textContent = u.Status || 'Available';
+      badge.className = `status-badge ${String(u.Status).toLowerCase().includes('off') ? 's-off-plan' : 's-available'}`;
+      
+      document.getElementById('furnishTag').textContent = u.Furnishing || '-';
+      document.getElementById('specBed').textContent = u.Bedrooms || '0';
+      document.getElementById('specBath').textContent = u.Bathrooms || '0';
+      document.getElementById('specLand').textContent = u.Land_Size || '0';
+      document.getElementById('descText').textContent = u.Description || 'No description available for this property.';
+      document.getElementById('locText').textContent = `${u.Zone || ''} | ${u.District || ''}`;
+
+      // Render Gallery
+      const slider = document.getElementById('slider');
+      const dots = document.getElementById('dots');
+      const images = u.__album || [u.Thumbnail_Image];
+      totalSlides = images.length;
+
+      slider.innerHTML = images.map(img => `<img src="${img}">`).join('');
+      dots.innerHTML = images.map((_, i) => `<div class="dot ${i===0?'active':''}"></div>`).join('');
+    }
+
+    function moveSlide(step) {
+      currentSlide = (currentSlide + step + totalSlides) % totalSlides;
+      document.getElementById('slider').style.transform = `translateX(-${currentSlide * 100}%)`;
+      const allDots = document.querySelectorAll('.dot');
+      allDots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+    }
+
+    loadDetail();
+  </script>
+</body>
+</html>
