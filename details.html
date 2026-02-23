@@ -30,18 +30,24 @@
     .t-img.active { opacity: 1; border-color: var(--coco); transform: scale(1.05); }
 
     .content { padding: 10px 15px 120px; max-width: 900px; margin: 0 auto; }
-    .info-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 22px; margin-bottom: 15px; }
+    .info-card { background: var(--card-bg); border-radius: 12px; padding: 22px; margin-bottom: 15px; }
     
-    /* LUXURY THIN TYPOGRAPHY */
     .section-title { font-size: 0.65rem; font-weight: 700; color: var(--coco); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
     .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    
+    /* LUXURY THIN FONT SPECS */
     .label { font-size: 0.55rem; color: #6B7A68; text-transform: uppercase; font-weight: 300; letter-spacing: 1.2px; margin-bottom: 3px; }
     .val { font-size: 0.82rem; font-weight: 300; color: #1A3017; line-height: 1.4; }
     .gold { color: var(--gold); font-weight: 400; }
     .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-    .full-row { grid-column: 1 / -1; }
 
-    /* MAP & ACTION */
+    /* SMART PROXIMITY TABLE */
+    .nearby-list { width: 100%; border-collapse: collapse; }
+    .nearby-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 0.5px solid var(--border); }
+    .loc-name { font-size: 0.78rem; font-weight: 300; color: #1A3017; }
+    .loc-dist { font-size: 0.72rem; font-weight: 400; color: var(--coco); text-align: right; }
+    .loc-time { font-size: 0.55rem; color: #6B7A68; text-transform: uppercase; letter-spacing: 0.5px; }
+
     .map-box { width: 100%; height: 230px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); margin: 10px 0; }
     .btn-nav { width: 100%; background: #000; color: #fff; text-decoration: none; padding: 14px; border-radius: 8px; display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 500; font-size: 0.85rem; }
 
@@ -77,6 +83,12 @@
       </div>
     </div>
 
+    <div class="info-card">
+      <h2 class="section-title">Nearby Lifestyle & Amenities</h2>
+      <div id="nearbyGrid">
+        </div>
+    </div>
+
     <div class="info-card" style="border-left: 4px solid var(--coco);">
       <h2 class="section-title">Ownership & Fees</h2>
       <div class="grid">
@@ -90,32 +102,23 @@
     <div class="info-card">
       <h2 class="section-title">Technical Specifications</h2>
       <div class="grid">
-        <div><div class="label">Pool Size</div><div class="val" id="vPool">-</div></div>
+        <div><div class="label">Pool Dimensions</div><div class="val" id="vPool">-</div></div>
         <div><div class="label">Pool Depth</div><div class="val" id="vDepth">-</div></div>
         <div><div class="label">House Direction</div><div class="val" id="vDirect">-</div></div>
         <div><div class="label">Furnishing</div><div class="val" id="vFurnish">-</div></div>
         <div><div class="label">Kitchen Type</div><div class="val" id="vKitchen">-</div></div>
-        <div><div class="label">Year Built</div><div class="val" id="vYear">-</div></div>
-        <div><div class="label">Electricity</div><div class="val" id="vElectric">-</div></div>
-        <div><div class="label">Water Source</div><div class="val" id="vWater">-</div></div>
-        <div class="full-row"><div class="label">Extras & Security</div><div class="val" id="vExtras">-</div></div>
+        <div><div class="label">Utilities</div><div class="val" id="vUtil">-</div></div>
       </div>
     </div>
 
     <div class="info-card">
-      <h2 class="section-title">Location Proximity</h2>
-      <div class="grid">
-        <div class="full-row"><div class="label">Zone / Area</div><div class="val" id="vZone">-</div></div>
-        <div class="full-row"><div class="label">Distance to Beach</div><div class="val" id="vBeach">-</div></div>
-        <div class="full-row"><div class="label">Key Locations</div><div class="val" id="vKeyLoc">-</div></div>
-      </div>
+      <h2 class="section-title">Location & Navigation</h2>
       <div class="map-box" id="mapBox" style="display:none;"><iframe id="mapFrame" width="100%" height="100%" frameborder="0"></iframe></div>
-      <a id="navLink" href="" target="_blank" class="btn-nav" style="display:none;">📍 Navigate to Project</a>
+      <a id="navLink" href="" target="_blank" class="btn-nav" style="display:none;">📍 Start GPS Navigation</a>
     </div>
 
     <div class="info-card">
       <h2 class="section-title">Bespoke Narrative</h2>
-      <p id="vSelling" style="color:var(--coco); font-size:0.85rem; font-weight:400; margin-bottom:10px;"></p>
       <p id="vDesc" style="font-size:0.82rem; line-height:1.8; color:#444; font-weight:300; white-space:pre-line;">-</p>
     </div>
 
@@ -126,91 +129,97 @@
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
     const hpId = new URLSearchParams(window.location.search).get('id');
-    const CACHE_TIME = 20 * 60 * 1000; 
+
+    // 10 KEY LANDMARKS IN HUA HIN (Coordinates)
+    const LANDMARKS = [
+      { name: "Hua Hin Beach", lat: 12.5696, lon: 99.9602 },
+      { name: "Cicada Market", lat: 12.5342, lon: 99.9655 },
+      { name: "Bluport Hua Hin Mall", lat: 12.5518, lon: 99.9631 },
+      { name: "Bangkok Hospital Hua Hin", lat: 12.5532, lon: 99.9610 },
+      { name: "Hua Hin Market Village", lat: 12.5601, lon: 99.9610 },
+      { name: "Hua Hin Night Market", lat: 12.5714, lon: 99.9575 },
+      { name: "Vana Nava Water Jungle", lat: 12.5273, lon: 99.9642 },
+      { name: "Hua Hin Railway Station", lat: 12.5674, lon: 99.9548 },
+      { name: "Black Mountain Golf Club", lat: 12.6146, lon: 99.8924 },
+      { name: "Hua Hin Airport", lat: 12.6370, lon: 99.9515 }
+    ];
+
+    // Haversine Formula: คำนวณระยะทางจากพิกัด (Straight Line Distance)
+    function getDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371; 
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLon/2) * Math.sin(dLon/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      const dist = R * c;
+      // ประมาณการระยะทางถนน (Road Distance ~ 1.3x Straight line)
+      return dist * 1.3; 
+    }
 
     async function init() {
       if(!hpId) return;
       const cached = localStorage.getItem(`coco_unit_${hpId}`);
-      if(cached) {
-        const cObj = JSON.parse(cached);
-        if(Date.now() - cObj.time < CACHE_TIME) {
-          renderData(cObj.data);
-          setTimeout(hideSplash, 600);
-          fetchFreshData(true);
-          return;
-        }
-      }
+      if(cached) { renderData(JSON.parse(cached).data); setTimeout(hideSplash, 600); }
       await fetchFreshData();
     }
 
-    async function fetchFreshData(silent = false) {
+    async function fetchFreshData() {
       try {
         const res = await fetch(`${SCRIPT_URL}?mode=getUnitDetail&id=${hpId}`);
         const json = await res.json();
         if(json.ok) {
           localStorage.setItem(`coco_unit_${hpId}`, JSON.stringify({data: json.data, time: Date.now()}));
-          if(!silent) { renderData(json.data); hideSplash(); }
+          renderData(json.data); hideSplash();
         }
       } catch(e) { hideSplash(); }
     }
 
     function hideSplash() { const s = document.getElementById('pageSplash'); if(s) { s.style.opacity = '0'; setTimeout(()=>s.style.display='none', 400); } }
 
-    function formatMoney(val, suffix = "") {
-      if(!val || val === "-" || isNaN(parseFloat(String(val).replace(/[^0-9.]/g,'')))) return "-";
-      return `฿${parseFloat(String(val).replace(/[^0-9.]/g,'')).toLocaleString()}${suffix}`;
-    }
-
     function renderData(u) {
-      // Logic คำนวณรวดเร็วที่หน้าเครื่อง (JS Engine V57)
       const price = parseFloat(String(u.Sale_Price || u.Monthly_Rent).replace(/[^0-9.]/g, '')) || 0;
       const area = parseFloat(String(u.Living_Area_sq_m).replace(/[^0-9.]/g, '')) || 1;
       const feeRate = parseFloat(String(u.Common_Fee_Rate).replace(/[^0-9.]/g, '')) || 0;
 
       document.getElementById('pPlot').textContent = `Plot ${u.Plot || u.HP_ID}`;
-      document.getElementById('pPrice').textContent = formatMoney(price, u.Listing_Type==='Rent'?' / mo':'');
-      
-      // Primary Info
+      document.getElementById('pPrice').textContent = `฿${price.toLocaleString()}`;
       document.getElementById('vBB').textContent = `${u.Bedrooms || 0} Bed | ${u.Bathrooms || 0} Bath`;
       document.getElementById('vLiving').textContent = `${u.Living_Area_sq_m || '-'} m²`;
       document.getElementById('vLand').textContent = `${u.Land_Area_sq_m || '-'} m² (${u.Land_Area_sq_w || '-'} sq.w)`;
       document.getElementById('vPriceSq').textContent = `฿${Math.round(price/area).toLocaleString()} / m²`;
-
-      // Financials
       document.getElementById('vFeeM').textContent = `฿${feeRate.toLocaleString()} / m²`;
       document.getElementById('vFeeY').textContent = `฿${Math.round(feeRate * area * 12).toLocaleString()} / Yr`;
       document.getElementById('vOwner').textContent = `${u.Ownership_Type || '-'} (${u.Land_Title_Deed_Type || '-'})`;
       document.getElementById('vTransfer').textContent = u.Transfer_Expenses || "-";
-
-      // Technicals (Restored Many Details)
-      document.getElementById('vPool').textContent = u.Pool_Size || "-";
-      document.getElementById('vDepth').textContent = u.Pool_Depth || "-";
+      document.getElementById('vPool').textContent = `${u.Pool_Size || '-'} (Depth: ${u.Pool_Depth || '-'})`;
       document.getElementById('vDirect').textContent = u.Direction || "-";
       document.getElementById('vFurnish').textContent = u.Furnishing || "-";
       document.getElementById('vKitchen').textContent = u.Kitchen_Type || "-";
-      document.getElementById('vYear').textContent = u.Year_Built || "-";
-      document.getElementById('vElectric').textContent = u.Electricity || "-";
-      document.getElementById('vWater').textContent = u.Water_Source || "-";
-      document.getElementById('vExtras').textContent = u.Extras || "-";
+      document.getElementById('vUtil').textContent = `Elec: ${u.Electricity || '-'} | Water: ${u.Water_Source || '-'}`;
+      document.getElementById('vDesc').textContent = u.Description || "-";
 
-      // Location
-      document.getElementById('vZone').textContent = `${u.Zone || ''} / ${u.District || ''}`;
-      document.getElementById('vBeach').textContent = u.Distance_to_Beach || "-";
-      document.getElementById('vKeyLoc').textContent = u.Key_Location_Distance || "-";
-      
-      // Map Logic
+      // --- SMART PROXIMITY CALCULATION ---
+      if (u.Coordinates) {
+        const [latStr, lonStr] = u.Coordinates.split(',');
+        const pLat = parseFloat(latStr.trim()), pLon = parseFloat(lonStr.trim());
+        const grid = document.getElementById('nearbyGrid');
+        grid.innerHTML = LANDMARKS.map(loc => {
+          const d = getDistance(pLat, pLon, loc.lat, loc.lon);
+          const t = Math.ceil(d * 1.5); // ประมาณการเวลาขับรถ (1.5 นาทีต่อกิโลเมตร)
+          return `
+            <div class="nearby-item">
+              <div><div class="loc-name">${loc.name}</div><div class="loc-time">${t} mins by car</div></div>
+              <div class="loc-dist">${d.toFixed(1)} km</div>
+            </div>`;
+        }).join('');
+      }
+
       if(u.Coordinates && u.Coordinates !== "#") {
-        document.getElementById('mapBox').style.display = 'block';
-        document.getElementById('navLink').style.display = 'flex';
+        document.getElementById('mapBox').style.display = 'block'; document.getElementById('navLink').style.display = 'flex';
         document.getElementById('mapFrame').src = `https://maps.google.com/maps?q=${u.Coordinates.trim()}&t=k&z=17&ie=UTF8&iwloc=&output=embed`;
         document.getElementById('navLink').href = `https://www.google.com/maps/dir/?api=1&destination=${u.Coordinates.trim()}`;
       }
 
-      // Narrative
-      document.getElementById('vSelling').textContent = u.Key_Selling_Points || "";
-      document.getElementById('vDesc').textContent = u.Description || "No detailed description available.";
-
-      // Gallery & Thumbnails
       const imgs = u.__album || [u.Thumbnail_Image];
       document.getElementById('slider').innerHTML = imgs.map(i => `<img src="${i}" loading="lazy">`).join('');
       document.getElementById('thumbStrip').innerHTML = imgs.map((i,idx) => `<img src="${i}" class="t-img ${idx===0?'active':''}" onclick="goTo(${idx})">`).join('');
