@@ -3,67 +3,61 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-  <title>The CoCo Hua Hin 88 | Professional Catalog</title>
-  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@200;300;400;500;600&family=Montserrat:wght@200;300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+  <title>The CoCo Hua Hin 88 | Exclusive Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
   <style>
     :root { --coco-green: #2D5A27; --white: #FFFFFF; --text-main: #1A3017; --text-muted: #6B7A68; --border: rgba(45, 90, 39, 0.08); --row-h: 85px; --thumb-w: 110px; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background-color: var(--white); color: var(--text-main); font-family: 'Montserrat', 'Sarabun', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    body { background-color: var(--white); color: var(--text-main); font-family: 'Montserrat', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-    /* SPLASH SCREEN - กู้คืนดีไซน์ Luxury */
-    #pageSplash { position: fixed; inset: 0; background: var(--white); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.6s ease-out; }
-    .leaf-anim { font-size: 55px; animation: leafSwing 1.5s ease-in-out infinite alternate; margin-bottom: 20px; }
+    #pageSplash { position: fixed; inset: 0; background: var(--white); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.4s ease-out; pointer-events: none; }
+    .leaf-anim { font-size: 50px; animation: leafSwing 1.5s ease-in-out infinite alternate; margin-bottom: 20px; }
     @keyframes leafSwing { from { transform: rotate(-10deg); } to { transform: rotate(10deg); } }
-    .splash-brand { color: var(--coco-green); font-family: 'Playfair Display', serif; font-size: 1.2rem; letter-spacing: 1.5px; text-align: center; font-weight: 700; }
+    .splash-brand { color: var(--coco-green); font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; letter-spacing: 2px; }
 
-    /* HEADER - กู้คืนปุ่ม Chat และฟอนต์ Playfair */
     header { position: fixed; top: 0; width: 100%; height: 55px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid var(--border); }
-    .logo { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--coco-green); text-decoration: none; line-height: 1.1; }
-    .logo span { display: block; font-family: 'Montserrat', sans-serif; font-size: 0.65rem; font-weight: 300; letter-spacing: 3px; text-transform: uppercase; }
-    .btn-chat { background: var(--coco-green); color: #fff; padding: 6px 15px; border-radius: 50px; font-size: 0.7rem; font-weight: 300; text-decoration: none; text-transform: uppercase; display: flex; align-items: center; gap: 6px; letter-spacing: 1px; }
+    .logo { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700; color: var(--coco-green); text-decoration: none; text-transform: uppercase; }
+    .btn-chat { background: var(--coco-green); color: #fff; padding: 6px 14px; border-radius: 50px; font-size: 0.68rem; font-weight: 300; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
 
-    .hero { padding: 75px 15px 10px; text-align: center; background: linear-gradient(to bottom, #f9fbf9, #ffffff); }
-    .search-input { width: 100%; background: #FFFFFF; border: 1px solid var(--border); border-radius: 50px; padding: 12px 20px; color: #000; font-size: 0.85rem; outline: none; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+    .hero { padding: 70px 15px 10px; text-align: center; }
+    .search-input { width: 100%; max-width: 500px; background: #FFFFFF; border: 1px solid var(--border); border-radius: 50px; padding: 10px 20px; color: #000; font-size: 0.82rem; outline: none; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
     
-    /* FILTER GRID - กู้คืนช่องเลือกให้กลับมาครบ */
-    .filters-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; max-width: 600px; margin: 12px auto; }
-    .filter-select { background: #FFFFFF; border: 1px solid var(--border); border-radius: 8px; padding: 10px; color: var(--coco-green); font-size: 0.7rem; font-weight: 600; outline: none; text-align: center; text-transform: uppercase; }
+    .filters-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; max-width: 500px; margin: 10px auto; }
+    .filter-select { background: #FFFFFF; border: 1px solid var(--border); border-radius: 6px; padding: 8px; color: var(--coco-green); font-size: 0.65rem; font-weight: 600; outline: none; text-align: center; text-transform: uppercase; }
 
-    /* CARD - กู้คืนระบบ 4 แถวที่สมบูรณ์ */
-    .prop-list { padding: 0 12px 40px; display: grid; grid-template-columns: 1fr; gap: 12px; }
-    .card { background: #fff; border: 1px solid var(--border); border-radius: 12px; display: flex; height: var(--row-h); overflow: hidden; text-decoration: none; color: inherit; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
-    .card-img { width: var(--thumb-w); flex-shrink: 0; background: #eee; }
+    .prop-list { padding: 0 12px 40px; display: grid; grid-template-columns: 1fr; gap: 10px; }
+    .card { background: #fff; border: 1px solid var(--border); border-radius: 8px; display: flex; height: var(--row-h); overflow: hidden; text-decoration: none; color: inherit; transition: 0.2s; }
+    .card:active { transform: scale(0.98); }
+    .card-img { width: var(--thumb-w); flex-shrink: 0; background: #f0f0f0; }
     .card-img img { width: 100%; height: 100%; object-fit: cover; }
     
     .card-info { flex: 1; padding: 4px 12px; display: flex; flex-direction: column; justify-content: center; min-width: 0; gap: 1px; }
     .info-row { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 5px; }
     .prop-name { font-size: 0.78rem; font-weight: 600; color: var(--coco-green); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .price-new { font-size: 0.88rem; font-weight: 700; color: var(--coco-green); }
-    .specs { font-size: 0.62rem; color: var(--text-muted); font-weight: 500; }
-    .status-tag { font-size: 0.48rem; padding: 2px 6px; border-radius: 4px; font-weight: 700; text-transform: uppercase; border: 1px solid; }
+    .price-new { font-size: 0.88rem; font-weight: 600; color: var(--coco-green); }
+    .specs { font-size: 0.6rem; color: var(--text-muted); font-weight: 400; }
+    .status-tag { font-size: 0.45rem; padding: 2px 5px; border-radius: 3px; font-weight: 700; text-transform: uppercase; border: 1px solid; }
     .s-available { color: #2ECC8A; border-color: #2ECC8A; background: #EFFFF6; }
     .s-off-plan { color: #CEA86C; border-color: #CEA86C; background: #FFF9F0; }
 
-    @media (min-width: 768px) { :root { --row-h: 100px; --thumb-w: 150px; } .prop-list { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 768px) { :root { --row-h: 100px; --thumb-w: 150px; } .prop-list { grid-template-columns: 1fr 1fr; gap: 15px; } }
   </style>
 </head>
 <body>
 
-  <div id="pageSplash"><div class="leaf-anim">🌿</div><div class="splash-brand">THE COCO HUA HIN 88</div></div>
+  <div id="pageSplash"><div class="leaf-anim">🌿</div><div class="splash-brand">THE COCO HUA HIN</div></div>
 
   <header>
     <a href="#" class="logo">THE COCO <span>HUA HIN 88</span></a>
-    <a href="https://line.me/R/ti/p/@qap7218t" class="btn-chat">Chat</a>
+    <a href="https://line.me/R/ti/p/@qap7218t" class="btn-chat">Enquire Now</a>
   </header>
 
   <section class="hero">
-    <div style="max-width:600px; margin:0 auto;">
-      <input type="text" id="searchInput" class="search-input" placeholder="Search Plot, ID, or Type...">
-      <div class="filters-grid">
-        <select id="plotFilter" class="filter-select"><option value="">All Plots</option></select>
-        <select id="sortFilter" class="filter-select"><option value="">Sorting</option><option value="low-high">Lowest</option><option value="high-low">Highest</option></select>
-        <select id="bedFilter" class="filter-select"><option value="">Bedrooms</option><option value="3">3 Bed</option><option value="4">4 Bed</option></select>
-      </div>
+    <input type="text" id="searchInput" class="search-input" placeholder="Search by Plot or ID...">
+    <div class="filters-grid">
+      <select id="plotFilter" class="filter-select"><option value="">All Plots</option></select>
+      <select id="sortFilter" class="filter-select"><option value="">Sorting</option><option value="low-high">Lowest</option><option value="high-low">Highest</option></select>
+      <select id="bedFilter" class="filter-select"><option value="">Bedrooms</option><option value="3">3 Bed</option><option value="4">4 Bed</option></select>
     </div>
   </section>
 
@@ -80,11 +74,11 @@
         rawData = json.data;
         updatePlotOptions(rawData);
         renderList(rawData);
-        setTimeout(hideSplash, 500);
+        hideSplash();
       } catch (err) { console.error(err); hideSplash(); }
     }
 
-    function hideSplash() { const s = document.getElementById('pageSplash'); if(s) { s.style.opacity = '0'; setTimeout(()=>s.style.display='none', 600); } }
+    function hideSplash() { const s = document.getElementById('pageSplash'); if(s) { s.style.opacity = '0'; setTimeout(()=>s.style.display='none', 400); } }
 
     function updatePlotOptions(items) {
       const sel = document.getElementById('plotFilter');
@@ -107,9 +101,8 @@
               <div class="info-row"><div class="specs">${p.Bedrooms} Bed | ${p.Bathrooms} Bath</div></div>
               <div class="info-row">
                 <span class="status-tag ${cls}">${p.Status || 'Available'}</span>
-                <div style="font-size:0.58rem; color:var(--text-muted); font-weight:600;">${p.Furnishing || '-'}</div>
+                <div style="font-size:0.55rem; color:var(--text-muted); opacity:0.7;">${p.Zone || ''}</div>
               </div>
-              <div class="info-row"><div style="font-size:0.55rem; color:var(--text-muted); opacity:0.8;">${p.Zone || ''} | ${p.District || ''}</div></div>
             </div>
           </a>`;
       }).join('');
@@ -120,9 +113,9 @@
       const plot = document.getElementById('plotFilter').value;
       const bed = document.getElementById('bedFilter').value;
       const sort = document.getElementById('sortFilter').value;
-      let filtered = rawData.filter(p => (q==="" || `${p.HP_ID} ${p.Plot} ${p.Type}`.toLowerCase().includes(q)) && (plot==="" || p.Plot===plot) && (bed==="" || parseInt(p.Bedrooms)===parseInt(bed)));
-      if(sort==="low-high") filtered.sort((a,b)=> parseFloat(String(a.Sale_Price).replace(/[^0-9.]/g,'')) - parseFloat(String(b.Sale_Price).replace(/[^0-9.]/g,'')));
-      else if(sort==="high-low") filtered.sort((a,b)=> parseFloat(String(b.Sale_Price).replace(/[^0-9.]/g,'')) - parseFloat(String(a.Sale_Price).replace(/[^0-9.]/g,'')));
+      let filtered = rawData.filter(p => (q==="" || `${p.HP_ID} ${p.Plot}`.toLowerCase().includes(q)) && (plot==="" || p.Plot===plot) && (bed==="" || parseInt(p.Bedrooms)===parseInt(bed)));
+      if(sort==="low-high") filtered.sort((a,b)=> (parseFloat(String(a.Sale_Price).replace(/[^0-9.]/g,''))||0) - (parseFloat(String(b.Sale_Price).replace(/[^0-9.]/g,''))||0));
+      else if(sort==="high-low") filtered.sort((a,b)=> (parseFloat(String(b.Sale_Price).replace(/[^0-9.]/g,''))||0) - (parseFloat(String(a.Sale_Price).replace(/[^0-9.]/g,''))||0));
       renderList(filtered);
     }
 
