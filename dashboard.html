@@ -7,12 +7,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; margin: 0; color: #1E293B; }
+    body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; margin: 0; color: #1E293B; -webkit-font-smoothing: antialiased; }
     .m-header { background: #0F172A; border-radius: 0 0 2rem 2rem; padding: 1.5rem; color: #fff; position: relative; margin-bottom: 1rem; }
     .m-title { font-size: 1.3rem; font-weight: 800; font-style: italic; }
     .btn-h { position: absolute; top: 1.2rem; right: 1.5rem; background: rgba(255,255,255,0.1); width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
     
-    .list-container { padding: 0 10px; }
+    .list-container { padding: 0 10px 40px; }
     .table-box { background: white; border-radius: 1.5rem; overflow: hidden; border: 1px solid #F1F5F9; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
     .t-head { background: #0F172A; color: #fff; display: flex; padding: 12px; font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
     .t-row { display: flex; align-items: center; padding: 8px 12px; border-bottom: 1px solid #F1F5F9; background: #fff; }
@@ -36,25 +36,33 @@
   <div class="list-container">
     <div class="table-box">
       <div class="t-head"><div class="c-img">Cover</div><div class="c-info">Unit ID</div><div class="c-plot">Plot</div><div class="c-stat">Status</div><div class="c-btn"></div></div>
-      <div id="uList"><div class="py-20 text-center text-slate-300 font-bold text-[10px] animate-pulse">SYNCING DATA...</div></div>
+      <div id="uList"><div class="py-24 text-center text-slate-300 font-bold text-[10px] animate-pulse uppercase tracking-widest">🔄 SYNCING COCO DATA...</div></div>
     </div>
   </div>
   <script>
     const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
     if(!localStorage.getItem("COCO_AUTH")) location.href="gateway.html";
+
     async function load() {
       try {
         const res = await fetch(`${API}?mode=getListSmall&t=${Date.now()}`);
         const data = await res.json();
-        document.getElementById('uList').innerHTML = data.map(u => `
-          <div class="t-row">
-            <div class="c-img"><img src="${u.Thumbnail_Image}" class="thumb"></div>
-            <div class="c-info"><span class="t-id">${u.HP_ID}</span></div>
-            <div class="c-plot"><span class="t-plot">${u.Plot || '-'}</span></div>
-            <div class="c-stat"><div class="dot-box"><div class="dot ${(u.Status||'').toLowerCase().includes('avail')?'dot-ok':''}"></div><div class="dot"></div></div></div>
-            <div class="c-btn"><a href="edit.html?id=${u.HP_ID}" class="text-orange-500 text-lg"><i class="fa-regular fa-pen-to-square"></i></a></div>
-          </div>`).join('');
-      } catch(e) { document.getElementById('uList').innerHTML = '<div class="p-10 text-center text-red-400">Connection Error</div>'; }
+        
+        // ✅ ตรวจสอบว่าเป็น Array หรือไม่เพื่อป้องกัน Error หน้าว่าง
+        if (Array.isArray(data)) {
+          document.getElementById('uList').innerHTML = data.map(u => `
+            <div class="t-row">
+              <div class="c-img"><img src="${u.Thumbnail_Image || 'https://via.placeholder.com/60x40'}" class="thumb"></div>
+              <div class="c-info"><span class="t-id">${u.HP_ID}</span></div>
+              <div class="c-plot"><span class="t-plot">${u.Plot || '-'}</span></div>
+              <div class="c-stat"><div class="dot-box"><div class="dot ${(u.Status||'').toLowerCase().includes('avail')?'dot-ok':''}"></div><div class="dot"></div></div></div>
+              <div class="c-btn"><a href="edit.html?id=${u.HP_ID}" class="text-orange-500 text-lg"><i class="fa-regular fa-pen-to-square"></i></a></div>
+            </div>`).join('');
+        } else { throw new Error("Data is not an array"); }
+      } catch(e) { 
+        console.error(e);
+        document.getElementById('uList').innerHTML = '<div class="p-20 text-center text-red-400 font-bold uppercase text-xs">⚠️ Connection Error<br><small>Please Check Script & Connection</small></div>'; 
+      }
     }
     window.onload = load;
   </script>
