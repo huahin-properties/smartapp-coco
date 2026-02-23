@@ -3,203 +3,97 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <title>Master Database Editor | THE COCO</title>
+  <title>Inventory | CoCo Hua Hin 88</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
   <style>
-    body { font-family: 'Montserrat', sans-serif; background: #F0F2F5; color: #1E293B; }
-    .master-header { background: #0F172A; border-radius: 2.5rem; padding: 3rem 4rem; color: #fff; margin-bottom: 2rem; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-    .header-sub { color: #3B82F6; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem; font-style: italic; }
-    .header-title { font-size: 3.5rem; font-weight: 800; letter-spacing: -2px; line-height: 1; font-style: italic; }
-    .btn-close { position: absolute; top: 3.5rem; right: 4rem; background: rgba(255,255,255,0.1); width: 50px; height: 50px; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: white; border: none; }
-
-    .tabs-wrap { display: flex; gap: 2.5rem; margin-bottom: 2rem; border-bottom: 1px solid #E2E8F0; padding-left: 1rem; }
-    .tab-btn { padding-bottom: 1rem; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #94A3B8; position: relative; border: none; background: none; cursor: pointer; }
-    .tab-active { color: #1E293B; }
-    .tab-active::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 4px; background: #1E293B; border-radius: 10px; }
-
-    /* CARD SYSTEM - สแกนจาก 211154.jpg */
-    .input-card { background: white; border-radius: 2.5rem; padding: 2.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.03); margin-bottom: 1.5rem; }
-    .field-label { font-size: 0.62rem; font-weight: 800; color: #94A3B8; text-transform: uppercase; margin-bottom: 0.8rem; display: block; letter-spacing: 0.5px; }
-    .field-input { width: 100%; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 1rem; padding: 1.1rem; outline: none; font-weight: 700; font-size: 0.95rem; font-style: italic; transition: 0.2s; color: #1E293B; }
-    .field-input:focus { border-color: #3B82F6; background: #fff; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.05); }
+    body { background: #F8FAFC; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
     
-    /* SPECIAL COLOR FOR PRICE - สแกนจาก 211158.jpg */
-    .price-box { background: #EFF6FF; border: 1px solid #DBEAFE; color: #2563EB !important; }
-    
-    .btn-master-save { background: #0F172A; width: 100%; color: white; font-weight: 800; font-size: 1rem; padding: 2.5rem; border-radius: 3rem; text-transform: uppercase; letter-spacing: 6px; margin-top: 2rem; margin-bottom: 4rem; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2); border: none; cursor: pointer; transition: 0.3s; }
-    .btn-master-save:active { transform: scale(0.97); }
+    /* 1. HEADER - สไตล์เดียวกับ Edit (V73) */
+    .m-header { background: #1E293B; border-radius: 3rem; padding: 2rem 2.5rem; color: #fff; margin: 15px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+    .project-title { font-size: 1.8rem; font-weight: 800; font-style: italic; line-height: 1.1; }
 
-    .preview-img { width: 100%; height: 220px; border-radius: 1.5rem; object-fit: cover; border: 2px dashed #E2E8F0; }
+    /* 2. TABLE WRAPPER - ปรับให้พอดีจอ */
+    .m-table-box { background: #fff; border-radius: 2.5rem; margin: 0 15px 50px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.02); border: 1px solid #F1F5F9; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; } /* บังคับไม่ให้ล้นออกนอกจอ */
+    
+    th { background: #1E293B; color: #fff; padding: 1.2rem 0.5rem; text-transform: uppercase; font-size: 0.6rem; letter-spacing: 1px; font-weight: 700; text-align: center; }
+    td { padding: 1rem 0.5rem; border-bottom: 1px solid #F1F5F9; font-size: 0.8rem; text-align: center; vertical-align: middle; }
+
+    /* 3. IMAGE PROPORTION - ปรับให้เตี้ยลงและกว้างขึ้นตามสั่ง */
+    .thumb-wrap { width: 70px; height: 50px; border-radius: 12px; overflow: hidden; margin: 0 auto; box-shadow: 0 4px 8px rgba(0,0,0,0.05); background: #eee; }
+    .thumb-wrap img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* 4. TEXT STYLING */
+    .unit-id { font-size: 0.65rem; font-weight: 600; color: #94A3B8; font-style: italic; line-height: 1; }
+    .plot-no { font-size: 1.1rem; font-weight: 800; font-style: italic; color: #1E293B; }
+
+    /* 5. STATUS DOTS */
+    .dot-group { display: flex; justify-content: center; gap: 4px; background: #F8FAFC; padding: 4px 8px; border-radius: 15px; width: fit-content; margin: 0 auto; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: #CBD5E1; }
+    .dot.active { background: #10B981; }
+
+    .btn-edit { color: #F97316; font-size: 1.1rem; transition: 0.2s; }
   </style>
 </head>
-<body class="p-4 md:p-10 italic">
+<body class="italic">
 
-  <div class="max-w-6xl mx-auto">
-    
-    <div class="master-header">
-      <div class="header-sub">Master Database Editor</div>
-      <div id="displayID" class="header-title">HP00-0001</div>
-      <button onclick="history.back()" class="btn-close"><i class="fa-solid fa-xmark text-xl"></i></button>
-    </div>
+  <div class="m-header">
+    <h1 class="project-title">CoCo Hua<br>Hin 88</h1>
+    <a href="index.html" class="bg-white/10 p-4 rounded-2xl"><i class="fa-solid fa-house text-white text-lg"></i></a>
+  </div>
 
-    <div class="tabs-wrap">
-      <button class="tab-btn tab-active" onclick="switchTab('photo')">Cover & Gallery</button>
-      <button class="tab-btn" id="tabDataBtn" onclick="switchTab('info')">Property Data</button>
-    </div>
-
-    <div id="tabPhoto">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div class="input-card">
-          <label class="field-label">Main Cover Thumbnail</label>
-          <div id="thumbBox" class="mb-4"><img src="" class="preview-img" id="imgThumb"></div>
-          <button class="w-full py-4 bg-blue-600 text-white rounded-xl font-extrabold uppercase text-[10px] tracking-widest shadow-lg">Upload Cover</button>
-        </div>
-        <div class="input-card">
-          <label class="field-label">Project Gallery Album</label>
-          <div id="galleryBox" class="grid grid-cols-4 gap-2 mb-4 h-[220px] overflow-y-auto content-start p-2 border-2 border-dashed border-slate-100 rounded-2xl"></div>
-          <button class="w-full py-4 bg-purple-600 text-white rounded-xl font-extrabold uppercase text-[10px] tracking-widest shadow-lg">Add Gallery Photos</button>
-        </div>
-      </div>
-      <div class="input-card">
-          <label class="field-label">PDF Documents (Upload / Replace)</label>
-          <div class="space-y-3" id="pdfContainer"></div>
-      </div>
-    </div>
-
-    <div id="tabInfo" class="hidden">
-      <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div><label class="field-label">Plot Number</label><input id="Plot" class="field-input"></div>
-        <div><label class="field-label">Type</label><input id="Type" class="field-input"></div>
-        <div><label class="field-label">Project Name</label><input id="Project_Name" class="field-input"></div>
-        
-        <div><label class="field-label">Bedrooms</label><input id="Bedrooms" type="number" class="field-input"></div>
-        <div><label class="field-label">Bathrooms</label><input id="Bathrooms" type="number" class="field-input"></div>
-        <div><label class="field-label">Parking</label><input id="Parking" type="number" class="field-input"></div>
-
-        <div class="col-span-1 md:col-span-2"><label class="field-label">Extras</label><input id="Extras" class="field-input"></div>
-        <div><label class="field-label">Electricity</label><input id="Electricity" class="field-input"></div>
-      </div>
-
-      <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div><label class="field-label">Land Area (SQ.W)</label><input id="Land_Area_sq_w" class="field-input"></div>
-        <div><label class="field-label">Land Area (SQ.M)</label><input id="Land_Area_sq_m" class="field-input"></div>
-        <div><label class="field-label">Living Area (SQ.M)</label><input id="Living_Area_sq_m" class="field-input"></div>
-        
-        <div><label class="field-label">Pool Size</label><input id="Pool_Size" class="field-input"></div>
-        <div><label class="field-label">Pool Depth</label><input id="Pool_Depth" class="field-input"></div>
-        <div><label class="field-label">Furnishing</label><select id="Furnishing" class="field-input"><option value="Ready to Move">Ready to Move</option><option value="Fully Furnished">Fully Furnished</option><option value="Unfurnished">Unfurnished</option></select></div>
-        
-        <div class="col-span-full"><label class="field-label">Address</label><input id="Address" class="field-input"></div>
-      </div>
-
-      <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-blue-50 p-4 rounded-2xl">
-          <label class="field-label text-blue-600">Price (THB)</label>
-          <input id="Sale_Price" class="field-input price-box">
-        </div>
-        <div><label class="field-label">Price / SQM</label><input id="Price_sq_m" class="field-input"></div>
-        <div><label class="field-label">Status</label><select id="Status" class="field-input font-extrabold"><option value="Available">Available</option><option value="Sold">Sold</option><option value="Reserved">Reserved</option></select></div>
-      </div>
-
-      <div class="input-card">
-        <label class="field-label">Badge</label>
-        <select id="Badge" class="field-input mb-6"><option value="NEW LISTING">NEW LISTING</option><option value="HOT DEAL">HOT DEAL</option></select>
-        <label class="field-label">Description</label>
-        <textarea id="Description" rows="6" class="field-input h-auto"></textarea>
-      </div>
-
-      <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div><label class="field-label">District</label><input id="District" class="field-input" value="Hua Hin"></div>
-        <div><label class="field-label">Sub-District</label><input id="SubDistrict" class="field-input" value="Hua Hin"></div>
-        <div><label class="field-label">Zone</label><input id="Zone" class="field-input"></div>
-        
-        <div class="col-span-full border-t border-slate-50 pt-6 mt-2"><span class="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Digital Asset Links</span></div>
-        <div><label class="field-label">FB Link</label><input id="FB_Link" class="field-input" placeholder="https://facebook.com/..."></div>
-        <div><label class="field-label">Video Link (YouTube/TikTok)</label><input id="Video_Link" class="field-input" placeholder="แทนที่ Google Map ที่ไม่ได้ใช้"></div>
-        <div><label class="field-label">Virtual Tour 360</label><input id="Virtual_Tour" class="field-input" value="#"></div>
-        
-        <div class="col-span-full"><label class="field-label">System Status (Read Only)</label><select id="System_Status" class="field-input bg-slate-100 cursor-not-allowed" disabled><option value="Live">Live</option><option value="Pending">Pending</option><option value="Offline">Offline</option></select></div>
-      </div>
-    </div>
-
-    <button onclick="saveAllData()" id="masterSaveBtn" class="btn-master-save">Update Master Database</button>
-
+  <div class="m-table-box">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 25%;">Cover</th>
+          <th style="width: 25%;">Unit ID</th>
+          <th style="width: 25%;">Plot</th>
+          <th style="width: 15%;">Status</th>
+          <th style="width: 10%;"></th>
+        </tr>
+      </thead>
+      <tbody id="unitList">
+        <tr><td colspan="5" class="py-20 text-slate-300 animate-pulse uppercase text-[10px] tracking-widest font-bold">🔄 Syncing Inventory...</td></tr>
+      </tbody>
+    </table>
   </div>
 
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
-    const hpId = new URLSearchParams(window.location.search).get('id');
 
-    // สลับแท็บ
-    function switchTab(t) {
-      document.getElementById('tabPhoto').classList.toggle('hidden', t!=='photo');
-      document.getElementById('tabInfo').classList.toggle('hidden', t!=='info');
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('tab-active'));
-      event.target.classList.add('tab-active');
-    }
-
-    // ✅ ดึงข้อมูลแบบครบวงจร (สแกนโครงสร้าง Data 50+ คอลัมน์)
-    async function loadFullData() {
-      if(!hpId) return;
-      document.getElementById('displayID').innerText = hpId;
+    async function loadInventory() {
       try {
-        const res = await fetch(`${API_URL}?mode=getUnitDetail&hpId=${hpId}`);
-        const u = await res.json();
+        const res = await fetch(`${API_URL}?mode=getUnitList`);
+        const data = await res.json();
+        const container = document.getElementById('unitList');
         
-        // Loop ใส่ข้อมูลลงทุกช่องอัตโนมัติที่มี ID ตรงกับชื่อคอลัมน์
-        const fields = ["Plot", "Type", "Project_Name", "Bedrooms", "Bathrooms", "Parking", "Extras", "Electricity", "Land_Area_sq_w", "Land_Area_sq_m", "Living_Area_sq_m", "Pool_Size", "Pool_Depth", "Furnishing", "Address", "Sale_Price", "Price_sq_m", "Status", "Badge", "Description", "District", "SubDistrict", "Zone", "FB_Link", "Video_Link", "Virtual_Tour", "System_Status"];
-        
-        fields.forEach(f => {
-          const el = document.getElementById(f);
-          if(el) el.value = u[f] || "";
-        });
-
-        // รูปหน้าปก
-        if(u.Thumbnail_Image) document.getElementById('imgThumb').src = u.Thumbnail_Image;
-
-        // รูปแกลเลอรี
-        if(u.Album_Image) {
-          const imgs = u.Album_Image.split(',').map(s => s.trim()).filter(Boolean);
-          document.getElementById('galleryBox').innerHTML = imgs.map(img => `
-            <div class="relative h-20 rounded-xl overflow-hidden shadow-sm">
-              <img src="${img}" class="w-full h-full object-cover">
-              <div class="absolute top-1 right-1 bg-black/70 text-white w-4 h-4 rounded-full flex items-center justify-center text-[8px]">✕</div>
-            </div>
-          `).join('');
-        }
-
-        // PDF List (จำลองจาก 211148.jpg)
-        const pdfs = [
-            { name: "Sales Gallery Link", url: u.Sales_Gallery },
-            { name: "Material PDF Link", url: u.Material_PDF },
-            { name: "Floor Plan Link", url: u.FloorPlan_PDF }
-        ];
-        document.getElementById('pdfContainer').innerHTML = pdfs.map(p => `
-            <div class="flex items-center bg-slate-50 p-4 rounded-2xl border border-dashed border-slate-200">
-                <div class="w-10 h-10 bg-red-100 text-red-600 rounded-lg flex items-center justify-center font-black text-[10px] mr-4">PDF</div>
-                <div class="flex-1 min-width-0">
-                    <div class="text-[11px] font-extrabold italic text-slate-900">${p.name}</div>
-                    <div class="text-[9px] text-slate-400 truncate">${p.url || 'No file uploaded'}</div>
-                </div>
-                <button class="ml-4 px-4 py-2 bg-blue-600 text-white rounded-lg text-[9px] font-bold uppercase tracking-widest">Upload</button>
-            </div>
+        container.innerHTML = data.map(u => `
+          <tr>
+            <td><div class="thumb-wrap"><img src="${u.Thumbnail_Image || 'https://via.placeholder.com/70x50?text=No+Image'}" loading="lazy"></div></td>
+            <td class="unit-id">${u.HP_ID}</td>
+            <td class="plot-no">${u.Plot || '-'}</td>
+            <td>
+              <div class="dot-group">
+                <div class="dot ${u.Status === 'Available' ? 'active' : ''}"></div>
+                <div class="dot"></div>
+              </div>
+            </td>
+            <td>
+              <a href="edit.html?id=${u.HP_ID}" class="btn-edit">
+                <i class="fa-regular fa-pen-to-square"></i>
+              </a>
+            </td>
+          </tr>
         `).join('');
-
-      } catch(e) { console.error("Data Load Failed", e); }
+      } catch(e) {
+        document.getElementById('unitList').innerHTML = '<tr><td colspan="5" class="py-10 text-red-400 text-xs">Connection Error</td></tr>';
+      }
     }
 
-    async function saveAllData() {
-      const b = document.getElementById('masterSaveBtn');
-      b.innerText = "UPDATING MASTER DATABASE...";
-      b.disabled = true;
-      // Logic ส่งข้อมูลกลับไปที่ GS (POST) จะรวมทุกฟิลด์ที่กรอกครับ
-      setTimeout(() => { alert("Update Complete!"); location.href='dashboard.html'; }, 2000);
-    }
-
-    window.onload = loadFullData;
+    window.onload = loadInventory;
   </script>
 </body>
 </html>
