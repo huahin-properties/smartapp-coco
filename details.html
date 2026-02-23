@@ -3,30 +3,37 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-  <title>Plot Details | The CoCo Hua Hin 88</title>
-  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@200;300;400;500;600&family=Montserrat:wght@200;300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+  <title>Asset Details | The CoCo Hua Hin 88</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
   <style>
     :root { --coco-green: #2D5A27; --white: #FFFFFF; --text-main: #1A3017; --text-muted: #6B7A68; --border: rgba(45, 90, 39, 0.08); --card-bg: #F9FBF9; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background-color: var(--white); color: var(--text-main); font-family: 'Montserrat', 'Sarabun', sans-serif; -webkit-font-smoothing: antialiased; }
+    body { background-color: var(--white); color: var(--text-main); font-family: 'Montserrat', sans-serif; -webkit-font-smoothing: antialiased; }
 
-    /* SPLASH SCREEN */
-    #pageSplash { position: fixed; inset: 0; background: var(--white); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.6s ease-out; }
+    #pageSplash { position: fixed; inset: 0; background: var(--white); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.4s ease-out; pointer-events: none; }
     .leaf-anim { font-size: 55px; animation: leafSwing 1.5s ease-in-out infinite alternate; margin-bottom: 20px; }
     @keyframes leafSwing { from { transform: rotate(-10deg); } to { transform: rotate(10deg); } }
-    .splash-brand { color: var(--coco-green); font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; letter-spacing: 1.5px; }
+    .splash-brand { color: var(--coco-green); font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; }
 
     header { position: fixed; top: 0; width: 100%; height: 55px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid var(--border); }
     .back-btn { text-decoration: none; color: var(--coco-green); font-size: 0.7rem; text-transform: uppercase; font-weight: 600; letter-spacing: 1.5px; }
 
-    /* GALLERY SLIDER - กู้คืนลูกศรเลื่อนรูปภาพ */
-    .gallery-container { width: 100%; height: 50vh; background: #eee; position: relative; overflow: hidden; margin-top: 55px; }
+    /* GALLERY WITH THUMBNAILS (จุดที่ 2) */
+    .gallery-container { width: 100%; position: relative; margin-top: 55px; background: #eee; }
+    .main-stage { height: 45vh; overflow: hidden; position: relative; }
     .slider { display: flex; transition: transform 0.4s ease-out; height: 100%; }
     .slider img { width: 100%; height: 100%; object-fit: cover; flex-shrink: 0; }
-    .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.4); border: none; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--coco-green); z-index: 10; font-size: 1.2rem; backdrop-filter: blur(5px); cursor: pointer; }
+    
+    .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.4); border: none; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--coco-green); z-index: 10; cursor: pointer; }
     .prev { left: 10px; } .next { right: 10px; }
 
-    .content { padding: 20px 15px 120px; max-width: 900px; margin: 0 auto; }
+    .thumb-strip { display: flex; gap: 8px; padding: 10px 15px; overflow-x: auto; background: #fff; scrollbar-width: none; }
+    .thumb-strip::-webkit-scrollbar { display: none; }
+    .thumb-item { width: 60px; height: 45px; flex-shrink: 0; border-radius: 4px; overflow: hidden; border: 2px solid transparent; opacity: 0.6; transition: 0.3s; }
+    .thumb-item.active { border-color: var(--coco-green); opacity: 1; transform: scale(1.05); }
+    .thumb-item img { width: 100%; height: 100%; object-fit: cover; }
+
+    .content { padding: 10px 15px 120px; max-width: 900px; margin: 0 auto; }
     .info-card { background: var(--card-bg); border-radius: 12px; padding: 20px; border: 1px solid var(--border); margin-bottom: 15px; }
     .card-title { font-size: 0.65rem; font-weight: 800; color: var(--coco-green); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; border-left: 3px solid var(--coco-green); padding-left: 10px; display: flex; align-items: center; gap: 8px; }
     .card-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
@@ -43,42 +50,42 @@
     .footer-action { position: fixed; bottom: 0; width: 100%; background: #fff; padding: 12px 15px; border-top: 1px solid var(--border); z-index: 1000; }
     .btn-chat { background: var(--coco-green); color: #fff; text-decoration: none; padding: 14px; border-radius: 4px; display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 400; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; }
 
-    /* MAP SECTION - กู้คืนแผนที่และการนำทาง */
     .map-box { width: 100%; height: 250px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); margin-top: 10px; }
     .btn-nav { width: 100%; background: #000; color: #fff; text-decoration: none; padding: 14px; border-radius: 8px; display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 600; font-size: 0.85rem; margin-top: 10px; }
   </style>
 </head>
 <body>
 
-  <div id="pageSplash"><div class="leaf-anim">🌿</div><div class="splash-brand">THE COCO HUA HIN 88</div></div>
-
+  <div id="pageSplash"><div class="leaf-anim">🌿</div><div class="splash-brand">THE COCO HUA HIN</div></div>
   <header><a href="index.html" class="back-btn">✕ Close</a><div style="font-family:'Playfair Display',serif; color:var(--coco-green); font-weight:700;">THE COCO</div><div style="width:40px;"></div></header>
 
   <div class="gallery-container">
-    <div class="slider" id="slider"></div>
-    <button class="nav-btn prev" onclick="moveSlide(-1)">❮</button>
-    <button class="nav-btn next" onclick="moveSlide(1)">❯</button>
+    <div class="main-stage">
+      <div class="slider" id="slider"></div>
+      <button class="nav-btn prev" onclick="moveSlide(-1)">❮</button>
+      <button class="nav-btn next" onclick="moveSlide(1)">❯</button>
+    </div>
+    <div class="thumb-strip" id="thumbStrip"></div>
   </div>
 
   <main class="content">
-    
     <div class="info-card">
       <h1 class="main-title" id="plotT">Plot ...</h1>
       <div class="main-price" id="priceT">฿0</div>
       <div class="data-grid">
-        <div class="data-item"><span class="label">Bedrooms / Bathrooms</span><span class="value" id="valBB">-</span></div>
+        <div class="data-item"><span class="label">Bed / Bath</span><span class="value" id="valBB">-</span></div>
         <div class="data-item"><span class="label">Living Area</span><span class="value" id="valLiving">-</span></div>
         <div class="data-item"><span class="label">Land Size</span><span class="value" id="valLand">-</span></div>
-        <div class="data-item"><span class="label">Price / Sq.m</span><span class="value highlight" id="valPriceSq">-</span></div>
+        <div class="data-item"><span class="label">Price per Sq.m</span><span class="value highlight" id="valPriceSq">-</span></div>
       </div>
     </div>
 
     <div class="info-card" style="border-left: 5px solid var(--coco-green);">
-      <h2 class="card-title">Financial Details (ค่าส่วนกลาง)</h2>
+      <h2 class="card-title">Common Fees & Charges</h2>
       <div class="data-grid">
         <div class="data-item"><span class="label">Monthly Rate</span><span class="value" id="valFeeMonth">-</span></div>
         <div class="data-item"><span class="label">Yearly Total</span><span class="value highlight" id="valFeeYear">-</span></div>
-        <div class="data-item"><span class="label">Status</span><span class="value" id="valStatus">-</span></div>
+        <div class="data-item"><span class="label">Project Status</span><span class="value" id="valStatus">-</span></div>
       </div>
     </div>
 
@@ -87,25 +94,24 @@
       <div class="data-grid">
         <div class="data-item"><span class="label">Pool Dimensions</span><span class="value" id="valPool">-</span></div>
         <div class="data-item"><span class="label">House Direction</span><span class="value" id="valDirect">-</span></div>
-        <div class="data-item"><span class="label">Kitchen / Furnish</span><span class="value" id="valKitFurn">-</span></div>
+        <div class="data-item"><span class="label">Kitchen / Furnishing</span><span class="value" id="valKitFurn">-</span></div>
         <div class="data-item"><span class="label">Utilities</span><span class="value" id="valUtil">-</span></div>
       </div>
     </div>
 
     <div class="info-card">
-      <h2 class="card-title">Project Navigation</h2>
+      <h2 class="card-title">Location & Navigation</h2>
       <div class="map-box" id="mapBox" style="display:none;"><iframe id="mapFrame" width="100%" height="100%" frameborder="0"></iframe></div>
       <a id="navLink" href="" target="_blank" class="btn-nav" style="display:none;">📍 Navigate to Project</a>
     </div>
 
     <div class="info-card">
-      <h2 class="card-title">Property Narrative</h2>
-      <p style="font-size:0.85rem; line-height:1.8; color:var(--text-main); font-weight:300;" id="valDesc">Loading narrative...</p>
+      <h2 class="card-title">Bespoke Narrative</h2>
+      <p style="font-size:0.85rem; line-height:1.8; color:var(--text-main); font-weight:300;" id="valDesc">Loading...</p>
     </div>
-
   </main>
 
-  <div class="footer-action"><a href="https://line.me/R/ti/p/@qap7218t" class="btn-chat">💬 Chat with Concierge</a></div>
+  <div class="footer-action"><a href="https://line.me/R/ti/p/@qap7218t" class="btn-chat">💬 Live Chat with Agent</a></div>
 
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
@@ -117,11 +123,11 @@
       try {
         const res = await fetch(`${SCRIPT_URL}?mode=getUnitDetail&id=${hpId}`);
         const json = await res.json();
-        if(json.ok) { renderData(json.data); setTimeout(hideSplash, 600); }
+        if(json.ok) { renderData(json.data); hideSplash(); }
       } catch(e) { console.error(e); hideSplash(); }
     }
 
-    function hideSplash() { const s = document.getElementById('pageSplash'); if(s) { s.style.opacity = '0'; setTimeout(()=>s.style.display='none', 600); } }
+    function hideSplash() { const s = document.getElementById('pageSplash'); if(s) { s.style.opacity = '0'; setTimeout(()=>s.style.display='none', 400); } }
 
     function formatMoney(val, suffix = "") {
       if(!val || val === "-" || isNaN(parseFloat(String(val).replace(/[^0-9.]/g,'')))) return "-";
@@ -133,17 +139,17 @@
       let p = u.Listing_Type==='Rent'?u.Monthly_Rent:u.Sale_Price;
       document.getElementById('priceT').textContent = formatMoney(p, u.Listing_Type==='Rent'?'/mo':'');
       
-      document.getElementById('valBB').textContent = `${u.Bedrooms || '0'} นอน | ${u.Bathrooms || '0'} น้ำ`;
-      document.getElementById('valLiving').textContent = u.Living_Area_sq_m ? `${u.Living_Area_sq_m} ตร.ม.` : "-";
-      document.getElementById('valLand').textContent = `${u.Land_Area_sq_m || '-'} ตร.ม. (${u.Land_Area_sq_w || '-'} ตร.ว.)`;
-      document.getElementById('valPriceSq').textContent = formatMoney(u.Price_sq_m, " / ตร.ม.");
-      document.getElementById('valFeeMonth').textContent = formatMoney(u.Common_Fee_Rate, " / ตร.ม.");
-      document.getElementById('valFeeYear').textContent = formatMoney(u.Common_Fee_Yearly, " / ปี");
+      document.getElementById('valBB').textContent = `${u.Bedrooms || '0'} Bed | ${u.Bathrooms || '0'} Bath`;
+      document.getElementById('valLiving').textContent = u.Living_Area_sq_m ? `${u.Living_Area_sq_m} m²` : "-";
+      document.getElementById('valLand').textContent = `${u.Land_Area_sq_m || '-'} m² (${u.Land_Area_sq_w || '-'} sq.w)`;
+      document.getElementById('valPriceSq').textContent = formatMoney(u.Price_sq_m, " / m²");
+      document.getElementById('valFeeMonth').textContent = formatMoney(u.Common_Fee_Rate, " / m²");
+      document.getElementById('valFeeYear').textContent = formatMoney(u.Common_Fee_Yearly, " / Yr");
       document.getElementById('valStatus').textContent = u.Status || "-";
       document.getElementById('valPool').textContent = `${u.Pool_Size || '-'} (Depth: ${u.Pool_Depth || '-'})`;
       document.getElementById('valDirect').textContent = u.Direction || "-";
       document.getElementById('valKitFurn').textContent = `${u.Kitchen_Type || '-'} / ${u.Furnishing || '-'}`;
-      document.getElementById('valUtil').textContent = `ไฟฟ้า: ${u.Electricity || '-'} | น้ำ: ${u.Water_Source || '-'}`;
+      document.getElementById('valUtil').textContent = `Power: ${u.Electricity || '-'} | Water: ${u.Water_Source || '-'}`;
       document.getElementById('valDesc').textContent = u.Description || "-";
 
       if(u.Coordinates && u.Coordinates !== "#") {
@@ -152,16 +158,32 @@
         document.getElementById('navLink').href = `https://www.google.com/maps/dir/?api=1&destination=${u.Coordinates.trim()}`;
       }
 
-      const s=document.getElementById('slider'), imgs=u.__album||[u.Thumbnail_Image];
+      // GALLERY & THUMBNAILS
+      const imgs = u.__album || [u.Thumbnail_Image];
       totalSlides = imgs.length;
-      s.innerHTML = imgs.map(i=>`<img src="${i}">`).join('');
+      document.getElementById('slider').innerHTML = imgs.map(i=>`<img src="${i}">`).join('');
+      document.getElementById('thumbStrip').innerHTML = imgs.map((i,idx)=>`<div class="thumb-item ${idx===0?'active':''}" onclick="goToSlide(${idx})"><img src="${i}"></div>`).join('');
     }
 
     function moveSlide(st) {
-      if(totalSlides===0) return;
       currentSlide = (currentSlide + st + totalSlides) % totalSlides;
-      document.getElementById('slider').style.transform = `translateX(-${currentSlide*100}%)`;
+      updateGalleryUI();
     }
+
+    function goToSlide(idx) {
+      currentSlide = idx;
+      updateGalleryUI();
+    }
+
+    function updateGalleryUI() {
+      document.getElementById('slider').style.transform = `translateX(-${currentSlide*100}%)`;
+      const thumbs = document.querySelectorAll('.thumb-item');
+      thumbs.forEach((t, i) => t.classList.toggle('active', i === currentSlide));
+      // Auto-scroll thumb strip
+      const activeThumb = thumbs[currentSlide];
+      activeThumb.parentElement.scrollTo({ left: activeThumb.offsetLeft - 15, behavior: 'smooth' });
+    }
+
     init();
   </script>
 </body>
