@@ -20,10 +20,18 @@
     header { position: fixed; top: 0; width: 100%; height: 55px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; }
     .back { text-decoration: none; color: var(--coco); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; }
 
-    /* GALLERY SYSTEM */
+    /* GALLERY SYSTEM WITH NAVIGATION */
     .gallery { margin-top: 55px; background: #f8f8f8; position: relative; }
-    .main-stage { height: 42vh; overflow: hidden; display: flex; transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-    .main-stage img { width: 100%; height: 100%; object-fit: cover; flex-shrink: 0; }
+    /* เพิ่ม position: relative เพื่อเป็นจุดอ้างอิงให้ปุ่ม */
+    .main-stage { height: 42vh; overflow: hidden; position: relative; } 
+    .slider { display: flex; transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); height: 100%; }
+    .slider img { width: 100%; height: 100%; object-fit: cover; flex-shrink: 0; }
+    
+    /* สไตล์ปุ่มลูกศรแบบโปร่งแสงและบาง (เพิ่มใหม่) */
+    .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.4); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--coco); z-index: 10; cursor: pointer; backdrop-filter: blur(4px); transition: 0.3s; font-weight: 200; font-size: 1.2rem; }
+    .nav-btn:hover { background: rgba(255,255,255,0.6); }
+    .prev { left: 15px; } .next { right: 15px; }
+
     .thumb-strip { display: flex; gap: 8px; padding: 12px 15px; overflow-x: auto; scrollbar-width: none; background: #fff; }
     .thumb-strip::-webkit-scrollbar { display: none; }
     .t-img { width: 60px; height: 45px; border-radius: 4px; object-fit: cover; opacity: 0.4; border: 1.5px solid transparent; transition: 0.2s; flex-shrink: 0; }
@@ -65,7 +73,11 @@
   <header><a href="index.html" class="back">✕ Close</a><div style="font-family:'Playfair Display',serif; color:var(--coco); font-size:0.9rem; font-weight:700;">THE COCO</div><div style="width:40px;"></div></header>
 
   <div class="gallery">
-    <div class="main-stage" id="slider"></div>
+    <div class="main-stage">
+      <div class="slider" id="slider"></div>
+      <button class="nav-btn prev" onclick="moveSlide(-1)">❮</button>
+      <button class="nav-btn next" onclick="moveSlide(1)">❯</button>
+    </div>
     <div class="thumb-strip" id="thumbStrip"></div>
   </div>
 
@@ -112,8 +124,7 @@
 
     <div class="info-card">
       <h2 class="section-title">Nearby Lifestyle & Amenities</h2>
-      <div id="nearbyGrid">
-        </div>
+      <div id="nearbyGrid"></div>
     </div>
 
     <div class="info-card">
@@ -128,6 +139,8 @@
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
     const hpId = new URLSearchParams(window.location.search).get('id');
+    // เพิ่มตัวแปร global สำหรับ slide
+    let currentSlide = 0, totalSlides = 0;
 
     const LANDMARKS = [
       { name: "Hua Hin Beach", lat: 12.5696, lon: 99.9602 },
@@ -147,7 +160,7 @@
       const dLon = (lon2 - lon1) * Math.PI / 180;
       const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLon/2) * Math.sin(dLon/2);
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-      return R * c * 1.35; // Factor in road turns
+      return R * c * 1.35;
     }
 
     async function init() {
@@ -208,11 +221,20 @@
       }
 
       const imgs = u.__album || [u.Thumbnail_Image];
+      totalSlides = imgs.length; // อัปเดตจำนวนรูป
       document.getElementById('slider').innerHTML = imgs.map(i => `<img src="${i}" loading="lazy">`).join('');
       document.getElementById('thumbStrip').innerHTML = imgs.map((i,idx) => `<img src="${i}" class="t-img ${idx===0?'active':''}" onclick="goTo(${idx})">`).join('');
     }
 
+    // เพิ่มฟังก์ชันควบคุมการเลื่อนซ้ายขวา
+    function moveSlide(step) {
+      if(totalSlides <= 1) return;
+      let newIndex = (currentSlide + step + totalSlides) % totalSlides;
+      goTo(newIndex);
+    }
+
     function goTo(idx) {
+      currentSlide = idx;
       document.getElementById('slider').style.transform = `translateX(-${idx*100}%)`;
       const ts = document.querySelectorAll('.t-img');
       ts.forEach((img, i) => img.classList.toggle('active', i === idx));
