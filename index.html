@@ -20,12 +20,12 @@
     header { position: fixed; top: 0; width: 100%; height: 55px; background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; }
     .logo { font-family: 'Playfair Display', serif; font-size: 0.9rem; color: var(--coco); text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
     
-    /* ไอคอน Admin แบบ Minimal (เพิ่มใหม่) */
+    /* ไอคอน Admin แบบ Minimal */
     .admin-link { text-decoration: none; width: 34px; height: 34px; background: #0F172A; color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 13px; transition: 0.2s; box-shadow: 0 4px 10px rgba(15,23,42,0.1); }
     .admin-link:active { transform: scale(0.9); }
 
     .hero { padding: 75px 15px 10px; text-align: center; }
-    .search-input { width: 100%; max-width: 550px; border: 1px solid var(--border); border-radius: 50px; padding: 10px 20px; font-size: 0.85rem; outline: none; box-shadow: 0 4px 15px rgba(0,0,0,0.02); margin-bottom: 10px; }
+    .search-input { width: 100%; max-width: 550px; border: 1px solid var(--border); border-radius: 50px; padding: 12px 20px; font-size: 0.85rem; outline: none; box-shadow: 0 4px 15px rgba(0,0,0,0.02); margin-bottom: 10px; }
 
     .filters-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; max-width: 550px; margin: 0 auto 15px; }
     .filter-select { background: #FFFFFF; border: 1px solid var(--border); border-radius: 8px; padding: 10px; color: var(--coco); font-size: 0.62rem; font-weight: 600; outline: none; text-align: center; text-transform: uppercase; }
@@ -40,7 +40,6 @@
     .p-name { font-size: 0.75rem; font-weight: 600; color: var(--coco); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .p-price { font-size: 0.9rem; font-weight: 700; color: var(--coco); }
     .p-detail { font-size: 0.58rem; color: #6B7A68; font-weight: 300; text-transform: uppercase; letter-spacing: 0.3px; }
-    .p-furnish { color: #CEA86C; font-weight: 400; }
     
     .status-tag { font-size: 0.45rem; padding: 1.5px 5px; border-radius: 3px; font-weight: 700; text-transform: uppercase; border: 1px solid; }
     .s-available { color: #2ECC8A; border-color: #2ECC8A; background: #EFFFF6; }
@@ -59,7 +58,8 @@
 
   <header>
     <a href="#" class="logo">THE COCO <b>HUA HIN 88</b></a>
-    <a href="gateway.html" class="admin-link" title="Admin Login">🔒</a> </header>
+    <a href="gateway.html" class="admin-link" title="Admin Login">🔒</a>
+  </header>
 
   <section class="hero">
     <input type="text" id="searchInput" class="search-input" placeholder="Search Plot...">
@@ -73,38 +73,53 @@
   <main class="prop-list" id="propGrid"></main>
 
   <script>
-    // ✅ ใช้ URL และตัวแปรดึงข้อมูลเดิมจาก Backup (ความเร็ว 100%)
+    // ✅ ใช้ URL ของ Script ที่ทำงานได้จริง
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
     let rawData = [];
 
     async function init() {
-      // 1. ดึง Cache ทันทีตามโค้ดเดิม
-      const cached = localStorage.getItem('coco_catalog_v56');
+      // 1. ดึง Cache ทันทีเพื่อให้เข้าหน้าเว็บได้เร็วกว่า 1 วินาที
+      const cached = localStorage.getItem('coco_catalog_v68');
       if (cached) {
         rawData = JSON.parse(cached);
         render(rawData);
         updateUI(rawData);
-        setTimeout(hideSplash, 600);
+        setTimeout(hideSplash, 400); 
       }
       
-      // 2. ดึงข้อมูลจริงโดยใช้ชื่อ Project แบบเดิมที่แม่นยำ
+      // 2. ดึงข้อมูลจริงจากระบบหลังบ้าน (V68 Fix)
       try {
-        const res = await fetch(`${SCRIPT_URL}?mode=getUnitList&projectName=CoCo Hua Hin 88`);
-        const json = await res.json();
-        rawData = json.data;
-        localStorage.setItem('coco_catalog_v56', JSON.stringify(rawData));
-        render(rawData);
-        updateUI(rawData);
-        hideSplash();
-      } catch (err) { console.error(err); hideSplash(); }
+        const res = await fetch(`${SCRIPT_URL}?mode=getUnitList&t=${Date.now()}`);
+        const data = await res.json();
+        
+        // ตรวจสอบว่าข้อมูลมาเป็น Array หรือไม่ (เพื่อแก้ปัญหาค้าง)
+        if (Array.isArray(data)) {
+          rawData = data;
+          localStorage.setItem('coco_catalog_v68', JSON.stringify(rawData));
+          render(rawData);
+          updateUI(rawData);
+          hideSplash();
+        } else {
+          throw new Error("Invalid data format");
+        }
+      } catch (err) { 
+        console.error(err); 
+        hideSplash(); // บังคับปิดหน้าโหลดแม้จะ Error เพื่อให้หน้าเว็บไม่ค้าง
+      }
     }
 
-    function hideSplash() { const s = document.getElementById('pageSplash'); if(s) { s.style.opacity = '0'; setTimeout(()=>s.style.display='none', 400); } }
+    function hideSplash() { 
+      const s = document.getElementById('pageSplash'); 
+      if(s && s.style.display !== 'none') { 
+        s.style.opacity = '0'; 
+        setTimeout(()=>s.style.display='none', 400); 
+      } 
+    }
 
     function render(items) {
       const grid = document.getElementById('propGrid');
       grid.innerHTML = items.map(p => {
-        let priceNum = parseFloat(String(p.Sale_Price).replace(/[^0-9.]/g, '')) || 0;
+        let priceNum = parseFloat(String(p.Sale_Price || p.Price).replace(/[^0-9.]/g, '')) || 0;
         let sClass = p.Status && p.Status.toLowerCase().includes('sold') ? 's-sold' : 's-available';
         return `
           <a href="details.html?id=${p.HP_ID}" class="card">
@@ -112,11 +127,11 @@
             <div class="card-info">
               <div class="info-row"><span class="p-name">Plot ${p.Plot || p.HP_ID}</span><span class="p-price">฿${priceNum.toLocaleString()}</span></div>
               <div class="info-row">
-                <div class="p-detail">${p.Bedrooms} Bed | ${p.Bathrooms} Bath | ${p.Living_Area_sq_m} m²</div>
+                <div class="p-detail">${p.Bedrooms || '0'} Bed | ${p.Bathrooms || '0'} Bath | ${p.Living_Area_sq_m || '0'} m²</div>
                 <span class="status-tag ${sClass}">${p.Status || 'Available'}</span>
               </div>
               <div class="info-row" style="margin-top:2px;">
-                <div class="p-detail p-furnish">${p.Furnishing || '-'}</div>
+                <div class="p-detail" style="color:#CEA86C; font-weight:400;">${p.Furnishing || '-'}</div>
                 <div style="font-size:0.52rem; color:#AAA;">${p.Zone || ''}</div>
               </div>
             </div>
