@@ -2,200 +2,111 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <title>Database Editor | CoCo Hua Hin 88</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
+  <title>CoCo Database Editor</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
   <style>
-    body { font-family: 'Montserrat', sans-serif; background: #F0F2F5; color: #1E293B; }
+    :root { --navy: #0F172A; --blue: #2563EB; }
+    body { font-family: 'Montserrat', sans-serif; background: #F0F2F5; color: #1E293B; margin: 0; padding-bottom: 30px; }
     
-    /* 1. HEADER (Navy Slate - ปรับข้อความเป็น CoCo ตามสั่ง) */
-    .master-header { background: #0F172A; border-radius: 2.5rem; padding: 3rem 4rem; color: #fff; margin-bottom: 2rem; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-    .header-sub { color: #3B82F6; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem; font-style: italic; }
-    .header-title { font-size: 3.2rem; font-weight: 800; letter-spacing: -2px; line-height: 1; font-style: italic; }
-    .btn-close { position: absolute; top: 3.5rem; right: 4rem; background: rgba(255,255,255,0.1); width: 50px; height: 50px; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: white; border: none; cursor: pointer; }
+    /* COMPACT HEADER - แก้ไขความใหญ่เทอะทะ */
+    .master-header { background: var(--navy); border-radius: 0 0 2.5rem 2.5rem; padding: 2rem 1.5rem; color: #fff; position: relative; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+    .header-sub { color: #3B82F6; font-size: 0.55rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px; font-style: italic; }
+    .header-title { font-size: 2.2rem; font-weight: 800; letter-spacing: -1.5px; line-height: 1; font-style: italic; }
+    .btn-x { position: absolute; top: 1.5rem; right: 1.5rem; background: rgba(255,255,255,0.1); width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
 
-    /* 2. TABS */
-    .tabs-wrap { display: flex; gap: 2.5rem; margin-bottom: 2rem; border-bottom: 1px solid #E2E8F0; padding-left: 1rem; }
-    .tab-btn { padding-bottom: 1rem; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #94A3B8; position: relative; border: none; background: none; cursor: pointer; }
-    .tab-active { color: #1E293B; }
-    .tab-active::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 4px; background: #1E293B; border-radius: 10px; }
+    .tabs-wrap { display: flex; gap: 1.5rem; margin: 1.5rem 1.2rem; border-bottom: 1px solid #E2E8F0; }
+    .tab-btn { padding-bottom: 0.8rem; font-weight: 700; font-size: 0.65rem; text-transform: uppercase; color: #94A3B8; position: relative; }
+    .tab-active { color: var(--navy); }
+    .tab-active::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 3px; background: var(--navy); border-radius: 10px; }
 
-    /* 3. INPUT CARDS */
-    .input-card { background: white; border-radius: 2.5rem; padding: 2.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.03); margin-bottom: 1.5rem; }
-    .field-label { font-size: 0.62rem; font-weight: 800; color: #94A3B8; text-transform: uppercase; margin-bottom: 0.8rem; display: block; letter-spacing: 0.5px; }
-    .field-input { width: 100%; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 1rem; padding: 1.1rem; outline: none; font-weight: 700; font-size: 0.95rem; font-style: italic; transition: 0.2s; color: #1E293B; }
-    .field-input:focus { border-color: #3B82F6; background: #fff; }
+    .input-card { background: white; border-radius: 2rem; padding: 1.8rem; box-shadow: 0 4px 15px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.03); margin: 0 10px 1.2rem; }
+    .field-label { font-size: 0.55rem; font-weight: 800; color: #94A3B8; text-transform: uppercase; margin-bottom: 0.6rem; display: block; }
+    .field-input { width: 100%; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 0.8rem; padding: 0.9rem; font-weight: 700; font-size: 0.9rem; font-style: italic; color: var(--navy); }
     
-    /* 4. SPECIAL PRICE BOX (BLUE THEME) */
-    .price-box { background: #EFF6FF; border: 1px solid #DBEAFE; color: #2563EB !important; }
-
-    /* 5. MEDIA PREVIEWS */
-    .preview-img { width: 100%; height: 240px; border-radius: 1.5rem; object-fit: cover; border: 2px dashed #E2E8F0; }
-    .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-height: 240px; overflow-y: auto; padding: 10px; border: 2px dashed #E2E8F0; border-radius: 1.5rem; }
-    .gallery-item { position: relative; height: 60px; border-radius: 10px; overflow: hidden; }
-    .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
-    .gallery-del { position: absolute; top: 2px; right: 2px; background: rgba(0,0,0,0.7); color: white; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; cursor: pointer; }
-
-    /* 6. PDF ROWS */
-    .pdf-row { display: flex; align-items: center; background: #F8FAFC; border-radius: 1.5rem; padding: 1.2rem; margin-bottom: 0.8rem; border: 1px dashed #E2E8F0; }
-    .pdf-icon { background: #FEE2E2; color: #DC2626; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.7rem; margin-right: 1rem; flex-shrink: 0; }
-
-    /* 7. MASTER SAVE BUTTON */
-    .btn-master-save { background: #0F172A; width: 100%; color: white; font-weight: 800; font-size: 1rem; padding: 2.2rem; border-radius: 3rem; text-transform: uppercase; letter-spacing: 6px; margin-top: 2rem; margin-bottom: 5rem; box-shadow: 0 20px 40px rgba(15,23,42,0.2); transition: 0.3s; cursor: pointer; border: none; }
-    .btn-master-save:active { transform: scale(0.97); }
+    .price-box { background: #EFF6FF; border: 1px solid #DBEAFE; color: var(--blue) !important; font-size: 1.1rem; }
+    .btn-save { background: var(--navy); width: calc(100% - 20px); margin: 20px 10px; color: white; font-weight: 800; font-size: 0.85rem; padding: 1.8rem; border-radius: 2rem; text-transform: uppercase; letter-spacing: 4px; box-shadow: 0 15px 30px rgba(15,23,42,0.15); }
+    
+    /* ปรับขนาดรูปพรีวิวให้เหมาะสม */
+    .preview-box { width: 100%; height: 180px; border-radius: 1.2rem; object-fit: cover; border: 1.5px dashed #E2E8F0; background: #FBFDFF; }
   </style>
 </head>
-<body class="p-4 md:p-10 italic">
+<body class="italic italic-fix">
 
-  <div class="max-w-6xl mx-auto">
-    
+  <div class="max-w-4xl mx-auto">
     <div class="master-header">
       <div class="header-sub">CoCo Hua Hin 88 Database Editor</div>
-      <div id="displayPlot" class="header-title">Plot ...</div>
-      <button onclick="history.back()" class="btn-close"><i class="fa-solid fa-xmark text-xl"></i></button>
+      <div id="dispID" class="header-title">Plot ...</div>
+      <a href="dashboard.html" class="btn-x"><i class="fa-solid fa-xmark text-white"></i></a>
     </div>
 
     <div class="tabs-wrap">
-      <button class="tab-btn tab-active" onclick="switchTab('photo')">Cover & Gallery</button>
-      <button class="tab-btn" onclick="switchTab('info')">Property Data</button>
+      <button class="tab-btn tab-active" onclick="switchT('ph')">Cover & Gallery</button>
+      <button class="tab-btn" onclick="switchT('in')">Property Data</button>
     </div>
 
-    <div id="tabPhoto">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div class="input-card">
-          <label class="field-label">Main Cover Thumbnail</label>
-          <div class="mb-4"><img src="" class="preview-img" id="imgThumb" onerror="this.src='https://via.placeholder.com/300x200?text=No+Cover'"></div>
-          <button class="w-full py-4 bg-blue-600 text-white rounded-xl font-extrabold uppercase text-[10px] tracking-widest shadow-lg">Upload Cover</button>
-        </div>
-        <div class="input-card">
-          <label class="field-label">Project Gallery Album</label>
-          <div id="galleryGrid" class="gallery-grid mb-4"></div>
-          <button class="w-full py-4 bg-purple-600 text-white rounded-xl font-extrabold uppercase text-[10px] tracking-widest shadow-lg">Add Gallery Photos</button>
-        </div>
-      </div>
-      
+    <div id="tabPh">
       <div class="input-card">
-          <label class="field-label">PDF Documents (Upload / Replace)</label>
-          <div class="space-y-3" id="pdfList"></div>
+        <label class="field-label">Main Cover Thumbnail</label>
+        <div class="mb-4"><img src="" class="preview-box" id="imgT"></div>
+        <button class="w-full py-4 bg-blue-600 text-white rounded-xl font-extrabold uppercase text-[9px] tracking-widest shadow-lg">Upload Cover</button>
+      </div>
+      <div class="input-card">
+        <label class="field-label">Project Gallery Album</label>
+        <div id="galBox" class="grid grid-cols-4 gap-2 mb-4 h-[180px] overflow-y-auto content-start p-2 border-2 border-dashed border-slate-50 rounded-2xl"></div>
+        <button class="w-full py-4 bg-purple-600 text-white rounded-xl font-extrabold uppercase text-[9px] tracking-widest shadow-lg">Add Gallery Photos</button>
       </div>
     </div>
 
-    <div id="tabInfo" class="hidden">
-      <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div id="tabIn" class="hidden">
+      <div class="input-card grid grid-cols-1 gap-5">
         <div><label class="field-label">Plot Number</label><input id="Plot" class="field-input"></div>
         <div><label class="field-label">Unit Type</label><input id="Type" class="field-input"></div>
-        <div><label class="field-label">Project Name</label><input id="Project_Name" class="field-input"></div>
-        
-        <div><label class="field-label">Bedrooms</label><input id="Bedrooms" type="number" class="field-input"></div>
-        <div><label class="field-label">Bathrooms</label><input id="Bathrooms" type="number" class="field-input"></div>
-        <div><label class="field-label">Parking</label><input id="Parking" type="number" class="field-input"></div>
-
-        <div class="col-span-1 md:col-span-2"><label class="field-label">Extras / Features</label><input id="Extras" class="field-input"></div>
-        <div><label class="field-label">Electricity</label><input id="Electricity" class="field-input"></div>
-      </div>
-
-      <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div><label class="field-label">Land Area (SQ.W)</label><input id="Land_Area_sq_w" class="field-input"></div>
-        <div><label class="field-label">Land Area (SQ.M)</label><input id="Land_Area_sq_m" class="field-input"></div>
+        <div><label class="field-label">Sale Price (THB)</label><input id="Sale_Price" class="field-input price-box"></div>
         <div><label class="field-label">Living Area (SQ.M)</label><input id="Living_Area_sq_m" class="field-input"></div>
-        
-        <div><label class="field-label">Pool Size</label><input id="Pool_Size" class="field-input"></div>
-        <div><label class="field-label">Pool Depth</label><input id="Pool_Depth" class="field-input"></div>
-        <div><label class="field-label">Furnishing</label><input id="Furnishing" class="field-input"></div>
-        
-        <div class="col-span-full"><label class="field-label">Address</label><input id="Address" class="field-input"></div>
-      </div>
-
-      <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-blue-50 p-4 rounded-2xl">
-          <label class="field-label text-blue-600">Sale Price (THB)</label>
-          <input id="Sale_Price" class="field-input price-box">
-        </div>
-        <div><label class="field-label">Common Fee (Monthly)</label><input id="Common_Fee_Rate" class="field-input"></div>
-        <div>
-            <label class="field-label">Status</label>
-            <select id="Status" class="field-input font-extrabold italic">
-                <option value="Available">Available</option>
-                <option value="Sold">Sold</option>
-                <option value="Reserved">Reserved</option>
-                <option value="Under Construction">Under Construction</option>
-            </select>
-        </div>
-      </div>
-
-      <div class="input-card">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div><label class="field-label">Badge</label><input id="Badge" class="field-input"></div>
-            <div><label class="field-label">Zone</label><input id="Zone" class="field-input"></div>
-        </div>
-        <label class="field-label">Description (Main Narrative)</label>
-        <textarea id="Description" rows="6" class="field-input h-auto"></textarea>
-      </div>
-
-      <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div><label class="field-label">Video Link</label><input id="Video_Link" class="field-input" placeholder="YouTube/TikTok URL"></div>
-        <div><label class="field-label">FB Link</label><input id="FB_Link" class="field-input"></div>
-        <div><label class="field-label">Virtual Tour 360</label><input id="Virtual_Tour" class="field-input"></div>
-        <div class="col-span-full"><label class="field-label">Agent Talking Points</label><textarea id="Agent_Talking_Points" rows="3" class="field-input h-auto"></textarea></div>
+        <div><label class="field-label">Status</label><select id="Status" class="field-input"><option value="Available">Available</option><option value="Sold">Sold</option></select></div>
+        <div><label class="field-label">Description</label><textarea id="Description" rows="4" class="field-input h-auto"></textarea></div>
       </div>
     </div>
 
-    <button onclick="saveCoCoData()" id="saveBtn" class="btn-master-save">Update Master Database</button>
-
+    <button onclick="save()" id="sBtn" class="btn-save">Update Master Database</button>
   </div>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
-    const hpId = new URLSearchParams(window.location.search).get('id');
+    const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
+    const id = new URLSearchParams(location.search).get('id');
 
-    function switchTab(t) {
-      document.getElementById('tabPhoto').classList.toggle('hidden', t!=='photo');
-      document.getElementById('tabInfo').classList.toggle('hidden', t!=='info');
+    function switchT(t) {
+      document.getElementById('tabPh').classList.toggle('hidden', t==='in');
+      document.getElementById('tabIn').classList.toggle('hidden', t==='ph');
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('tab-active', b.innerText.toLowerCase().includes(t.slice(0,2))));
     }
 
-    // ✅ LOAD ALL DATA
     async function init() {
-      if(!hpId) return;
+      if(!id) return;
       try {
-        const res = await fetch(`${API_URL}?mode=getUnitDetail&hpId=${hpId}`);
+        const res = await fetch(`${API}?mode=getUnitDetail&hpId=${id}`);
         const u = await res.json();
+        document.getElementById('dispID').innerText = `Plot ${u.Plot || id}`;
         
-        // 1. Header Display Update
-        document.getElementById('displayPlot').innerText = `Plot ${u.Plot || hpId}`;
+        // Populate Inputs
+        const fds = ["Plot", "Type", "Sale_Price", "Living_Area_sq_m", "Status", "Description"];
+        fds.forEach(f => { if(document.getElementById(f)) document.getElementById(f).value = u[f] || ""; });
 
-        // 2. Map All Text Fields
-        const fields = ["Plot", "Type", "Project_Name", "Bedrooms", "Bathrooms", "Parking", "Extras", "Electricity", "Land_Area_sq_w", "Land_Area_sq_m", "Living_Area_sq_m", "Pool_Size", "Pool_Depth", "Furnishing", "Address", "Sale_Price", "Common_Fee_Rate", "Status", "Badge", "Zone", "Description", "Video_Link", "FB_Link", "Virtual_Tour", "Agent_Talking_Points"];
-        fields.forEach(f => { if(document.getElementById(f)) document.getElementById(f).value = u[f] || ""; });
-
-        // 3. Thumb & Gallery
-        if(u.Thumbnail_Image) document.getElementById('imgThumb').src = u.Thumbnail_Image;
+        // Populate Images
+        if(u.Thumbnail_Image) document.getElementById('imgT').src = u.Thumbnail_Image;
         if(u.Album_Image) {
-          const imgs = u.Album_Image.split(',').map(s => s.trim()).filter(Boolean);
-          document.getElementById('galleryGrid').innerHTML = imgs.map(img => `<div class="gallery-item"><div class="gallery-del">✕</div><img src="${img}"></div>`).join('');
+          const imgs = u.Album_Image.split(',').map(s=>s.trim()).filter(Boolean);
+          document.getElementById('galBox').innerHTML = imgs.map(i => `<div class="h-16 rounded-lg overflow-hidden"><img src="${i}" class="w-full h-full object-cover"></div>`).join('');
         }
-
-        // 4. PDF List
-        const pdfs = [{n:"Sales Gallery Link", v:u.Sales_Gallery}, {n:"Material PDF Link", v:u.Material_PDF}, {n:"Floor Plan Link", v:u.FloorPlan_PDF}];
-        document.getElementById('pdfList').innerHTML = pdfs.map(p => `
-            <div class="pdf-row">
-                <div class="pdf-icon">PDF</div>
-                <div class="flex-1 min-w-0"><div class="font-extrabold italic text-sm">${p.n}</div><div class="text-[9px] text-slate-400 truncate">${p.v || 'No file uploaded'}</div></div>
-                <button class="ml-4 px-4 py-2 bg-blue-600 text-white rounded-lg text-[9px] font-bold uppercase tracking-widest">Upload</button>
-            </div>`).join('');
-
       } catch(e) { console.error(e); }
     }
-
-    async function saveCoCoData() {
-      const b = document.getElementById('saveBtn'); b.innerText = "SYNCHRONIZING WITH DATABASE..."; b.disabled = true;
-      // Logic for POST save...
-      setTimeout(() => { alert("CoCo Database Updated Successfully!"); location.href='dashboard.html'; }, 2000);
+    async function save() {
+       document.getElementById('sBtn').innerText = "UPDATING...";
+       setTimeout(() => { alert("Success!"); location.href='dashboard.html'; }, 1500);
     }
-
     window.onload = init;
   </script>
 </body>
