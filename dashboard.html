@@ -4,53 +4,45 @@
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Inventory | THE COCO</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; }
-    .header-box { background: #1E293B; border-radius: 3.5rem; padding: 2.5rem 4rem; color: #fff; margin: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
-    .table-box { background: #fff; border-radius: 3rem; margin: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.02); }
-    table { width: 100%; text-align: center; }
+    body { background: #F8FAFC; font-family: 'Montserrat', sans-serif; }
+    .m-header { background: #1E293B; border-radius: 3.5rem; padding: 2.5rem 4rem; color: #fff; margin: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+    .m-table { background: #fff; border-radius: 3rem; margin: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.02); }
+    table { width: 100%; text-align: center; border-collapse: collapse; }
     th { background: #1E293B; color: #fff; padding: 1.8rem; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px; }
     td { padding: 1.2rem; border-bottom: 1px solid #F1F5F9; font-size: 0.85rem; font-weight: 500; color: #475569; }
-    .dot-wrap { display: flex; justify-content: center; gap: 5px; background: #F1F5F9; padding: 5px 10px; border-radius: 20px; width: fit-content; margin: 0 auto; }
-    .dot { width: 8px; height: 8px; border-radius: 50%; background: #CBD5E1; }
-    .dot.green { background: #10B981; }
-    .vis-tag { background: #E0F2FE; color: #0369A1; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; }
+    .thumb { width: 45px; height: 60px; border-radius: 12px; object-fit: cover; }
+    .pill { background: #E0F2FE; color: #0369A1; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; }
   </style>
 </head>
 <body class="italic">
-  <div class="header-box">
-    <h1 class="text-3xl font-bold">CoCo Hua Hin 88</h1>
-    <a href="index.html" class="bg-white/10 p-4 rounded-2xl hover:bg-white/20 transition-all"><i class="fa-solid fa-house text-white text-xl"></i></a>
-  </div>
-  <div class="table-box">
+  <div class="m-header"><h1 class="text-3xl font-bold">CoCo Hua Hin 88</h1><a href="index.html" class="bg-white/10 p-4 rounded-2xl hover:bg-white/20 transition-all"><i class="fa-solid fa-house text-white"></i></a></div>
+  <div class="m-table">
     <table>
       <thead><tr><th class="text-left pl-12">Cover</th><th class="text-left">Unit ID</th><th class="text-left">Plot</th><th>Status</th><th>Visibility</th><th>Manage</th></tr></thead>
-      <tbody id="unitList">
-        <tr><td colspan="6" class="py-24 animate-pulse uppercase tracking-widest text-slate-300">🔄 Syncing Master Database...</td></tr>
-      </tbody>
+      <tbody id="unitList"><tr><td colspan="6" class="py-24 animate-pulse text-slate-300 font-bold uppercase tracking-widest">🔄 Syncing Master Database...</td></tr></tbody>
     </table>
   </div>
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
-    async function loadInventory() {
+    const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
+    async function load() {
       try {
-        const res = await fetch(`${API_URL}?mode=getUnitList`);
+        const res = await fetch(`${API}?mode=getUnitList`);
         const data = await res.json();
         document.getElementById('unitList').innerHTML = data.map(u => `
           <tr>
-            <td class="text-left pl-12"><img src="${u.Thumbnail_Image}" class="w-12 h-16 rounded-xl object-cover shadow-sm"></td>
-            <td class="text-left font-bold">${u.HP_ID}</td>
+            <td class="text-left pl-12"><img src="${u.Thumbnail_Image}" class="thumb"></td>
+            <td class="text-left font-bold text-[11px]">${u.HP_ID}</td>
             <td class="text-left font-extrabold text-xl text-slate-900">${u.Plot || '-'}</td>
-            <td><div class="dot-wrap"><div class="dot ${u.Status==='Available'?'green':''}"></div><div class="dot"></div></div></td>
-            <td><span class="vis-tag">${u.System_Status || 'Live'}</span></td>
+            <td><div class="flex justify-center gap-1 bg-slate-50 p-2 rounded-xl w-fit mx-auto"><div class="w-2 h-2 rounded-full ${u.Status==='Available'?'bg-green-500':'bg-slate-300'}"></div><div class="w-2 h-2 rounded-full bg-slate-300"></div></div></td>
+            <td><span class="pill">${u.System_Status || 'Live'}</span></td>
             <td><a href="edit.html?id=${u.HP_ID}" class="text-orange-500 text-xl hover:scale-125 transition-all inline-block"><i class="fa-regular fa-pen-to-square"></i></a></td>
           </tr>
         `).join('');
-      } catch(e) { document.getElementById('unitList').innerHTML = '<tr><td colspan="6" class="py-20 text-rose-500">Database connection error.</td></tr>'; }
+      } catch(e) { document.getElementById('unitList').innerHTML = '<tr><td colspan="6" class="py-20 text-rose-500">Database connection error. Check Script URL.</td></tr>'; }
     }
-    loadInventory();
+    load();
   </script>
 </body>
 </html>
