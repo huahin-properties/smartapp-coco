@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-  <title>The CoCo | Real-Time Inventory</title>
+  <title>The CoCo | Performance Edition</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet"/>
   <style>
-    :root { --coco: #2D5A27; --gold: #CEA86C; --white: #FFFFFF; --border: rgba(45, 90, 39, 0.08); }
+    :root { --coco: #2D5A27; --gold: #CEA86C; --border: rgba(45, 90, 39, 0.08); }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--white); color: #1A3017; font-family: 'Montserrat', sans-serif; -webkit-font-smoothing: antialiased; }
+    body { background: #fff; color: #1A3017; font-family: 'Montserrat', sans-serif; -webkit-font-smoothing: antialiased; }
 
     header { position: fixed; top: 0; width: 100%; height: 55px; background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; }
     .logo { font-family: 'Playfair Display', serif; font-size: 0.9rem; color: var(--coco); text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
@@ -16,13 +16,11 @@
     .hero { padding: 75px 15px 10px; text-align: center; }
     .search-input { width: 100%; max-width: 550px; border: 1px solid var(--border); border-radius: 50px; padding: 12px 20px; font-size: 0.85rem; outline: none; box-shadow: 0 4px 15px rgba(0,0,0,0.02); margin-bottom: 12px; }
 
-    /* FILTER GRID - กู้คืนความสมบูรณ์ */
     .filters-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; max-width: 550px; margin: 0 auto 15px; }
     .filter-select { background: #FFFFFF; border: 1px solid var(--border); border-radius: 8px; padding: 10px; color: var(--coco); font-size: 0.65rem; font-weight: 600; outline: none; text-align: center; text-transform: uppercase; }
 
     .prop-list { padding: 0 12px 40px; display: grid; grid-template-columns: 1fr; gap: 12px; }
     .card { background: #fff; border: 1px solid var(--border); border-radius: 12px; display: flex; height: 110px; overflow: hidden; text-decoration: none; color: inherit; transition: 0.2s; }
-    .card:active { transform: scale(0.98); }
     .card-img { width: 140px; background: #eee; flex-shrink: 0; }
     .card-img img { width: 100%; height: 100%; object-fit: cover; }
     
@@ -30,19 +28,18 @@
     .p-name { font-size: 0.75rem; font-weight: 600; color: var(--coco); }
     .p-price { font-size: 0.95rem; font-weight: 700; color: var(--coco); }
     
-    /* ข้อมูลส่วนเสริม - ใช้ฟอนต์ตัวบาง (Weight 300) ตามต้องการ */
     .p-finance { display: flex; flex-direction: column; gap: 1px; margin: 4px 0; }
-    .fin-item { font-size: 0.55rem; color: var(--text-muted); font-weight: 300; text-transform: uppercase; letter-spacing: 0.5px; }
+    .fin-item { font-size: 0.52rem; color: #6B7A68; font-weight: 300; text-transform: uppercase; letter-spacing: 0.5px; }
     .fin-val { font-weight: 400; color: var(--gold); }
     .p-specs { font-size: 0.6rem; color: #6B7A68; font-weight: 400; }
   </style>
 </head>
 <body>
 
-  <header><a href="#" class="logo">THE COCO <b>HUA HIN 88</b></a><div style="width:40px;"></div></header>
+  <header><a href="#" class="logo">THE COCO <b>HUA HIN</b></a><div style="width:40px;"></div></header>
 
   <section class="hero">
-    <input type="text" id="searchInput" class="search-input" placeholder="Search Plot or ID...">
+    <input type="text" id="searchInput" class="search-input" placeholder="Quick Search...">
     <div class="filters-grid">
       <select id="plotFilter" class="filter-select"><option value="">All Plots</option></select>
       <select id="sortFilter" class="filter-select"><option value="">Sorting</option><option value="low-high">Lowest Price</option><option value="high-low">Highest Price</option></select>
@@ -54,48 +51,43 @@
 
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
-    const CACHE_KEY = 'coco_index_v52';
     let rawData = [];
 
-    async function init() {
-      // 1. ดึง Cache ทันที (0ms)
-      const cached = localStorage.getItem(CACHE_KEY);
-      if (cached) {
-        rawData = JSON.parse(cached);
-        renderList(rawData);
-        updatePlotOptions(rawData);
-      }
+    // ฟังก์ชันคำนวณอัจฉริยะ (Smart Calculation)
+    function calculateData(p) {
+      const price = parseFloat(String(p.Sale_Price).replace(/[^0-9.]/g, '')) || 0;
+      const area = parseFloat(String(p.Living_Area_sq_m).replace(/[^0-9.]/g, '')) || 1; // กันหารศูนย์
+      const feeRate = parseFloat(String(p.Common_Fee_Rate).replace(/[^0-9.]/g, '')) || 0;
       
-      // 2. ดึงข้อมูลจริงเบื้องหลัง
+      return {
+        pricePerSq: Math.round(price / area),
+        yearlyFee: Math.round(feeRate * area * 12),
+        displayPrice: price
+      };
+    }
+
+    async function init() {
       try {
         const res = await fetch(`${SCRIPT_URL}?mode=getUnitList&projectName=CoCo Hua Hin 88`);
         const json = await res.json();
         rawData = json.data;
-        localStorage.setItem(CACHE_KEY, JSON.stringify(rawData));
         renderList(rawData);
-        updatePlotOptions(rawData);
+        updateFilters(rawData);
       } catch (err) { console.error(err); }
     }
 
     function renderList(items) {
       const grid = document.getElementById('propGrid');
       grid.innerHTML = items.map(p => {
-        let price = p.Listing_Type === 'Rent' ? p.Monthly_Rent : p.Sale_Price;
-        let priceNum = parseFloat(String(price).replace(/[^0-9.]/g, '')) || 0;
-        let priceSq = parseFloat(String(p.Price_sq_m).replace(/[^0-9.]/g, '')) || 0;
-        let feeRate = parseFloat(String(p.Common_Fee_Rate).replace(/[^0-9.]/g, '')) || 0;
-
+        const calc = calculateData(p); // คำนวณสดที่นี่
         return `
           <a href="details.html?id=${p.HP_ID}" class="card">
             <div class="card-img"><img src="${p.Thumbnail_Image}" loading="lazy"></div>
             <div class="card-info">
-              <div style="display:flex; justify-content:space-between; align-items:start;">
-                <span class="p-name">Plot ${p.Plot || 'N/A'}</span>
-                <span class="p-price">฿${priceNum.toLocaleString()}</span>
-              </div>
+              <div style="display:flex; justify-content:space-between;"><span class="p-name">Plot ${p.Plot}</span><span class="p-price">฿${calc.displayPrice.toLocaleString()}</span></div>
               <div class="p-finance">
-                <div class="fin-item">Price/m²: <span class="fin-val">฿${priceSq.toLocaleString()}</span></div>
-                <div class="fin-item">Common Fee: <span class="fin-val">฿${feeRate.toLocaleString()} / m²</span></div>
+                <div class="fin-item">Price/m²: <span class="fin-val">฿${calc.pricePerSq.toLocaleString()}</span></div>
+                <div class="fin-item">Common Fee: <span class="fin-val">฿${calc.yearlyFee.toLocaleString()} / Year</span></div>
               </div>
               <div class="p-specs">${p.Bedrooms} Bed | ${p.Bathrooms} Bath | ${p.Living_Area_sq_m} m²</div>
             </div>
@@ -103,28 +95,12 @@
       }).join('');
     }
 
-    function updatePlotOptions(items) {
+    function updateFilters(items) {
       const sel = document.getElementById('plotFilter');
       const plots = [...new Set(items.map(p => p.Plot).filter(Boolean))].sort();
-      sel.innerHTML = '<option value="">All Plots</option>';
       plots.forEach(p => { const opt = document.createElement('option'); opt.value = p; opt.textContent = `Plot ${p}`; sel.appendChild(opt); });
     }
 
-    function filterData() {
-      const q = document.getElementById('searchInput').value.toLowerCase();
-      const plot = document.getElementById('plotFilter').value;
-      const bed = document.getElementById('bedFilter').value;
-      const sort = document.getElementById('sortFilter').value;
-      let filtered = rawData.filter(p => (q==="" || `${p.HP_ID} ${p.Plot}`.toLowerCase().includes(q)) && (plot==="" || p.Plot===plot) && (bed==="" || parseInt(p.Bedrooms)===parseInt(bed)));
-      if(sort==="low-high") filtered.sort((a,b)=> (parseFloat(String(a.Sale_Price).replace(/[^0-9.]/g,''))||0) - (parseFloat(String(b.Sale_Price).replace(/[^0-9.]/g,''))||0));
-      else if(sort==="high-low") filtered.sort((a,b)=> (parseFloat(String(b.Sale_Price).replace(/[^0-9.]/g,''))||0) - (parseFloat(String(a.Sale_Price).replace(/[^0-9.]/g,''))||0));
-      renderList(filtered);
-    }
-
-    document.getElementById('searchInput').addEventListener('input', filterData);
-    document.getElementById('plotFilter').addEventListener('change', filterData);
-    document.getElementById('bedFilter').addEventListener('change', filterData);
-    document.getElementById('sortFilter').addEventListener('change', filterData);
     init();
   </script>
 </body>
