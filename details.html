@@ -4,91 +4,58 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
   <title>Unit Details | The CoCo Hua Hin 88</title>
-  
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@200;300;400;500&family=Montserrat:wght@200;300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
-  
   <style>
-    :root {
-      --coco-green: #2D5A27; --white: #FFFFFF; --text-main: #1A3017; 
-      --text-muted: #6B7A68; --border: rgba(45, 90, 39, 0.08);
-    }
+    :root { --coco-green: #2D5A27; --white: #FFFFFF; --text-main: #1A3017; --text-muted: #6B7A68; --border: rgba(45, 90, 39, 0.08); }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background-color: var(--white); color: var(--text-main); font-family: 'Montserrat', 'Sarabun', sans-serif; -webkit-font-smoothing: antialiased; }
 
-    /* =========================================
-       NEW: LUXURY SPLASH SCREEN (จุดที่ 1 & 2)
-    ========================================= */
-    #pageSplash {
-      position: fixed; inset: 0; background: var(--white); 
-      display: flex; flex-direction: column; align-items: center; justify-content: center; 
-      z-index: 10000; transition: opacity 0.6s ease-out, visibility 0.6s;
-    }
-    .leaf-anim { font-size: 55px; display: inline-block; animation: leafSwing 1.5s ease-in-out infinite alternate; margin-bottom: 20px; }
+    /* SPLASH SCREEN (จุดที่ 1 & 2) */
+    #pageSplash { position: fixed; inset: 0; background: var(--white); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.6s ease-out; }
+    .leaf-anim { font-size: 55px; animation: leafSwing 1.5s ease-in-out infinite alternate; margin-bottom: 20px; }
     @keyframes leafSwing { from { transform: rotate(-10deg); } to { transform: rotate(10deg); } }
-    
-    .splash-welcome { color: var(--coco-green); font-size: 0.65rem; font-weight: 300; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 8px; opacity: 0.8; text-align: center; }
     .splash-brand { color: var(--coco-green); font-family: 'Playfair Display', serif; font-size: 1.2rem; letter-spacing: 1.5px; text-align: center; font-weight: 700; }
 
-    /* Header */
     header { position: fixed; top: 0; width: 100%; height: 55px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid var(--border); }
-    .back-btn { text-decoration: none; color: var(--coco-green); font-weight: 300; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; }
+    .back-btn { text-decoration: none; color: var(--coco-green); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; }
     .logo-small { font-family: 'Playfair Display', serif; color: var(--coco-green); font-size: 0.9rem; font-weight: 700; }
 
-    /* =========================================
-       IMAGE GALLERY SLIDER (จุดที่ 3)
-    ========================================= */
+    /* GALLERY SLIDER (จุดที่ 3) */
     .gallery-container { width: 100%; height: 50vh; background: #f8f8f8; position: relative; overflow: hidden; margin-top: 55px; }
     .slider { display: flex; transition: transform 0.4s ease-out; height: 100%; }
     .slider img { width: 100%; height: 100%; object-fit: cover; flex-shrink: 0; }
-    
-    /* ปุ่มลูกศรซ้าย-ขวา */
-    .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.4); border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--coco-green); font-size: 1.2rem; z-index: 10; backdrop-filter: blur(5px); }
+    .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.4); border: none; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--coco-green); z-index: 10; backdrop-filter: blur(5px); }
     .prev { left: 10px; } .next { right: 10px; }
-    
     .dots { position: absolute; bottom: 15px; width: 100%; display: flex; justify-content: center; gap: 6px; }
     .dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.5); }
     .dot.active { background: #fff; width: 12px; border-radius: 10px; }
 
-    /* Content */
     .content { padding: 20px 15px 100px; max-width: 800px; margin: 0 auto; }
-    .top-info { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
-    .plot-id { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--coco-green); }
-    .price-tag { font-family: 'Montserrat', sans-serif; font-size: 1.2rem; font-weight: 500; color: var(--coco-green); }
-
-    .tag-row { display: flex; gap: 8px; margin-bottom: 20px; align-items: center; }
-    .status-badge { padding: 4px 10px; border-radius: 2px; font-size: 0.58rem; font-weight: 300; border: 1px solid; text-transform: uppercase; letter-spacing: 1.5px; }
-    .s-available { color: #2ECC8A; border-color: #2ECC8A; }
-    .s-off-plan { color: #CEA86C; border-color: #CEA86C; }
+    .plot-id { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--coco-green); margin-bottom: 5px; }
+    .price-tag { font-family: 'Montserrat', sans-serif; font-size: 1.2rem; font-weight: 500; color: var(--coco-green); margin-bottom: 15px; }
 
     .specs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; background: #f9fbf9; padding: 15px; border-radius: 2px; margin-bottom: 25px; border: 1px solid var(--border); }
     .spec-item { text-align: center; }
     .spec-val { font-size: 1.05rem; font-weight: 600; color: var(--coco-green); display: block; }
-    .spec-label { font-size: 0.52rem; color: var(--text-muted); text-transform: uppercase; font-weight: 400; letter-spacing: 1px; margin-top: 2px; }
+    .spec-label { font-size: 0.52rem; color: var(--text-muted); text-transform: uppercase; font-weight: 400; letter-spacing: 1px; }
 
-    .section-title { font-size: 0.68rem; font-weight: 600; color: var(--coco-green); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; border-left: 2px solid var(--coco-green); padding-left: 10px; }
-    .desc-text { font-size: 0.88rem; line-height: 1.8; color: var(--text-main); font-weight: 300; margin-bottom: 25px; white-space: pre-line; }
+    /* NEW: MAP SECTION */
+    .section-title { font-size: 0.68rem; font-weight: 600; color: var(--coco-green); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; border-left: 2px solid var(--coco-green); padding-left: 10px; }
+    .map-box { width: 100%; height: 250px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 30px; }
+    #mapFrame { width: 100%; height: 100%; border: none; }
 
     .footer-action { position: fixed; bottom: 0; width: 100%; background: #fff; padding: 12px 15px; border-top: 1px solid var(--border); z-index: 1000; }
-    .btn-main-chat { 
-      background: var(--coco-green); color: #fff; text-decoration: none; padding: 14px; border-radius: 2px; 
-      display: flex; justify-content: center; align-items: center; gap: 10px;
-      font-weight: 300; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; 
-    }
+    .btn-main-chat { background: var(--coco-green); color: #fff; text-decoration: none; padding: 14px; border-radius: 2px; display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 300; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; }
   </style>
 </head>
 <body>
 
   <div id="pageSplash">
     <div class="leaf-anim">🌿</div>
-    <div class="splash-welcome">PRIVATE COLLECTION</div>
     <div class="splash-brand">THE COCO HUA HIN 88</div>
   </div>
 
-  <header>
-    <a href="index.html" class="back-btn">✕ Close</a>
-    <div class="logo-small">THE COCO HUA HIN 88</div>
-    <div style="width:40px;"></div>
-  </header>
+  <header><a href="index.html" class="back-btn">✕ Close</a><div class="logo-small">THE COCO HUA HIN 88</div><div style="width:40px;"></div></header>
 
   <div class="gallery-container">
     <div class="slider" id="slider"></div>
@@ -98,15 +65,22 @@
   </div>
 
   <main class="content">
-    <div class="top-info"><div><h1 class="plot-id" id="plotT">Plot...</h1></div><div class="price-tag" id="priceT">฿0</div></div>
-    <div class="tag-row"><div id="statusB" class="status-badge">Available</div><div id="furnishT" style="font-size:0.62rem; font-weight:300; color:var(--text-muted); letter-spacing:0.5px;">Furnishing</div></div>
+    <h1 class="plot-id" id="plotT">Plot...</h1>
+    <div class="price-tag" id="priceT">฿0</div>
+
     <div class="specs-grid">
       <div class="spec-item"><span class="spec-val" id="sBed">0</span><span class="spec-label">Bedrooms</span></div>
       <div class="spec-item"><span class="spec-val" id="sBath">0</span><span class="spec-label">Bathrooms</span></div>
       <div class="spec-item"><span class="spec-val" id="sLand">0</span><span class="spec-label">Sq.m Land</span></div>
     </div>
-    <h2 class="section-title">Property Narrative</h2><p class="desc-text" id="descT">An exclusive luxury opportunity within The CoCo Hua Hin 88.</p>
-    <h2 class="section-title">Location</h2><p class="desc-text" id="locT" style="font-weight:400;">Hua Hin, Thailand</p>
+
+    <h2 class="section-title">Property Narrative</h2>
+    <p style="font-size:0.88rem; line-height:1.8; color:var(--text-main); font-weight:300; margin-bottom:25px; white-space:pre-line;" id="descT">Loading...</p>
+
+    <h2 class="section-title">Location Map</h2>
+    <div class="map-box" id="mapBox" style="display:none;">
+      <iframe id="mapFrame" loading="lazy" allowfullscreen src=""></iframe>
+    </div>
   </main>
 
   <div class="footer-action"><a href="https://line.me/R/ti/p/@qap7218t" class="btn-main-chat">💬 Chat with Concierge</a></div>
@@ -114,8 +88,7 @@
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
     const hpId = new URLSearchParams(window.location.search).get('id');
-    let currentSlide = 0;
-    let totalSlides = 0;
+    let currentSlide = 0, totalSlides = 0;
 
     async function loadDetail() {
       if(!hpId) return;
@@ -124,38 +97,33 @@
         const json = await res.json();
         if(json.ok) {
           renderUI(json.data);
-          // จุดที่ 2: ปิดหน้า Splash เมื่อข้อมูลและรูปพร้อมแล้ว
-          setTimeout(hideSplash, 600);
+          setTimeout(() => { document.getElementById('pageSplash').style.opacity = '0'; setTimeout(() => document.getElementById('pageSplash').style.display = 'none', 600); }, 600);
         }
       } catch(e) { console.error(e); }
-    }
-
-    function hideSplash() {
-      const s = document.getElementById('pageSplash');
-      s.style.opacity = '0';
-      setTimeout(() => { s.style.display = 'none'; }, 600);
     }
 
     function renderUI(u) {
       document.getElementById('plotT').textContent = `Plot ${u.Plot || u.HP_ID}`;
       let p = u.Listing_Type === 'Rent' ? u.Monthly_Rent : u.Sale_Price;
       document.getElementById('priceT').textContent = `฿${(parseFloat(String(p).replace(/[^0-9.]/g,''))||0).toLocaleString()}${u.Listing_Type==='Rent'?'/mo':''}`;
-      document.getElementById('statusB').textContent = u.Status || 'Available';
-      document.getElementById('statusB').className = `status-badge ${String(u.Status).toLowerCase().includes('off') ? 's-off-plan' : 's-available'}`;
-      document.getElementById('furnishT').textContent = u.Furnishing || '-';
       document.getElementById('sBed').textContent = u.Bedrooms || '0';
       document.getElementById('sBath').textContent = u.Bathrooms || '0';
       document.getElementById('sLand').textContent = u.Land_Size || '-';
-      document.getElementById('descT').textContent = u.Description || 'Exclusive residence within The CoCo Hua Hin 88. Contact sales for private viewing.';
-      document.getElementById('locT').textContent = `${(u.Zone||"").replace("โซน","")} | ${(u.District||"").replace("อำเภอ","")}`;
+      document.getElementById('descT').textContent = u.Description || '-';
 
-      const s = document.getElementById('slider');
-      const d = document.getElementById('dots');
-      const imgs = u.__album || [u.Thumbnail_Image];
+      // จัดการระบบรูปภาพ
+      const s = document.getElementById('slider'), d = document.getElementById('dots'), imgs = u.__album || [u.Thumbnail_Image];
       totalSlides = imgs.length;
-      
       s.innerHTML = imgs.map(img => `<img src="${img}">`).join('');
       d.innerHTML = imgs.map((_, i) => `<div class="dot ${i===0?'active':''}"></div>`).join('');
+
+      // จัดการพิกัดและแผนที่ (Coordinates)
+      if (u.Coordinates) {
+        const coords = u.Coordinates.trim();
+        document.getElementById('mapBox').style.display = 'block';
+        // ใช้ Google Maps Embed API แบบไม่ต้องใช้ Key สำหรับโหมดดูพิกัด
+        document.getElementById('mapFrame').src = `https://maps.google.com/maps?q=${coords}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+      }
     }
 
     function moveSlide(step) {
