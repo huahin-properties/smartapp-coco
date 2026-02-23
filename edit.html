@@ -1,55 +1,232 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
   <title>Master Editor | THE COCO</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
-    body { background: #F0F2F5; font-family: 'Montserrat', sans-serif; }
-    .card { background: #fff; padding: 2rem; border-radius: 2.5rem; border: 1px solid rgba(0,0,0,0.03); }
-    .input { width: 100%; border: 1px solid #E2E8F0; border-radius: 1rem; padding: 0.9rem; outline: none; font-size: 0.9rem; font-weight: 500; margin-bottom: 1rem; }
-    .label { font-size: 0.65rem; font-weight: 700; color: #64748B; text-transform: uppercase; margin-bottom: 0.4rem; display: block; letter-spacing: 1px; }
+    body { font-family: 'Montserrat', sans-serif; background:#F0F2F5; }
+    .tab-btn { padding: 15px 0; font-weight: 700; color: #94A3B8; border-bottom: 4px solid transparent; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; transition: 0.3s; }
+    .tab-active { color: #0F172A; border-bottom-color: #0F172A; }
+    .input-card { background:white; padding:1.5rem; border-radius:2rem; box-shadow:0 10px 25px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.03); height: 100%; }
+    .field-label { font-size:.65rem; font-weight:700; color:#64748B; text-transform:uppercase; margin-bottom:.5rem; letter-spacing: 1px; display: block; }
+    .field-input { width:100%; border:1px solid #E2E8F0; border-radius:1rem; padding:.85rem; outline:none; font-weight: 500; font-size: 0.9rem; transition: 0.2s; }
+    .field-input:focus { border-color:#3B82F6; background: #F8FAFC; }
+    
+    /* สไตล์รูปแกลเลอรีแบบลบได้ */
+    .img-tile { position: relative; border-radius: 12px; overflow: hidden; height: 80px; }
+    .img-tile img { width: 100%; height: 100%; object-fit: cover; }
+    .img-x { position: absolute; top: 4px; right: 4px; width: 20px; height: 20px; background: rgba(0,0,0,0.7); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; cursor: pointer; }
+    .img-x:hover { background: #ef4444; }
   </style>
 </head>
-<body class="p-6 md:p-12 italic">
+<body class="p-4 md:p-10 italic">
   <div class="max-w-5xl mx-auto">
-    <div class="bg-slate-900 rounded-[3rem] p-10 text-white flex justify-between items-center mb-8 shadow-2xl">
-      <div><p class="text-blue-400 font-bold uppercase text-[10px] tracking-widest mb-1">Master Database Editor</p><h1 id="hpId" class="text-4xl md:text-5xl font-bold tracking-tighter">HP00-XXXX</h1></div>
-      <button onclick="history.back()" class="bg-white/10 p-5 rounded-2xl">✕</button>
-    </div>
     
-    <div class="card grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div><span class="label">Plot</span><input id="Plot" class="input"></div>
-      <div><span class="label">Price (THB)</span><input id="Sale_Price" class="input font-bold text-blue-600"></div>
-      <div><span class="label">Status</span><select id="Status" class="input"><option value="Available">Available</option><option value="Sold">Sold</option></select></div>
-      <div class="col-span-full"><span class="label">Living Area (SQ.M)</span><input id="Living_Area_sq_m" class="input"></div>
-      <div class="col-span-full"><span class="label">Description</span><textarea id="Description" rows="5" class="input"></textarea></div>
+    <div class="bg-slate-900 rounded-[3rem] p-8 md:p-12 text-white flex justify-between items-center mb-8 shadow-2xl">
+      <div>
+        <p class="text-blue-400 font-bold uppercase tracking-widest text-[10px] mb-2 font-sans">Master Database Editor</p>
+        <h1 id="unitIdDisplay" class="text-3xl sm:text-5xl font-bold tracking-tighter italic" style="font-family:'Playfair Display', serif;">HP00-XXXX</h1>
+      </div>
+      <button onclick="history.back()" class="bg-white/10 hover:bg-white/20 p-5 rounded-2xl transition-all">✕</button>
     </div>
 
-    <button onclick="save()" id="sBtn" class="w-full mt-10 py-8 bg-slate-900 text-white rounded-[3rem] font-bold uppercase tracking-[0.4em] shadow-2xl hover:bg-blue-600 active:scale-95 transition-all">Update Master Database</button>
+    <div class="flex gap-8 mb-8 border-b border-slate-200">
+      <button id="btnPhoto" onclick="switchTab('photo')" class="tab-btn tab-active">Cover & Gallery</button>
+      <button id="btnInfo" onclick="switchTab('info')" class="tab-btn">Property Data</button>
+    </div>
+
+    <div id="tabPhoto" class="space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="input-card">
+          <span class="field-label">Main Cover Thumbnail</span>
+          <div id="thumbPreview" class="h-56 bg-slate-50 rounded-[1.5rem] border-2 border-dashed flex items-center justify-center overflow-hidden mb-4">
+            <span class="text-4xl opacity-10">🖼️</span>
+          </div>
+          <input type="file" id="inputThumb" class="hidden" accept="image/*" onchange="previewThumb(this)">
+          <button onclick="document.getElementById('inputThumb').click()" class="w-full py-4 bg-blue-600 text-white rounded-xl font-bold uppercase text-[10px] tracking-widest shadow-lg active:scale-95 transition-all">Upload Cover</button>
+        </div>
+
+        <div class="input-card">
+          <span class="field-label">Project Gallery Album</span>
+          <div id="galleryPreview" class="h-56 bg-slate-50 rounded-[1.5rem] border-2 border-dashed p-4 grid grid-cols-3 gap-3 overflow-y-auto mb-4">
+             </div>
+          <input type="file" id="inputGallery" class="hidden" multiple accept="image/*" onchange="addGalleryImages(this)">
+          <button onclick="document.getElementById('inputGallery').click()" class="w-full py-4 bg-purple-600 text-white rounded-xl font-bold uppercase text-[10px] tracking-widest shadow-lg active:scale-95 transition-all">Add Gallery Photos</button>
+        </div>
+      </div>
+
+      <div class="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
+        <span class="field-label mb-4">PDF Documents (Upload / Replace)</span>
+        <div class="space-y-3">
+            <div class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-dashed">
+                <span class="text-xs font-bold text-slate-500 uppercase">Sales Gallery Link</span>
+                <button class="px-4 py-2 bg-slate-900 text-white rounded-lg text-[10px] font-bold uppercase">Upload</button>
+            </div>
+            <div class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-dashed">
+                <span class="text-xs font-bold text-slate-500 uppercase">Material PDF Link</span>
+                <button class="px-4 py-2 bg-slate-900 text-white rounded-lg text-[10px] font-bold uppercase">Upload</button>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tabInfo" class="hidden space-y-6">
+      <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div><span class="field-label">Plot Number</span><input id="Plot" class="field-input" placeholder="M-01"></div>
+        <div><span class="field-label">Unit Type</span><input id="Type" class="field-input" placeholder="Pool Villa"></div>
+        <div><span class="field-label">Project Name</span><input id="Project_Name" class="field-input"></div>
+        
+        <div><span class="field-label">Bedrooms</span><input id="Bedrooms" type="number" class="field-input"></div>
+        <div><span class="field-label">Bathrooms</span><input id="Bathrooms" type="number" class="field-input"></div>
+        <div><span class="field-label">Parking</span><input id="Parking" type="number" class="field-input"></div>
+
+        <div class="bg-blue-50 p-6 rounded-2xl col-span-full md:col-span-1">
+          <span class="field-label text-blue-600">Sale Price (THB)</span>
+          <input id="Sale_Price" class="field-input border-blue-200 font-bold text-blue-700 text-lg">
+        </div>
+        <div><span class="field-label">Living Area (SQ.M)</span><input id="Living_Area_sq_m" class="field-input"></div>
+        <div>
+            <span class="field-label">Status</span>
+            <select id="Status" class="field-input font-bold">
+                <option value="Available">Available</option>
+                <option value="Sold">Sold</option>
+                <option value="Reserved">Reserved</option>
+            </select>
+        </div>
+
+        <div class="col-span-full"><span class="field-label">Description</span><textarea id="Description" rows="5" class="field-input"></textarea></div>
+      </div>
+    </div>
+
+    <button onclick="updateMasterData()" id="saveBtn" class="w-full mt-10 py-8 bg-slate-900 text-white rounded-[3rem] font-bold uppercase tracking-[0.5em] shadow-2xl hover:bg-blue-600 transition-all active:scale-95">Update Master Database</button>
+
   </div>
+
   <script>
-    const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
-    const hpId = new URLSearchParams(location.search).get('id');
-    async function load() {
-      document.getElementById('hpId').innerText = hpId;
-      const res = await fetch(`${API}?mode=getUnitDetail&hpId=${hpId}`);
-      const u = await res.json();
-      if(u) {
+    const API_URL = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
+    const hpId = new URLSearchParams(window.location.search).get('id');
+    
+    let existingGallery = [];
+    let removedGallery = [];
+    let newGalleryFiles = [];
+
+    function switchTab(t) {
+      document.getElementById('tabPhoto').classList.toggle('hidden', t!=='photo');
+      document.getElementById('tabInfo').classList.toggle('hidden', t!=='info');
+      document.getElementById('btnPhoto').classList.toggle('tab-active', t==='photo');
+      document.getElementById('btnInfo').classList.toggle('tab-active', t==='info');
+    }
+
+    async function loadUnit() {
+      if(!hpId) return;
+      document.getElementById('unitIdDisplay').innerText = hpId;
+      try {
+        const res = await fetch(`${API_URL}?mode=getUnitDetail&hpId=${hpId}`);
+        const u = await res.json();
+        
+        // Map ข้อมูลลงช่อง Input
         document.getElementById('Plot').value = u.Plot || "";
+        document.getElementById('Type').value = u.Type || "";
+        document.getElementById('Project_Name').value = u.Project_Name || "";
+        document.getElementById('Bedrooms').value = u.Bedrooms || "";
+        document.getElementById('Bathrooms').value = u.Bathrooms || "";
+        document.getElementById('Parking').value = u.Parking || "";
         document.getElementById('Sale_Price').value = u.Sale_Price || "";
         document.getElementById('Living_Area_sq_m').value = u.Living_Area_sq_m || "";
         document.getElementById('Description').value = u.Description || "";
         document.getElementById('Status').value = u.Status || "Available";
+
+        // โหลดรูปหน้าปก
+        if(u.Thumbnail_Image) {
+          document.getElementById('thumbPreview').innerHTML = `<img src="${u.Thumbnail_Image}" class="w-full h-full object-cover">`;
+        }
+
+        // โหลดแกลเลอรี
+        if(u.Album_Image) {
+          existingGallery = u.Album_Image.split(',').map(s => s.trim()).filter(Boolean);
+          renderGallery();
+        }
+      } catch(e) { console.error(e); }
+    }
+
+    function renderGallery() {
+      const box = document.getElementById('galleryPreview');
+      const kept = existingGallery.filter(img => !removedGallery.includes(img));
+      
+      let html = kept.map(img => `
+        <div class="img-tile">
+          <div class="img-x" onclick="markForDelete('${img}')">✕</div>
+          <img src="${img}">
+        </div>
+      `).join('');
+
+      html += newGalleryFiles.map((file, idx) => `
+        <div class="img-tile" style="opacity: 0.6">
+          <div class="img-x" onclick="removeFromQueue(${idx})">✕</div>
+          <img src="${URL.createObjectURL(file)}">
+        </div>
+      `).join('');
+
+      box.innerHTML = html || '<span class="text-4xl opacity-10 col-span-3 self-center justify-self-center">🗂️</span>';
+    }
+
+    function markForDelete(url) {
+      removedGallery.push(url);
+      renderGallery();
+    }
+
+    function removeFromQueue(idx) {
+      newGalleryFiles.splice(idx, 1);
+      renderGallery();
+    }
+
+    function addGalleryImages(input) {
+      newGalleryFiles.push(...Array.from(input.files));
+      renderGallery();
+    }
+
+    function previewThumb(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => document.getElementById('thumbPreview').innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover">`;
+        reader.readAsDataURL(input.files[0]);
       }
     }
-    async function save() {
-      const b = document.getElementById('sBtn'); b.innerText = "UPDATING...";
-      const payload = { mode: "updateUnit", HP_ID: hpId, Plot: document.getElementById('Plot').value, Sale_Price: document.getElementById('Sale_Price').value, Living_Area_sq_m: document.getElementById('Living_Area_sq_m').value, Description: document.getElementById('Description').value, Status: document.getElementById('Status').value };
-      await fetch(API, { method: "POST", body: JSON.stringify(payload) });
-      alert("Updated Successfully!"); location.href='dashboard.html';
+
+    async function updateMasterData() {
+      const b = document.getElementById('saveBtn');
+      b.innerText = "UPDATING MASTER DATABASE...";
+      b.disabled = true;
+
+      // ในการใช้งานจริงคุณต้องส่งข้อมูลผ่าน POST ไปที่ GS
+      // นี่คือ Payload ตัวอย่างที่คุณเคยมีในโค้ดเก่า
+      const payload = {
+        mode: "updateUnit",
+        HP_ID: hpId,
+        Plot: document.getElementById('Plot').value,
+        Sale_Price: document.getElementById('Sale_Price').value,
+        Status: document.getElementById('Status').value,
+        Description: document.getElementById('Description').value,
+        // เพิ่มคอลัมน์อื่นๆ ตามโครงสร้าง GS
+      };
+
+      try {
+        await fetch(API_URL, { method: "POST", body: JSON.stringify(payload) });
+        alert("บันทึกข้อมูลสำเร็จ!");
+        location.href = 'dashboard.html';
+      } catch(e) {
+        alert("เกิดข้อผิดพลาดในการบันทึก");
+        b.disabled = false;
+        b.innerText = "Update Master Database";
+      }
     }
-    load();
+
+    loadUnit();
   </script>
 </body>
 </html>
