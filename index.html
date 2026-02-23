@@ -3,155 +3,97 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-  <title>The CoCo Hua Hin 88 | Instant Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+  <title>The CoCo | Ultra-Fast Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet"/>
   <style>
-    :root { --coco-green: #2D5A27; --white: #FFFFFF; --text-main: #1A3017; --text-muted: #6B7A68; --border: rgba(45, 90, 39, 0.08); --row-h: 85px; --thumb-w: 110px; }
+    :root { --coco: #2D5A27; --border: rgba(45, 90, 39, 0.08); }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background-color: var(--white); color: var(--text-main); font-family: 'Montserrat', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Montserrat', sans-serif; background: #fff; -webkit-font-smoothing: antialiased; }
 
-    #pageSplash { position: fixed; inset: 0; background: var(--white); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.3s ease-out; pointer-events: none; }
-    .leaf-anim { font-size: 50px; animation: leafSwing 1.5s ease-in-out infinite alternate; margin-bottom: 20px; }
-    @keyframes leafSwing { from { transform: rotate(-10deg); } to { transform: rotate(10deg); } }
-    .splash-brand { color: var(--coco-green); font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; }
+    /* SKELETON ANIMATION (ระบบใหม่ - รู้สึกเร็วขึ้น) */
+    .skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%); background-size: 200% 100%; animation: loading 1.5s infinite; }
+    @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-    header { position: fixed; top: 0; width: 100%; height: 55px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid var(--border); }
-    .logo { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700; color: var(--coco-green); text-decoration: none; text-transform: uppercase; }
-    .btn-chat { background: var(--coco-green); color: #fff; padding: 6px 14px; border-radius: 50px; font-size: 0.68rem; font-weight: 300; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
+    header { position: fixed; top: 0; width: 100%; height: 55px; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; }
+    .logo { font-family: 'Playfair Display', serif; font-size: 0.9rem; color: var(--coco); text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
 
-    .hero { padding: 70px 15px 10px; text-align: center; }
-    .search-input { width: 100%; max-width: 500px; background: #FFFFFF; border: 1px solid var(--border); border-radius: 50px; padding: 10px 20px; color: #000; font-size: 0.82rem; outline: none; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
-    
-    .filters-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; max-width: 500px; margin: 10px auto; }
-    .filter-select { background: #FFFFFF; border: 1px solid var(--border); border-radius: 6px; padding: 8px; color: var(--coco-green); font-size: 0.65rem; font-weight: 600; outline: none; text-align: center; text-transform: uppercase; }
+    .hero { padding: 75px 15px 10px; text-align: center; }
+    .search-input { width: 100%; max-width: 500px; border: 1px solid var(--border); border-radius: 50px; padding: 12px 20px; font-size: 0.85rem; outline: none; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
 
-    .prop-list { padding: 0 12px 40px; display: grid; grid-template-columns: 1fr; gap: 10px; }
-    .card { background: #fff; border: 1px solid var(--border); border-radius: 8px; display: flex; height: var(--row-h); overflow: hidden; text-decoration: none; color: inherit; transition: 0.2s; }
-    .card-img { width: var(--thumb-w); flex-shrink: 0; background: #f0f0f0; }
+    .prop-list { padding: 15px 12px 40px; display: grid; grid-template-columns: 1fr; gap: 12px; }
+    .card { background: #fff; border: 1px solid var(--border); border-radius: 12px; display: flex; height: 90px; overflow: hidden; text-decoration: none; color: inherit; }
+    .card-img { width: 120px; background: #eee; flex-shrink: 0; }
     .card-img img { width: 100%; height: 100%; object-fit: cover; }
-    
-    .card-info { flex: 1; padding: 4px 12px; display: flex; flex-direction: column; justify-content: center; min-width: 0; gap: 1px; }
-    .info-row { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 5px; }
-    .prop-name { font-size: 0.78rem; font-weight: 600; color: var(--coco-green); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .price-new { font-size: 0.88rem; font-weight: 600; color: var(--coco-green); }
-    .specs { font-size: 0.6rem; color: var(--text-muted); font-weight: 400; }
-    .status-tag { font-size: 0.45rem; padding: 2px 5px; border-radius: 3px; font-weight: 700; text-transform: uppercase; border: 1px solid; }
-    .s-available { color: #2ECC8A; border-color: #2ECC8A; background: #EFFFF6; }
-    .s-off-plan { color: #CEA86C; border-color: #CEA86C; background: #FFF9F0; }
+    .card-info { flex: 1; padding: 10px 15px; display: flex; flex-direction: column; justify-content: center; gap: 4px; }
+    .p-name { font-size: 0.8rem; font-weight: 600; color: var(--coco); }
+    .p-price { font-size: 0.95rem; font-weight: 600; color: var(--coco); }
+    .p-specs { font-size: 0.65rem; color: #666; font-weight: 300; }
 
-    @media (min-width: 768px) { :root { --row-h: 100px; --thumb-w: 150px; } .prop-list { grid-template-columns: 1fr 1fr; gap: 15px; } }
+    @media (min-width: 768px) { .prop-list { grid-template-columns: 1fr 1fr; } }
   </style>
 </head>
 <body>
 
-  <div id="pageSplash"><div class="leaf-anim">🌿</div><div class="splash-brand">THE COCO HUA HIN</div></div>
+  <header><a href="#" class="logo">THE COCO <b>HUA HIN</b></a><div style="width:40px;"></div></header>
 
-  <header>
-    <a href="#" class="logo">THE COCO <span>HUA HIN 88</span></a>
-    <a href="https://line.me/R/ti/p/@qap7218t" class="btn-chat">Enquire Now</a>
-  </header>
+  <section class="hero"><input type="text" id="searchInput" class="search-input" placeholder="Quick Search Plot..."></section>
 
-  <section class="hero">
-    <input type="text" id="searchInput" class="search-input" placeholder="Search by Plot or ID...">
-    <div class="filters-grid">
-      <select id="plotFilter" class="filter-select"><option value="">All Plots</option></select>
-      <select id="sortFilter" class="filter-select"><option value="">Sorting</option><option value="low-high">Lowest</option><option value="high-low">Highest</option></select>
-      <select id="bedFilter" class="filter-select"><option value="">Bedrooms</option><option value="3">3 Bed</option><option value="4">4 Bed</option></select>
-    </div>
-  </section>
-
-  <main class="prop-list" id="propGrid"></main>
+  <main class="prop-list" id="propGrid">
+    <div class="card skeleton" style="height:90px;"></div>
+    <div class="card skeleton" style="height:90px;"></div>
+    <div class="card skeleton" style="height:90px;"></div>
+  </main>
 
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
-    const CACHE_KEY = 'coco_index_cache';
-    const CACHE_TIME = 15 * 60 * 1000; // จำไว้ 15 นาที
     let rawData = [];
 
     async function init() {
-      // 1. ลองดึงจากความจำเครื่องก่อน
-      const cached = localStorage.getItem(CACHE_KEY);
+      // 1. ดึง Cache ทันที (0ms)
+      const cached = localStorage.getItem('coco_index_v50');
       if (cached) {
-        const cacheObj = JSON.parse(cached);
-        if (Date.now() - cacheObj.time < CACHE_TIME) {
-          console.log("⚡ Loading from Cache");
-          rawData = cacheObj.data;
-          displayData();
-          hideSplash();
-          // แอบดึงข้อมูลใหม่เบื้องหลังเพื่ออัปเดตความจำ
-          fetchData(true); 
-          return;
-        }
+        rawData = JSON.parse(cached);
+        renderList(rawData);
+        // แอบ Prefetch ข้อมูล Detail ของทุกลิงก์มารอไว้เลย!
+        prefetchDetails(rawData);
       }
-      // 2. ถ้าไม่มีความจำ หรือข้อมูลเก่าเกินไป ให้ดึงใหม่ปกติ
-      await fetchData();
-    }
-
-    async function fetchData(silent = false) {
+      
+      // 2. ดึงข้อมูลจริงเบื้องหลังเพื่ออัปเดต
       try {
         const res = await fetch(`${SCRIPT_URL}?mode=getUnitList&projectName=CoCo Hua Hin 88`);
         const json = await res.json();
         rawData = json.data;
-        // บันทึกลงความจำเครื่อง
-        localStorage.setItem(CACHE_KEY, JSON.stringify({ data: rawData, time: Date.now() }));
-        if (!silent) {
-          displayData();
-          hideSplash();
+        localStorage.setItem('coco_index_v50', JSON.stringify(rawData));
+        renderList(rawData);
+        prefetchDetails(rawData);
+      } catch (err) { console.error(err); }
+    }
+
+    // ระบบเดาใจผู้ใช้: โหลดข้อมูล Detail มารอก่อนที่เขาจะคลิก
+    function prefetchDetails(items) {
+      items.slice(0, 15).forEach(item => {
+        const cacheKey = `coco_detail_${item.HP_ID}`;
+        if (!localStorage.getItem(cacheKey)) {
+          fetch(`${SCRIPT_URL}?mode=getUnitDetail&id=${item.HP_ID}`)
+            .then(r => r.json())
+            .then(json => localStorage.setItem(cacheKey, JSON.stringify({data: json.data, time: Date.now()})));
         }
-      } catch (err) { console.error(err); hideSplash(); }
-    }
-
-    function displayData() {
-      updatePlotOptions(rawData);
-      renderList(rawData);
-    }
-
-    function hideSplash() { const s = document.getElementById('pageSplash'); if(s) { s.style.opacity = '0'; setTimeout(()=>s.style.display='none', 300); } }
-
-    function updatePlotOptions(items) {
-      const sel = document.getElementById('plotFilter');
-      sel.innerHTML = '<option value="">All Plots</option>';
-      const plots = [...new Set(items.map(p => p.Plot).filter(Boolean))].sort();
-      plots.forEach(p => { const opt = document.createElement('option'); opt.value = p; opt.textContent = `Plot ${p}`; sel.appendChild(opt); });
+      });
     }
 
     function renderList(items) {
       const grid = document.getElementById('propGrid');
-      grid.innerHTML = items.map(p => {
-        let price = p.Listing_Type === 'Rent' ? p.Monthly_Rent : p.Sale_Price;
-        let priceNum = parseFloat(String(price).replace(/[^0-9.]/g, '')) || 0;
-        const cls = String(p.Status).toLowerCase().includes('off') ? 's-off-plan' : 's-available';
-
-        return `
-          <a href="details.html?id=${p.HP_ID}" class="card">
-            <div class="card-img"><img src="${p.Thumbnail_Image}" loading="lazy"></div>
-            <div class="card-info">
-              <div class="info-row"><div class="prop-name">Plot ${p.Plot || 'N/A'}</div><div class="price-new">฿${priceNum.toLocaleString()}</div></div>
-              <div class="info-row"><div class="specs">${p.Bedrooms} Bed | ${p.Bathrooms} Bath</div></div>
-              <div class="info-row">
-                <span class="status-tag ${cls}">${p.Status || 'Available'}</span>
-                <div style="font-size:0.55rem; color:var(--text-muted); opacity:0.7;">${p.Zone || ''}</div>
-              </div>
-            </div>
-          </a>`;
-      }).join('');
+      grid.innerHTML = items.map(p => `
+        <a href="details.html?id=${p.HP_ID}" class="card">
+          <div class="card-img"><img src="${p.Thumbnail_Image}" loading="lazy"></div>
+          <div class="card-info">
+            <div style="display:flex; justify-content:space-between;"><span class="p-name">Plot ${p.Plot}</span><span class="p-price">฿${(parseFloat(String(p.Sale_Price).replace(/[^0-9.]/g,''))||0).toLocaleString()}</span></div>
+            <div class="p-specs">${p.Bedrooms} Bed | ${p.Bathrooms} Bath | ${p.Living_Area_sq_m} m²</div>
+            <div style="font-size:0.55rem; color:#999; text-transform:uppercase; letter-spacing:1px;">${p.Zone}</div>
+          </div>
+        </a>`).join('');
     }
 
-    function filterData() {
-      const q = document.getElementById('searchInput').value.toLowerCase();
-      const plot = document.getElementById('plotFilter').value;
-      const bed = document.getElementById('bedFilter').value;
-      const sort = document.getElementById('sortFilter').value;
-      let filtered = rawData.filter(p => (q==="" || `${p.HP_ID} ${p.Plot}`.toLowerCase().includes(q)) && (plot==="" || p.Plot===plot) && (bed==="" || parseInt(p.Bedrooms)===parseInt(bed)));
-      if(sort==="low-high") filtered.sort((a,b)=> (parseFloat(String(a.Sale_Price).replace(/[^0-9.]/g,''))||0) - (parseFloat(String(b.Sale_Price).replace(/[^0-9.]/g,''))||0));
-      else if(sort==="high-low") filtered.sort((a,b)=> (parseFloat(String(b.Sale_Price).replace(/[^0-9.]/g,''))||0) - (parseFloat(String(a.Sale_Price).replace(/[^0-9.]/g,''))||0));
-      renderList(filtered);
-    }
-
-    document.getElementById('searchInput').addEventListener('input', filterData);
-    document.getElementById('plotFilter').addEventListener('change', filterData);
-    document.getElementById('bedFilter').addEventListener('change', filterData);
-    document.getElementById('sortFilter').addEventListener('change', filterData);
     init();
   </script>
 </body>
