@@ -2,64 +2,54 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>THE COCO | Hua Hin</title>
+  <title>THE COCO</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Montserrat', sans-serif; background: #fff; }
+    body { font-family: 'Montserrat', sans-serif; background: #fff; padding: 24px; }
     .coco-title { color: #2D5A27; font-weight: 800; font-size: 1.25rem; }
-    .search-input { width: 100%; border: 1px solid #e2e8f0; border-radius: 1.5rem; padding: 12px 20px; font-weight: 600; color: #64748b; margin-bottom: 1.5rem; outline: none; }
-    .filter-select { border: 1px solid #f1f5f9; background: #f8fafc; border-radius: 0.75rem; padding: 8px 12px; font-size: 12px; font-weight: 700; color: #475569; width: 100%; }
-    .unit-card { background: white; border-radius: 1.5rem; padding: 1rem; border: 1px solid #f1f5f9; margin-bottom: 1rem; }
+    .search-input { width: 100%; border: 1px solid #f1f5f9; background: #f8fafc; border-radius: 1rem; padding: 14px 20px; font-weight: 600; margin-bottom: 12px; }
+    .filter-sel { background: #f8fafc; border-radius: 0.75rem; padding: 10px; font-size: 11px; font-weight: 800; color: #64748b; width: 100%; border: 1px solid #f1f5f9; }
+    .unit-card { background: white; border-radius: 1.5rem; padding: 12px; border: 1px solid #f1f5f9; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
   </style>
 </head>
-<body class="p-6">
+<body>
   <div class="flex justify-between items-center mb-8">
     <h1 class="coco-title uppercase">THE COCO</h1>
-    <div class="bg-slate-900 p-2 rounded-lg text-white"><i class="fas fa-lock"></i></div>
+    <div class="bg-slate-900 p-2 rounded-lg text-white text-[10px]"><i class="fas fa-lock"></i></div>
   </div>
 
-  <input type="text" id="searchInput" class="search-input" placeholder="Search Plot..." onkeyup="filter()">
+  <input type="text" id="sI" class="search-input" placeholder="Search Plot..." onkeyup="f()">
 
   <div class="grid grid-cols-3 gap-2 mb-8">
-    <select id="plotFilter" onchange="filter()" class="filter-select"><option value="all">ALL PLOTS</option></select>
-    <select id="priceFilter" onchange="filter()" class="filter-select"><option value="all">ALL PRICE</option><option value="asc">LOWEST</option></select>
-    <select id="bedFilter" onchange="filter()" class="filter-select"><option value="all">ALL BEDS</option></select>
+    <select id="pI" onchange="f()" class="filter-sel"><option value="all">ALL PLOTS</option></select>
+    <select id="prI" onchange="f()" class="filter-sel"><option value="all">ALL PRICE</option><option value="asc">LOWEST</option></select>
+    <select id="bI" onchange="f()" class="filter-sel"><option value="all">ALL BEDS</option></select>
   </div>
 
   <div id="list"></div>
 
   <script>
     const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
-    let data = [];
+    let d = [];
 
     async function load() {
       const res = await fetch(`${API}?mode=getListSmall&project=coco`);
-      data = await res.json();
-      
-      const plots = [...new Set(data.map(i => i.Plot))].sort();
-      plots.forEach(p => document.getElementById('plotFilter').innerHTML += `<option value="${p}">${p}</option>`);
-      
-      const beds = [...new Set(data.map(i => i.Bedrooms))].sort((a,b)=>a-b);
-      beds.forEach(b => document.getElementById('bedFilter').innerHTML += `<option value="${b}">${b} BEDS</option>`);
-      
-      filter();
+      d = await res.json();
+      [...new Set(d.map(i=>i.Plot))].sort().forEach(p=>document.getElementById('pI').innerHTML+=`<option value="${p}">${p}</option>`);
+      [...new Set(d.map(i=>i.Bedrooms))].sort().forEach(b=>document.getElementById('bI').innerHTML+=`<option value="${b}">${b} BEDS</option>`);
+      f();
     }
 
-    function filter() {
-      const s = document.getElementById('searchInput').value.toLowerCase();
-      const p = document.getElementById('plotFilter').value;
-      const b = document.getElementById('bedFilter').value;
-      const pr = document.getElementById('priceFilter').value;
-
-      let filtered = data.filter(u => {
-        return (u.Plot.toLowerCase().includes(s) || u.HP_ID.toLowerCase().includes(s)) && (p === 'all' || u.Plot === p) && (b === 'all' || String(u.Bedrooms) === b);
-      });
-
-      if(pr === 'asc') filtered.sort((a,b) => a.Sale_Price - b.Sale_Price);
-
-      document.getElementById('list').innerHTML = filtered.map(u => `
-        <div class="unit-card flex items-center gap-4 shadow-sm" onclick="location.href='details.html?id=${u.HP_ID}'">
+    function f() {
+      const s = document.getElementById('sI').value.toLowerCase();
+      const p = document.getElementById('pI').value;
+      const b = document.getElementById('bI').value;
+      const pr = document.getElementById('prI').value;
+      let res = d.filter(u => (u.Plot.toLowerCase().includes(s)) && (p==='all'||u.Plot===p) && (b==='all'||String(u.Bedrooms)===b));
+      if(pr==='asc') res.sort((a,b)=>a.Sale_Price-b.Sale_Price);
+      document.getElementById('list').innerHTML = res.map(u => `
+        <div class="unit-card flex items-center gap-4" onclick="location.href='details.html?id=${u.HP_ID}'">
           <img src="${u.Thumbnail_Image}" class="w-24 h-24 rounded-2xl object-cover">
           <div>
             <h3 class="font-800 text-[#2D5A27] text-lg">Plot ${u.Plot}</h3>
