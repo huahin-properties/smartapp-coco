@@ -1,93 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
-  <title>CoCo Hua Hin 88 | Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet"/>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>CoCo Hua Hin 88 | Index</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
   <style>
-    :root { --coco: #2D5A27; --border: rgba(45,90,39,0.08); }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #fff; color: #1A3017; font-family: 'Montserrat', sans-serif; -webkit-font-smoothing: antialiased; }
-    #pageSplash { position: fixed; inset: 0; background: #FFFFFF; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.4s; }
-    header { position: fixed; top: 0; width: 100%; height: 55px; background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; }
-    .logo { font-family: 'Playfair Display', serif; font-size: 0.9rem; color: var(--coco); text-decoration: none; font-weight: 700; text-transform: uppercase; }
-    .admin-gate { text-decoration: none; width: 34px; height: 34px; background: #0F172A; color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
-    .hero { padding: 75px 15px 10px; text-align: center; }
-    .search-bar { width: 100%; max-width: 550px; border: 1px solid var(--border); border-radius: 50px; padding: 12px 20px; font-size: 0.85rem; outline: none; margin-bottom: 10px; background: #F9FBF9; }
-    .filter-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; max-width: 550px; margin: 0 auto 15px; padding: 0 15px; }
-    .filter-sel { background: #FFFFFF; border: 1px solid var(--border); border-radius: 8px; padding: 10px; color: var(--coco); font-size: 0.62rem; font-weight: 600; outline: none; text-align: center; text-transform: uppercase; }
-    .prop-grid { padding: 0 12px 40px; display: grid; grid-template-columns: 1fr; gap: 10px; }
-    .card { background: #F8FAFC; border-radius: 15px; display: flex; height: 100px; overflow: hidden; text-decoration: none; color: inherit; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
-    .card-img { width: 120px; flex-shrink: 0; background: #eee; }
-    .card-img img { width: 100%; height: 100%; object-fit: cover; }
-    .card-info { flex: 1; padding: 10px 15px; display: flex; flex-direction: column; justify-content: center; }
-    .p-title { font-size: 0.8rem; font-weight: 700; color: var(--coco); margin-bottom: 2px; }
-    .p-price { font-size: 0.95rem; font-weight: 700; color: var(--coco); }
-    .p-meta { font-size: 0.55rem; color: #6B7A68; text-transform: uppercase; font-weight: 500; margin-top: 4px; }
-    @media (min-width: 768px) { .prop-grid { grid-template-columns: 1fr 1fr; } }
+    body { font-family: 'Montserrat', sans-serif; background: #F0F4F0; }
+    .coco-header { color: #2D5A27; font-weight: 800; letter-spacing: -1px; }
+    .prop-card { background: white; border-radius: 2rem; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+    .btn-more { background: #2D5A27; color: white; padding: 1rem 2rem; border-radius: 1rem; font-weight: 800; }
   </style>
 </head>
-<body>
-  <div id="pageSplash"><div style="font-size:50px;">🌿</div></div>
-  <header><a href="#" class="logo">THE COCO</a><a href="gateway.html" class="admin-gate">🔒</a></header>
-  <section class="hero">
-    <input type="text" id="q" class="search-bar" placeholder="Search Plot..." oninput="applyFilters()">
-    <div class="filter-grid">
-      <select id="fPlot" class="filter-sel" onchange="applyFilters()"><option value="">All Plots</option></select>
-      <select id="fSort" class="filter-sel" onchange="applyFilters()"><option value="">ALL PRICE</option><option value="low">Price: Low</option><option value="high">Price: High</option></select>
-      <select id="fBed" class="filter-sel" onchange="applyFilters()"><option value="">ALL BEDS</option><option value="3">3 Bed</option><option value="4">4 Bed</option><option value="5">5 Bed</option></select>
-    </div>
-  </section>
-  <main class="prop-grid" id="grid"></main>
-  <script>
-    const API = 'https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
-    const PROJECT = 'CoCo Hua Hin 88'; // ✅ ระบุโครงการเป้าหมายที่นี่
-    let fullData = [];
+<body class="p-6">
+  <header class="mb-10 text-center">
+    <h1 class="text-3xl coco-header">THE COCO</h1>
+    <p class="text-slate-400 text-[10px] uppercase tracking-widest mt-2">Exclusively Managed by HP</p>
+  </header>
 
-    async function init() {
-      const cached = localStorage.getItem('coco_v86_cache');
-      if (cached) { fullData = JSON.parse(cached); updateUI(fullData); setTimeout(hideSplash, 300); }
+  <div id="propertyContainer" class="space-y-6"></div>
+  
+  <div id="loadMoreArea" class="text-center py-10 hidden">
+    <button onclick="fetchData(true)" class="btn-more">Show More Plots</button>
+  </div>
+
+  <div id="loading" class="text-center py-10">
+    <div class="animate-spin inline-block w-8 h-8 border-4 border-green-700 border-t-transparent rounded-full"></div>
+  </div>
+
+  <script>
+    const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
+    let offset = 0;
+    const LIMIT = 10;
+
+    async function fetchData(isMore = false) {
+      if(!isMore) { offset = 0; document.getElementById('propertyContainer').innerHTML = ''; }
+      document.getElementById('loading').classList.remove('hidden');
+      document.getElementById('loadMoreArea').classList.add('hidden');
+
       try {
-        // ✅ บังคับกรองโครงการ CoCo ตั้งแต่ตอนดึงข้อมูล
-        const res = await fetch(`${API}?mode=getListSmall&project=${encodeURIComponent(PROJECT)}&t=${Date.now()}`);
+        const res = await fetch(`${API}?mode=getListSmall&project=coco&limit=${LIMIT}&offset=${offset}`);
         const data = await res.json();
-        if (Array.isArray(data)) {
-          fullData = data; localStorage.setItem('coco_v86_cache', JSON.stringify(data));
-          updateUI(data); hideSplash();
+        if(data.ok) {
+          data.items.forEach(u => {
+            document.getElementById('propertyContainer').innerHTML += `
+              <div class="prop-card flex items-center p-4 gap-4">
+                <img src="${u.Thumbnail_Image}" class="w-24 h-24 rounded-2xl object-cover">
+                <div class="flex-1">
+                  <h3 class="font-800 text-[#2D5A27] text-lg">Plot ${u.Plot}</h3>
+                  <p class="text-xl font-800 text-slate-800">฿${Number(u.Sale_Price).toLocaleString()}</p>
+                  <p class="text-[10px] font-700 text-slate-400 uppercase">${u.Bedrooms} BED | AVAILABLE</p>
+                </div>
+                <a href="details.html?id=${u.HP_ID}" class="bg-slate-100 p-3 rounded-full"><i class="fas fa-chevron-right text-slate-400"></i></a>
+              </div>
+            `;
+          });
+          if(data.hasMore) { offset += LIMIT; document.getElementById('loadMoreArea').classList.remove('hidden'); }
         }
-      } catch (e) { hideSplash(); }
+      } catch(e) { console.error(e); }
+      document.getElementById('loading').classList.add('hidden');
     }
-    function updateUI(items) {
-      const sel = document.getElementById('fPlot');
-      const plots = [...new Set(items.map(u => u.Plot).filter(Boolean))].sort();
-      sel.innerHTML = '<option value="">All Plots</option>';
-      plots.forEach(p => { const opt = document.createElement('option'); opt.value = p; opt.textContent = `Plot ${p}`; sel.appendChild(opt); });
-      render(items);
-    }
-    function applyFilters() {
-      const q = document.getElementById('q').value.toLowerCase();
-      const plot = document.getElementById('fPlot').value;
-      const bed = document.getElementById('fBed').value;
-      const sort = document.getElementById('fSort').value;
-      let filtered = fullData.filter(u => (u.HP_ID.toLowerCase().includes(q) || u.Plot.toLowerCase().includes(q)) && (plot==="" || u.Plot===plot) && (bed==="" || parseInt(u.Bedrooms)===parseInt(bed)));
-      if (sort === "low") filtered.sort((a,b) => (parseFloat(String(a.Sale_Price).replace(/[^0-9.]/g,''))||0) - (parseFloat(String(b.Sale_Price).replace(/[^0-9.]/g,''))||0));
-      if (sort === "high") filtered.sort((a,b) => (parseFloat(String(b.Sale_Price).replace(/[^0-9.]/g,''))||0) - (parseFloat(String(a.Sale_Price).replace(/[^0-9.]/g,''))||0));
-      render(filtered);
-    }
-    function render(items) {
-      document.getElementById('grid').innerHTML = items.map(u => {
-        let p = parseFloat(String(u.Sale_Price || 0).replace(/[^0-9.]/g, ''));
-        return `<a href="details.html?id=${u.HP_ID}" class="card">
-          <div class="card-img"><img src="${u.Thumbnail_Image || 'https://via.placeholder.com/120x100'}" loading="lazy"></div>
-          <div class="card-info">
-            <div class="p-title">Plot ${u.Plot || u.HP_ID}</div>
-            <div class="p-price">฿${p.toLocaleString()}</div>
-            <div class="p-meta">${u.Bedrooms||0} Bed | ${u.Living_Area_sq_m||0} m² | <span style="color:#2ECC8A;">${u.Status}</span></div>
-          </div></a>`;
-      }).join('');
-    }
-    function hideSplash() { const s = document.getElementById('pageSplash'); if(s) { s.style.opacity = '0'; setTimeout(()=>s.style.display='none', 400); } }
-    init();
+
+    window.onload = () => fetchData();
   </script>
 </body>
 </html>
