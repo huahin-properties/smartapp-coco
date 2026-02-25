@@ -1,112 +1,142 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
-  <title>CoCo Database Editor</title>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>CoCo Editor | MASTER SYSTEM</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    :root { --navy: #0F172A; --blue: #2563EB; }
-    body { font-family: 'Montserrat', sans-serif; background: #F0F2F5; color: #1E293B; margin: 0; padding-bottom: 30px; }
-    
-    /* COMPACT HEADER - แก้ไขความใหญ่เทอะทะ */
-    .master-header { background: var(--navy); border-radius: 0 0 2.5rem 2.5rem; padding: 2rem 1.5rem; color: #fff; position: relative; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
-    .header-sub { color: #3B82F6; font-size: 0.55rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px; font-style: italic; }
-    .header-title { font-size: 2.2rem; font-weight: 800; letter-spacing: -1.5px; line-height: 1; font-style: italic; }
-    .btn-x { position: absolute; top: 1.5rem; right: 1.5rem; background: rgba(255,255,255,0.1); width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
-
-    .tabs-wrap { display: flex; gap: 1.5rem; margin: 1.5rem 1.2rem; border-bottom: 1px solid #E2E8F0; }
-    .tab-btn { padding-bottom: 0.8rem; font-weight: 700; font-size: 0.65rem; text-transform: uppercase; color: #94A3B8; position: relative; }
-    .tab-active { color: var(--navy); }
-    .tab-active::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 3px; background: var(--navy); border-radius: 10px; }
-
-    .input-card { background: white; border-radius: 2rem; padding: 1.8rem; box-shadow: 0 4px 15px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.03); margin: 0 10px 1.2rem; }
-    .field-label { font-size: 0.55rem; font-weight: 800; color: #94A3B8; text-transform: uppercase; margin-bottom: 0.6rem; display: block; }
-    .field-input { width: 100%; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 0.8rem; padding: 0.9rem; font-weight: 700; font-size: 0.9rem; font-style: italic; color: var(--navy); }
-    
-    .price-box { background: #EFF6FF; border: 1px solid #DBEAFE; color: var(--blue) !important; font-size: 1.1rem; }
-    .btn-save { background: var(--navy); width: calc(100% - 20px); margin: 20px 10px; color: white; font-weight: 800; font-size: 0.85rem; padding: 1.8rem; border-radius: 2rem; text-transform: uppercase; letter-spacing: 4px; box-shadow: 0 15px 30px rgba(15,23,42,0.15); }
-    
-    /* ปรับขนาดรูปพรีวิวให้เหมาะสม */
-    .preview-box { width: 100%; height: 180px; border-radius: 1.2rem; object-fit: cover; border: 1.5px dashed #E2E8F0; background: #FBFDFF; }
+    body { font-family: 'Montserrat', sans-serif; background: #F8FAF8; color: #1A3617; margin: 0; padding: 0; }
+    .content-wrapper { padding: 20px 20px 200px; max-width: 1024px; margin: 0 auto; }
+    .tab-active { border-bottom: 4px solid #2D5A27; color: #2D5A27; }
+    .input-card { background: white; border: 1px solid rgba(45, 90, 39, 0.1); padding: 1.5rem; border-radius: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 5px 20px rgba(0,0,0,0.02); }
+    .field-label { font-size: 10px; font-weight: 800; color: #5C8A56; text-transform: uppercase; margin-bottom: 0.5rem; display: block; letter-spacing: 1px; }
+    .field-input { width: 100%; background: #F1F5F1; border: 1px solid transparent; border-radius: 0.85rem; padding: 0.85rem; color: #1A3617; outline: none; transition: 0.2s; font-size: 14px; }
+    .field-input:focus { border-color: #2D5A27; background: white; }
+    .img-tile { position: relative; aspect-ratio: 16/10; border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.05); transition: 0.3s; background: #eee; }
+    .img-tile.marked { opacity: 0.3; border: 3px solid #EF4444; filter: grayscale(0.8); }
+    .img-x { position: absolute; top: 8px; right: 8px; width: 32px; height: 32px; border-radius: 50%; background: rgba(239,68,68,0.95); color: white; font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 100; border: 2px solid white; transition: 0.2s; }
+    .pdf-row { display: flex; align-items: center; gap: 8px; background: #F1F5F1; padding: 15px; border-radius: 18px; margin-bottom: 12px; }
+    .pdf-name { font-size: 9px; color: #2D5A27; font-weight: 700; display: block; margin-top: 2px; }
+    .btn-pdf { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: 0.2s; }
+    .upload-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.95); z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; }
+    .loader { border: 4px solid #eee; border-top: 4px solid #2D5A27; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 15px; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .save-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255,255,255,0.98); backdrop-filter: blur(15px); border-top: 1px solid rgba(0,0,0,0.05); padding: 25px 20px; z-index: 1000; }
+    .btn-update { background: #2D5A27; color: white; width: 100%; max-width: 1000px; margin: 0 auto; display: block; height: 60px; border-radius: 50px; font-weight: 800; text-transform: uppercase; letter-spacing: 4px; transition: 0.3s; }
   </style>
 </head>
-<body class="italic italic-fix">
-
-  <div class="max-w-4xl mx-auto">
-    <div class="master-header">
-      <div class="header-sub">CoCo Hua Hin 88 Database Editor</div>
-      <div id="dispID" class="header-title">Plot ...</div>
-      <a href="dashboard.html" class="btn-x"><i class="fa-solid fa-xmark text-white"></i></a>
+<body>
+  <div id="upLoading" class="upload-overlay"><div class="loader"></div><div id="loadText" class="text-xs font-800 text-[#2D5A27] tracking-[0.3em]">PROCESSING...</div></div>
+  <div class="content-wrapper">
+    <div class="bg-[#2D5A27] rounded-[2.5rem] p-8 text-white flex justify-between items-center mb-8 shadow-xl">
+      <div><p class="text-[#C9A84C] font-800 uppercase tracking-widest text-[10px] mb-2">CoCo Database Editor</p><h1 id="displayId" class="text-3xl font-800 tracking-tighter italic">HP-XXXX</h1></div>
+      <button onclick="location.href='dashboard.html'" class="bg-white/10 hover:bg-white/20 p-4 rounded-2xl transition-all">✕</button>
     </div>
-
-    <div class="tabs-wrap">
-      <button class="tab-btn tab-active" onclick="switchT('ph')">Cover & Gallery</button>
-      <button class="tab-btn" onclick="switchT('in')">Property Data</button>
+    <div class="flex gap-8 mb-8 border-b border-slate-200 px-4">
+      <button onclick="switchTab('photo')" id="btn-photo" class="pb-4 font-800 text-[11px] uppercase tracking-widest tab-active">Cover & Gallery</button>
+      <button onclick="switchTab('info')" id="btn-info" class="pb-4 font-800 text-[11px] uppercase tracking-widest text-slate-400">Property Data</button>
     </div>
-
-    <div id="tabPh">
-      <div class="input-card">
-        <label class="field-label">Main Cover Thumbnail</label>
-        <div class="mb-4"><img src="" class="preview-box" id="imgT"></div>
-        <button class="w-full py-4 bg-blue-600 text-white rounded-xl font-extrabold uppercase text-[9px] tracking-widest shadow-lg">Upload Cover</button>
+    <div id="tab-photo" class="space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="input-card">
+          <span class="field-label">Main Cover Thumbnail</span>
+          <div id="thumbPreview" class="thumb-stage flex items-center justify-center relative h-48 bg-slate-50 rounded-2xl mb-4 overflow-hidden border border-dashed border-slate-200"><span class="text-4xl opacity-10">🖼️</span></div>
+          <button onclick="document.getElementById('file_thumb').click()" class="w-full py-4 bg-blue-600 text-white rounded-xl font-800 uppercase text-xs">Pick New Cover</button>
+          <input type="file" id="file_thumb" class="hidden" accept="image/*" onchange="handleUpload(this, 'thumb')"><input type="hidden" id="Thumbnail_Image">
+        </div>
+        <div class="input-card">
+          <span class="field-label">Project Gallery Album</span>
+          <div id="galleryPreview" class="h-48 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200 p-3 grid grid-cols-4 gap-2 overflow-y-auto mb-3"></div>
+          <button id="delBtn" onclick="processBatchDelete()" class="btn-delete-batch w-full bg-red-600 text-white py-3 rounded-xl font-800 uppercase text-[10px] mb-3 hidden">Confirm Delete Selected</button>
+          <button onclick="document.getElementById('file_gallery').click()" class="w-full py-4 bg-purple-600 text-white rounded-xl font-800 uppercase text-xs">Add Photos</button>
+          <input type="file" id="file_gallery" class="hidden" multiple accept="image/*" onchange="handleUpload(this, 'album')"><input type="hidden" id="Album_Image">
+        </div>
       </div>
       <div class="input-card">
-        <label class="field-label">Project Gallery Album</label>
-        <div id="galBox" class="grid grid-cols-4 gap-2 mb-4 h-[180px] overflow-y-auto content-start p-2 border-2 border-dashed border-slate-50 rounded-2xl"></div>
-        <button class="w-full py-4 bg-purple-600 text-white rounded-xl font-extrabold uppercase text-[9px] tracking-widest shadow-lg">Add Gallery Photos</button>
+        <span class="field-label">PDF Documents (Real-time Manager)</span>
+        <div class="space-y-3 mt-4">
+          <div class="pdf-row"><div class="pdf-info"><span class="text-[10px] font-800 block">FLOOR PLAN</span><span id="txt-FloorPlan_PDF" class="pdf-name truncate">No file found</span></div><div class="flex gap-2">
+            <button onclick="viewFile('FloorPlan_PDF')" id="view-FloorPlan_PDF" class="btn-pdf bg-white text-[#2D5A27] hidden border border-slate-200 shadow-sm"><i class="fas fa-eye"></i></button>
+            <button onclick="document.getElementById('f_floor').click()" class="btn-pdf bg-blue-600 text-white"><i class="fas fa-upload"></i></button>
+            <button onclick="deleteFile('FloorPlan_PDF')" class="btn-pdf bg-red-100 text-red-500"><i class="fas fa-trash"></i></button>
+          </div><input type="file" id="f_floor" class="hidden" accept="application/pdf" onchange="handleUpload(this, 'floor', 'FloorPlan_PDF')"><input type="hidden" id="FloorPlan_PDF"></div>
+          <div class="pdf-row"><div class="pdf-info"><span class="text-[10px] font-800 block">CUSTOMER BROCHURE</span><span id="txt-Sales_Gallery" class="pdf-name truncate">No file found</span></div><div class="flex gap-2">
+            <button onclick="viewFile('Sales_Gallery')" id="view-Sales_Gallery" class="btn-pdf bg-white text-[#2D5A27] hidden border border-slate-200 shadow-sm"><i class="fas fa-eye"></i></button>
+            <button onclick="document.getElementById('f_customer').click()" class="btn-pdf bg-blue-600 text-white"><i class="fas fa-upload"></i></button>
+            <button onclick="deleteFile('Sales_Gallery')" class="btn-pdf bg-red-100 text-red-500"><i class="fas fa-trash"></i></button>
+          </div><input type="file" id="f_customer" class="hidden" accept="application/pdf" onchange="handleUpload(this, 'customer', 'Sales_Gallery')"><input type="hidden" id="Sales_Gallery"></div>
+        </div>
       </div>
     </div>
-
-    <div id="tabIn" class="hidden">
-      <div class="input-card grid grid-cols-1 gap-5">
-        <div><label class="field-label">Plot Number</label><input id="Plot" class="field-input"></div>
-        <div><label class="field-label">Unit Type</label><input id="Type" class="field-input"></div>
-        <div><label class="field-label">Sale Price (THB)</label><input id="Sale_Price" class="field-input price-box"></div>
-        <div><label class="field-label">Living Area (SQ.M)</label><input id="Living_Area_sq_m" class="field-input"></div>
-        <div><label class="field-label">Status</label><select id="Status" class="field-input"><option value="Available">Available</option><option value="Sold">Sold</option></select></div>
-        <div><label class="field-label">Description</label><textarea id="Description" rows="4" class="field-input h-auto"></textarea></div>
+    <div id="tab-info" class="hidden space-y-6">
+      <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div><label class="field-label">HP-ID</label><input id="HP_ID" class="field-input" readonly></div>
+        <div><label class="field-label">Plot</label><input id="Plot" class="field-input"></div>
+        <div><label class="field-label">Status</label><select id="Status" class="field-input"></select></div>
+        <div><label class="field-label">Living Area</label><input id="Living_Area_sq_m" class="field-input"></div>
+        <div><label class="field-label">Bedrooms</label><input type="number" id="Bedrooms" class="field-input"></div>
+        <div><label class="field-label">Bathrooms</label><input type="number" id="Bathrooms" class="field-input"></div>
+        <div class="col-span-full"><label class="field-label">Description</label><textarea id="Description" rows="4" class="field-input"></textarea></div>
+        <div class="bg-green-50 p-3 rounded-xl border border-green-100 col-span-full"><label class="field-label">Sale Price</label><input id="Sale_Price" class="field-input !bg-white font-800 text-[#2D5A27]"></div>
       </div>
     </div>
-
-    <button onclick="save()" id="sBtn" class="btn-save">Update Master Database</button>
   </div>
-
+  <div class="save-bar"><button onclick="confirmSave()" id="saveBtn" class="btn-update shadow-2xl">Update CoCo Database</button></div>
   <script>
     const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
-    const id = new URLSearchParams(location.search).get('id');
-
-    function switchT(t) {
-      document.getElementById('tabPh').classList.toggle('hidden', t==='in');
-      document.getElementById('tabIn').classList.toggle('hidden', t==='ph');
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('tab-active', b.innerText.toLowerCase().includes(t.slice(0,2))));
-    }
-
+    const hpId = new URLSearchParams(window.location.search).get('id');
+    let currentGallery = [], markedForDelete = [];
+    function shortenName(n) { return n && n.length > 25 ? n.substring(0, 22) + "..." : (n || "File Loaded ✅"); }
     async function init() {
-      if(!id) return;
-      try {
-        const res = await fetch(`${API}?mode=getUnitDetail&hpId=${id}`);
-        const u = await res.json();
-        document.getElementById('dispID').innerText = `Plot ${u.Plot || id}`;
-        
-        // Populate Inputs
-        const fds = ["Plot", "Type", "Sale_Price", "Living_Area_sq_m", "Status", "Description"];
-        fds.forEach(f => { if(document.getElementById(f)) document.getElementById(f).value = u[f] || ""; });
-
-        // Populate Images
-        if(u.Thumbnail_Image) document.getElementById('imgT').src = u.Thumbnail_Image;
-        if(u.Album_Image) {
-          const imgs = u.Album_Image.split(',').map(s=>s.trim()).filter(Boolean);
-          document.getElementById('galBox').innerHTML = imgs.map(i => `<div class="h-16 rounded-lg overflow-hidden"><img src="${i}" class="w-full h-full object-cover"></div>`).join('');
+      if (hpId) {
+        document.getElementById('displayId').innerText = hpId;
+        const meta = (await (await fetch(`${API}?mode=getMetadata`)).json()).data;
+        ["Status", "Listing_Type", "Furnishing", "District", "Zone"].forEach(f => { if(document.getElementById(f)) document.getElementById(f).innerHTML = meta[f].map(v => `<option value="${v}">${v}</option>`).join(''); });
+        const res = await (await fetch(`${API}?mode=getUnitDetail&id=${hpId}`)).json();
+        if (res.ok) {
+          Object.keys(res.data).forEach(k => { if(document.getElementById(k)) document.getElementById(k).value = res.data[k]; });
+          syncPdfUI('FloorPlan_PDF', res.data.FloorPlan_PDF, res.data.FloorPlan_Name);
+          syncPdfUI('Sales_Gallery', res.data.Sales_Gallery, res.data.Sales_Gallery_Name);
+          renderMainThumb(res.data.Thumbnail_Image);
+          currentGallery = res.data.Album_Image ? res.data.Album_Image.split(',').filter(Boolean) : [];
+          renderGallery();
         }
-      } catch(e) { console.error(e); }
+      }
     }
-    async function save() {
-       document.getElementById('sBtn').innerText = "UPDATING...";
-       setTimeout(() => { alert("Success!"); location.href='dashboard.html'; }, 1500);
+    function syncPdfUI(id, url, name) { const txt = document.getElementById('txt-'+id), view = document.getElementById('view-'+id); if (url && url !== "") { txt.innerText = shortenName(name); view.classList.remove('hidden'); } else { txt.innerText = "No file found"; view.classList.add('hidden'); } }
+    async function handleUpload(input, target, fieldId) {
+      const filesArr = Array.from(input.files); if (!filesArr.length) return;
+      showLoading("UPLOADING...");
+      try {
+        for (let i = 0; i < filesArr.length; i++) {
+          showLoading(`UPLOADING ${i+1}/${filesArr.length}...`);
+          const base64 = await toBase64(filesArr[i]);
+          const res = await fetch(API, { method: 'POST', body: JSON.stringify({ mode: 'uploadFile', target, hpId, data: base64, type: filesArr[i].type, name: filesArr[i].name }) });
+          const result = await res.json();
+          if (result.ok) {
+            if (target === 'thumb') renderMainThumb(result.url);
+            else if (target === 'album') { currentGallery.push(result.url); document.getElementById('Album_Image').value = currentGallery.join(','); }
+            else { document.getElementById(fieldId).value = result.url; syncPdfUI(fieldId, result.url, result.fileName); }
+          }
+        }
+        renderGallery(); hideLoading();
+      } catch (err) { hideLoading(); alert('Error: ' + err); }
+      input.value = "";
     }
+    async function deleteFile(fId) { const url = document.getElementById(fId).value; if (!url || !confirm("Delete file permanently?")) return; document.getElementById(fId).value = ""; syncPdfUI(fId, "", ""); fetch(API, { method: 'POST', body: JSON.stringify({ mode: 'deleteFile', url }) }); if (fId === 'Thumbnail_Image') renderMainThumb(""); }
+    function viewFile(id) { const url = document.getElementById(id).value; if (url) window.open(`https://drive.google.com/file/d/${url.split("id=")[1].split("&")[0]}/view?usp=sharing`, '_blank'); }
+    function renderMainThumb(url) { const box = document.getElementById('thumbPreview'); if (url) { box.innerHTML = `<div class="img-x" onclick="deleteFile('Thumbnail_Image')">✕</div><img src="${url.split('=')[0]+'=s600'}" class="w-full h-full object-cover">`; document.getElementById('Thumbnail_Image').value = url; } else { box.innerHTML = `<span class="text-4xl opacity-10">🖼️</span>`; document.getElementById('Thumbnail_Image').value = ""; } }
+    const toBase64 = f => new Promise((res, rej) => { const r = new FileReader(); r.readAsDataURL(f); r.onload = () => res(r.result.split(',')[1]); r.onerror = rej; });
+    function renderGallery() { const box = document.getElementById('galleryPreview'); box.innerHTML = currentGallery.map((url, i) => `<div class="img-tile ${markedForDelete.includes(i) ? 'marked' : ''}" onclick="toggleMark(${i})"><div class="img-x"><i class="fas ${markedForDelete.includes(i) ? 'fa-check' : 'fa-times'}"></i></div><img src="${url.split('=')[0]+'=s400'}" class="w-full h-full object-cover"></div>`).join('') || '<span class="text-4xl opacity-10 col-span-4 self-center justify-self-center">🗂️</span>'; document.getElementById('delBtn').style.display = markedForDelete.length > 0 ? 'block' : 'none'; document.getElementById('delBtn').innerText = `Confirm Delete ${markedForDelete.length} Photos`; }
+    function toggleMark(i) { const idx = markedForDelete.indexOf(i); if (idx > -1) markedForDelete.splice(idx, 1); else markedForDelete.push(i); renderGallery(); }
+    function processBatchDelete() { if(!confirm(`Delete these ${markedForDelete.length} photos?`)) return; const targets = markedForDelete.sort((a,b) => b-a); for (const idx of targets) { fetch(API, { method: 'POST', body: JSON.stringify({ mode: 'deleteFile', url: currentGallery[idx] }) }); currentGallery.splice(idx, 1); } markedForDelete = []; document.getElementById('Album_Image').value = currentGallery.join(','); renderGallery(); }
+    function switchTab(t) { document.getElementById('tab-photo').classList.toggle('hidden', t !== 'photo'); document.getElementById('tab-info').classList.toggle('hidden', t !== 'info'); document.getElementById('btn-photo').className = t === 'photo' ? 'pb-4 font-800 text-[11px] uppercase tracking-widest tab-active' : 'pb-4 font-800 text-[11px] uppercase tracking-widest text-slate-400'; document.getElementById('btn-info').className = t === 'info' ? 'pb-4 font-800 text-[11px] uppercase tracking-widest tab-active' : 'pb-4 font-800 text-[11px] uppercase tracking-widest text-slate-400'; }
+    function confirmSave() { if(confirm("Update CoCo database?")) saveData(); }
+    async function saveData() { const btn = document.getElementById('saveBtn'); showLoading("SAVING..."); btn.disabled = true; const payload = { mode: "updateUnit", HP_ID: hpId }; document.querySelectorAll('input, select, textarea').forEach(el => { if(el.id) payload[el.id] = el.value; }); try { const res = await fetch(API, { method: 'POST', body: JSON.stringify(payload) }); if ((await res.json()).ok) { hideLoading(); alert('DATABASE UPDATED! ✅'); location.href = 'dashboard.html'; } } catch (e) { hideLoading(); alert('Error: ' + e); btn.disabled = false; } }
+    function showLoading(txt) { document.getElementById('loadText').innerText = txt; document.getElementById('upLoading').style.display = 'flex'; }
+    function hideLoading() { document.getElementById('upLoading').style.display = 'none'; }
     window.onload = init;
   </script>
 </body>
