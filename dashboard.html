@@ -1,70 +1,49 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
-  <title>Dashboard | CoCo</title>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>CoCo Dashboard | Admin Console</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    body { font-family: 'Montserrat', sans-serif; background: #F8FAFC; margin: 0; color: #1E293B; -webkit-font-smoothing: antialiased; }
-    .m-header { background: #0F172A; border-radius: 0 0 2rem 2rem; padding: 1.5rem; color: #fff; position: relative; margin-bottom: 1rem; }
-    .m-title { font-size: 1.3rem; font-weight: 800; font-style: italic; }
-    .btn-h { position: absolute; top: 1.2rem; right: 1.5rem; background: rgba(255,255,255,0.1); width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
-    
-    .list-container { padding: 0 10px 40px; }
-    .table-box { background: white; border-radius: 1.5rem; overflow: hidden; border: 1px solid #F1F5F9; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
-    .t-head { background: #0F172A; color: #fff; display: flex; padding: 12px; font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-    .t-row { display: flex; align-items: center; padding: 8px 12px; border-bottom: 1px solid #F1F5F9; background: #fff; }
-    
-    .c-img { width: 60px; flex-shrink: 0; }
-    .c-info { flex: 1; padding-left: 10px; min-width: 0; }
-    .c-plot { width: 65px; text-align: center; flex-shrink: 0; }
-    .c-stat { width: 45px; text-align: center; flex-shrink: 0; }
-    .c-btn { width: 35px; text-align: right; flex-shrink: 0; }
-
-    .thumb { width: 55px; height: 40px; border-radius: 6px; object-fit: cover; background: #eee; }
-    .t-id { font-size: 0.55rem; color: #94A3B8; font-weight: 600; display: block; }
-    .t-plot { font-size: 1rem; font-weight: 800; font-style: italic; color: #0F172A; }
-    .dot-box { display: flex; gap: 3px; justify-content: center; background: #F8FAFC; padding: 4px; border-radius: 8px; }
-    .dot { width: 6px; height: 6px; border-radius: 50%; background: #E2E8F0; }
-    .dot-ok { background: #10B981; }
+    body { font-family: 'Montserrat', sans-serif; background: #F8FAF8; color: #1A3617; padding: 20px; }
+    .unit-row { background: white; border: 1px solid rgba(45, 90, 39, 0.1); border-radius: 1.2rem; padding: 15px; margin-bottom: 12px; display: flex; align-items: center; gap: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
   </style>
 </head>
-<body class="italic">
-  <div class="m-header"><h1 class="m-title">CoCo Hua Hin 88</h1><a href="index.html" class="btn-h"><i class="fa-solid fa-house text-sm"></i></a></div>
-  <div class="list-container">
-    <div class="table-box">
-      <div class="t-head"><div class="c-img">Cover</div><div class="c-info">Unit ID</div><div class="c-plot">Plot</div><div class="c-stat">Status</div><div class="c-btn"></div></div>
-      <div id="uList"><div class="py-24 text-center text-slate-300 font-bold text-[10px] animate-pulse uppercase tracking-widest">🔄 SYNCING COCO DATA...</div></div>
-    </div>
+<body>
+  <div class="flex justify-between items-center mb-8 mt-4 px-2">
+    <div><h1 class="text-xl font-800 uppercase text-[#2D5A27]">CoCo Dashboard</h1><p class="text-[9px] font-700 text-slate-400 uppercase tracking-widest">Luxury Home Management</p></div>
+    <button onclick="location.href='edit.html'" class="bg-[#2D5A27] text-white px-5 py-2.5 rounded-xl font-800 text-[10px] uppercase shadow-lg shadow-green-900/20"><i class="fas fa-plus mr-2"></i>Add Unit</button>
   </div>
+  <input type="text" id="sI" onkeyup="filter()" placeholder="Search Plot or HP-ID..." class="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 mb-6 outline-none focus:border-[#2D5A27] shadow-sm font-600 text-sm">
+  <div id="list"></div>
   <script>
     const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
-    if(!localStorage.getItem("COCO_AUTH")) location.href="gateway.html";
-
-    async function load() {
-      try {
-        const res = await fetch(`${API}?mode=getListSmall&t=${Date.now()}`);
-        const data = await res.json();
-        
-        // ✅ ตรวจสอบว่าเป็น Array หรือไม่เพื่อป้องกัน Error หน้าว่าง
-        if (Array.isArray(data)) {
-          document.getElementById('uList').innerHTML = data.map(u => `
-            <div class="t-row">
-              <div class="c-img"><img src="${u.Thumbnail_Image || 'https://via.placeholder.com/60x40'}" class="thumb"></div>
-              <div class="c-info"><span class="t-id">${u.HP_ID}</span></div>
-              <div class="c-plot"><span class="t-plot">${u.Plot || '-'}</span></div>
-              <div class="c-stat"><div class="dot-box"><div class="dot ${(u.Status||'').toLowerCase().includes('avail')?'dot-ok':''}"></div><div class="dot"></div></div></div>
-              <div class="c-btn"><a href="edit.html?id=${u.HP_ID}" class="text-orange-500 text-lg"><i class="fa-regular fa-pen-to-square"></i></a></div>
-            </div>`).join('');
-        } else { throw new Error("Data is not an array"); }
-      } catch(e) { 
-        console.error(e);
-        document.getElementById('uList').innerHTML = '<div class="p-20 text-center text-red-400 font-bold uppercase text-xs">⚠️ Connection Error<br><small>Please Check Script & Connection</small></div>'; 
-      }
+    let data = [];
+    async function init() {
+      const res = await fetch(`${API}?mode=getListSmall&project=coco`);
+      data = await res.json(); render(data);
     }
-    window.onload = load;
+    function render(items) {
+      document.getElementById('list').innerHTML = items.map(u => `
+        <div class="unit-row">
+          <img src="${u.Thumbnail_Image}" class="w-16 h-16 rounded-xl object-cover bg-slate-100">
+          <div class="flex-1 min-width-0">
+            <div class="text-[9px] text-slate-400 font-800 uppercase">#${u.HP_ID}</div>
+            <div class="font-800 text-sm truncate uppercase text-[#2D5A27]">Plot ${u.Plot || 'N/A'}</div>
+            <div class="text-[9px] text-[#C9A84C] font-800 uppercase tracking-tighter">${u.Status} | ${u.Bedrooms} BED</div>
+          </div>
+          <button onclick="location.href='edit.html?id=${u.HP_ID}'" class="bg-slate-50 p-3.5 rounded-2xl hover:bg-[#2D5A27] hover:text-white transition-all text-slate-400 border border-slate-100">
+            <i class="fas fa-edit text-xs"></i>
+          </button>
+        </div>`).join('');
+    }
+    function filter() {
+      const q = document.getElementById('sI').value.toLowerCase();
+      render(data.filter(u => u.HP_ID.toLowerCase().includes(q) || (u.Plot && u.Plot.toLowerCase().includes(q))));
+    }
+    window.onload = init;
   </script>
 </body>
 </html>
