@@ -6,6 +6,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
+    /* 🎨 CoCo Light Luxury Theme */
     :root { --coco: #2D5A27; --gold: #CEA86C; --white: #FFFFFF; --bg: #F8FAF8; --border: rgba(45, 90, 39, 0.08); --text: #1A3017; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background-color: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; -webkit-font-smoothing: antialiased; }
@@ -75,7 +76,11 @@
     </div>
     <div class="info-card" style="border-left: 4px solid var(--coco);"><h2 class="section-title">Ownership & Fees</h2><div class="grid"><div><div class="label">Monthly Fee</div><div class="val" id="vFeeM">-</div></div><div><div class="label">Yearly Total</div><div class="val gold-txt" id="vFeeY">-</div></div><div><div class="label">Ownership</div><div class="val" id="vOwner">-</div></div><div><div class="label">Transfer Exp.</div><div class="val" id="vTransfer">-</div></div></div></div>
     <div class="info-card"><h2 class="section-title">Description</h2><p id="vDesc" style="font-size: 0.82rem; line-height: 1.8; color: #444; font-weight: 400; white-space: pre-line;">-</p></div>
-    <div class="info-card"><h2 class="section-title">Location & Navigation</h2><div class="map-box" id="mapBox" style="display:none;"><iframe id="mapFrame" width="100%" height="100%" frameborder="0"></iframe></div><a id="navLink" href="" target="_blank" class="btn-nav" style="display:none;">📍 Start GPS Navigation</a></div>
+    <div class="info-card">
+      <h2 class="section-title">Location & Navigation</h2>
+      <div class="map-box" id="mapBox" style="display:none;"><iframe id="mapFrame" width="100%" height="100%" frameborder="0"></iframe></div>
+      <a id="navLink" href="" target="_blank" class="btn-nav" style="display:none;">📍 Start GPS Navigation</a>
+    </div>
     <div class="info-card"><h2 class="section-title">Nearby Lifestyle & Amenities</h2><div id="nearbyGrid" class="nearby-grid"></div></div>
   </main>
   <div class="footer"><a href="https://line.me/R/ti/p/@qap7218t" class="btn-chat">💬 Live Chat Concierge</a></div>
@@ -106,11 +111,16 @@
       document.getElementById('vKitchen').textContent = u.Kitchen_Type || "-"; document.getElementById('vParking').textContent = u.Parking || "-";
       document.getElementById('vDirect').textContent = u.Direction || "-"; document.getElementById('vUtil').textContent = `Elec: ${u.Electricity || '-'} | Water: ${u.Water_Source || '-'}`;
       document.getElementById('vDesc').textContent = u.Description || "-";
+      
+      // ✅ กู้คืนแผนที่และระบบนำทางให้ถูกต้อง
       if (u.Coordinates && u.Coordinates !== "#") {
         document.getElementById('mapBox').style.display='block'; document.getElementById('navLink').style.display='flex';
-        document.getElementById('mapFrame').src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyA_YOUR_KEY&q=${u.Coordinates.trim()}&output=embed`;
-        document.getElementById('navLink').href = `https://maps.google.com/maps?q=$...{u.Coordinates.trim()}`;
-        const [la, lo] = u.Coordinates.split(','); const grid = document.getElementById('nearbyGrid');
+        // 🗺️ ใช้ Standard Google Maps Embed URL ที่เสถียรที่สุด
+        const coords = u.Coordinates.trim();
+        document.getElementById('mapFrame').src = `https://maps.google.com/maps?q=${coords}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+        document.getElementById('navLink').href = `https://www.google.com/maps/dir/?api=1&destination=${coords}`;
+        
+        const [la, lo] = coords.split(','); const grid = document.getElementById('nearbyGrid');
         grid.innerHTML = LANDMARKS.map(loc => { const d = getDistance(parseFloat(la), parseFloat(lo), loc.lat, loc.lon); return `<div class="nearby-item"><div><div class="loc-name">${loc.name}</div><div class="loc-time">${Math.ceil(d*1.5)} mins drive</div></div><div class="loc-dist">${d.toFixed(1)} km</div></div>`; }).join('');
       }
       images = u.__album || [u.Thumbnail_Image]; if (images.length > 0) { renderThumbs(); setMain(0); }
