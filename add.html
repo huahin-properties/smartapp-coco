@@ -36,6 +36,7 @@
       <button onclick="switchTab('photo')" id="btn-photo" class="pb-4 font-800 text-[11px] uppercase tracking-widest tab-active">Visual Gallery</button>
       <button onclick="switchTab('info')" id="btn-info" class="pb-4 font-800 text-[11px] uppercase tracking-widest text-slate-400">Specifications</button>
     </div>
+
     <div id="tab-photo" class="space-y-6">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="input-card"><span class="field-label">Listing Cover</span><div id="thumbPreview" class="thumb-stage flex items-center justify-center overflow-hidden"><span class="text-4xl opacity-10">🌿</span></div><button onclick="document.getElementById('file_thumb').click()" class="w-full py-4 bg-[#2D5A27] text-white rounded-xl font-800 uppercase text-xs">Upload Cover</button><input type="file" id="file_thumb" class="hidden" accept="image/*" onchange="handleUpload(this, 'thumb')"></div>
@@ -47,6 +48,7 @@
         <div class="pdf-row"><div class="flex-1"><span class="text-[10px] font-800 text-[#6B7A68]">AGENT FACT SHEET</span><span id="txt-Material_PDF" class="pdf-name">No file found</span></div><button onclick="document.getElementById('f_agent').click()" class="btn-pdf bg-blue-600 text-white"><i class="fas fa-upload"></i></button><input type="file" id="f_agent" class="hidden" accept="application/pdf" onchange="handleUpload(this, 'agent', 'Material_PDF')"></div>
       </div></div>
     </div>
+
     <div id="tab-info" class="hidden space-y-6">
       <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-6">
         <input type="hidden" id="HP_ID">
@@ -62,7 +64,9 @@
         <div><label class="field-label">District</label><select id="District" class="field-input"></select></div>
         <div><label class="field-label">Furnishing</label><select id="Furnishing" class="field-input"></select></div>
         <div class="col-span-full border-t border-slate-100 pt-4"></div>
-        <div class="col-span-2"><label class="field-label">Zone</label><select id="Zone" class="field-input"></select></div>
+        
+        <div><label class="field-label">Build Stage</label><select id="Build_Stage" class="field-input"></select></div>
+        <div><label class="field-label">Zone</label><select id="Zone" class="field-input"></select></div>
         <div class="bg-green-50 p-3 rounded-xl border border-green-100 shadow-inner"><label class="field-label text-[#2D5A27]">Market Price</label><input id="Sale_Price" class="field-input !bg-white font-800 text-[#2D5A27]" placeholder="0"></div>
       </div>
     </div>
@@ -71,14 +75,23 @@
   <script>
     const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
     let gallery = [], hpId = "", pdfData = {}, thumbUrl = "";
+
     async function init() {
       showLoading("SYNCING...");
       const resId = await (await fetch(`${API}?mode=getNextID`)).json();
       if(resId.ok) { hpId = resId.nextID; document.getElementById('HP_ID').value = hpId; }
+      
       const meta = (await (await fetch(`${API}?mode=getMetadata`)).json()).data;
-      ["Status", "Listing_Type", "District", "Zone", "Furnishing"].forEach(f => { if(document.getElementById(f)) document.getElementById(f).innerHTML = meta[f].map(v => `<option value="${v}">${v}</option>`).join(''); });
+      
+      // 🎯 เพิ่ม Build_Stage เข้าไปในรายการดึงข้อมูล Metadata
+      ["Status", "Listing_Type", "District", "Zone", "Furnishing", "Build_Stage"].forEach(f => { 
+        if(document.getElementById(f) && meta[f]) {
+          document.getElementById(f).innerHTML = meta[f].map(v => `<option value="${v}">${v}</option>`).join(''); 
+        }
+      });
       hideLoading();
     }
+
     async function handleUpload(input, target, fieldId) {
       const filesArr = Array.from(input.files); if(!filesArr.length) return;
       for (let i = 0; i < filesArr.length; i++) {
@@ -97,14 +110,21 @@
       }
       hideLoading();
     }
+
     function renderGallery() { document.getElementById('galleryPreview').innerHTML = gallery.map(url => `<div class="img-tile"><img src="${url}" class="w-full h-full object-cover"></div>`).join('') || '🗂️'; }
+
     async function createNew() {
       if(!confirm("Create Listing?")) return;
-      showLoading("PUBLISHING..."); const p = { mode: "addNewUnit", HP_ID: hpId, Project_Name: "CoCo Hua Hin 88", Thumbnail_Image: thumbUrl, Album_Image: gallery.join(','), ...pdfData };
+      showLoading("PUBLISHING..."); 
+      const p = { mode: "addNewUnit", HP_ID: hpId, Project_Name: "CoCo Hua Hin 88", Thumbnail_Image: thumbUrl, Album_Image: gallery.join(','), ...pdfData };
+      
+      // ดึงค่าอัตโนมัติจากทุก input และ select รวมถึง Build_Stage ที่เพิ่มใหม่
       document.querySelectorAll('input, select').forEach(el => { if(el.id && el.id !== "HP_ID") p[el.id] = el.value; });
+      
       const res = await fetch(API, { method: 'POST', body: JSON.stringify(p) });
       if((await res.json()).ok) { alert('COCO DATABASE UPDATED! ✅'); location.href='dashboard.html'; }
     }
+
     function switchTab(t) { document.getElementById('tab-photo').classList.toggle('hidden', t !== 'photo'); document.getElementById('tab-info').classList.toggle('hidden', t !== 'info'); document.getElementById('btn-photo').className = t === 'photo' ? 'pb-4 font-800 text-[11px] uppercase tracking-widest tab-active' : 'pb-4 font-800 text-[11px] uppercase tracking-widest text-slate-400'; document.getElementById('btn-info').className = t === 'info' ? 'pb-4 font-800 text-[11px] uppercase tracking-widest tab-active' : 'pb-4 font-800 text-[11px] uppercase tracking-widest text-slate-400'; }
     function showLoading(txt) { document.getElementById('loadText').innerText = txt; document.getElementById('upLoading').style.display = 'flex'; }
     function hideLoading() { document.getElementById('upLoading').style.display = 'none'; }
