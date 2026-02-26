@@ -9,37 +9,37 @@
     :root { --coco: #2D5A27; --gold: #CEA86C; --white: #FFFFFF; --bg: #F8FAF8; --border: rgba(45, 90, 39, 0.08); --text: #1A3017; --pdf-red: #E02424; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background-color: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; -webkit-font-smoothing: antialiased; }
-    
+
     #pageSplash { position: fixed; inset: 0; background: #FFFFFF; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.4s; }
     .splash-brand { color: var(--coco); font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
-    
+
     header { position: fixed; top: 0; width: 100%; height: 55px; background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: center; padding: 0 15px; }
     .back { position: absolute; left: 15px; text-decoration: none; color: var(--coco); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-    
+
     .gallery-container { margin-top: 65px; padding: 0 15px; max-width: 1100px; margin-left: auto; margin-right: auto; }
     .gallery-card { background: #000; border-radius: 18px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 10px 30px rgba(45,90,39,0.1); margin-bottom: 20px; }
-    .main-stage { position: relative; width: 100%; aspect-ratio: 16 / 10; background: #eee; overflow: hidden; } 
+    .main-stage { position: relative; width: 100%; aspect-ratio: 16 / 10; background: #eee; overflow: hidden; }
     .main-img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s; }
     .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.7); color: var(--coco); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; }
-    
+
     .thumb-row { display: flex; gap: 10px; padding: 12px; overflow-x: auto; background: rgba(0,0,0,0.03); scrollbar-width: none; }
     .thumb { width: 90px; aspect-ratio: 16 / 10; border-radius: 8px; object-fit: cover; opacity: 0.5; cursor: pointer; border: 2px solid transparent; flex-shrink: 0; }
     .thumb.active { opacity: 1; border-color: var(--coco); }
     .tag-count { position: absolute; right: 15px; bottom: 15px; background: rgba(0,0,0,0.6); color: white; padding: 4px 10px; border-radius: 50px; font-size: 10px; font-weight: 600; }
-    
+
     .content { padding: 10px 15px 150px; max-width: 900px; margin: 0 auto; }
     .info-card { background: var(--white); border-radius: 12px; padding: 22px; margin-bottom: 15px; border: 1px solid var(--border); box-shadow: 0 5px 15px rgba(0,0,0,0.02); }
     .section-title { font-size: 0.65rem; font-weight: 700; color: var(--coco); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
     .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-    
+
     .label { font-size: 0.55rem; color: #6B7A68; text-transform: uppercase; font-weight: 600; margin-bottom: 3px; }
     .val { font-size: 0.82rem; font-weight: 500; color: var(--text); }
     .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-    
+
     .nearby-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 0.5px solid var(--border); }
     .loc-name { font-size: 0.78rem; font-weight: 300; }
     .loc-dist { font-size: 0.75rem; font-weight: 400; color: var(--coco); }
-    
+
     .map-box { width: 100%; height: 230px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); margin: 10px 0; background: #EEE; }
     .btn-nav { width: 100%; background: #000; color: #fff; text-decoration: none; padding: 14px; border-radius: 8px; display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 700; font-size: 0.85rem; margin-top: 10px; border: 1px solid rgba(255,255,255,0.1); }
 
@@ -47,7 +47,6 @@
     .btn-pdf-box { width: 100%; background: #FFFFFF; border: 1px solid var(--border); color: var(--coco); text-decoration: none; padding: 16px 20px; border-radius: 14px; display: flex; align-items: center; justify-content: space-between; font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
     .pdf-icon-red { color: var(--pdf-red); font-size: 1.25rem; }
 
-    /* 🎯 ไอคอนรูปกุญแจแก้ไขลอยซ่อน */
     .admin-key-float { position: fixed; bottom: 85px; right: 20px; width: 48px; height: 48px; background: rgba(255, 255, 255, 0.95); border: 1.5px solid var(--coco); border-radius: 50%; display: none; align-items: center; justify-content: center; color: var(--coco); font-size: 20px; z-index: 9999; text-decoration: none; box-shadow: 0 8px 25px rgba(45,90,39,0.15); backdrop-filter: blur(8px); transition: 0.3s; }
 
     .footer { position: fixed; bottom: 0; width: 100%; background: #fff; padding: 12px 15px; border-top: 1px solid var(--border); z-index: 1000; }
@@ -62,7 +61,17 @@
     <div style="font-family:'Playfair Display',serif; color:var(--coco); font-weight:700; font-size: 0.9rem; cursor: pointer;" id="headerTitle" ondblclick="unlockAdmin()">SPECIFICATIONS</div>
   </header>
 
-  <div class="gallery-container"><div class="gallery-card"><div class="main-stage"><img id="mainImg" class="main-img" src=""><div class="nav-arrow" style="left:10px" onclick="changeSlide(-1)">❮</div><div class="nav-arrow" style="right:10px" onclick="changeSlide(1)">❯</div><div class="tag-count" id="countLabel">0 / 0</div></div><div class="thumb-row" id="thumbStrip"></div></div></div>
+  <div class="gallery-container">
+    <div class="gallery-card">
+      <div class="main-stage">
+        <img id="mainImg" class="main-img" src="">
+        <div class="nav-arrow" style="left:10px" onclick="changeSlide(-1)">❮</div>
+        <div class="nav-arrow" style="right:10px" onclick="changeSlide(1)">❯</div>
+        <div class="tag-count" id="countLabel">0 / 0</div>
+      </div>
+      <div class="thumb-row" id="thumbStrip"></div>
+    </div>
+  </div>
 
   <main class="content">
     <div class="info-card">
@@ -107,10 +116,11 @@
 
     <div class="info-card"><h2 class="section-title">Description</h2><p id="vDesc" style="font-size: 0.82rem; line-height: 1.8; color: #444; white-space: pre-line;">-</p></div>
 
+    <!-- ✅ MAP (โครงสร้างเดิม) -->
     <div class="info-card">
       <h2 class="section-title">Location Intelligence</h2>
       <div class="map-box" id="mapBox" style="display:none;">
-        <iframe id="mapFrame" width="100%" height="100%" frameborder="0" style="border:0;"></iframe>
+        <iframe id="mapFrame" width="100%" height="100%" frameborder="0" style="border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
       <a id="navLink" href="" target="_blank" class="btn-nav" style="display:none;">📍 Start GPS Navigation</a>
     </div>
@@ -126,7 +136,6 @@
   </main>
 
   <a id="adminKeyBtn" href="#" class="admin-key-float"><i class="fas fa-key"></i></a>
-
   <div class="footer"><a href="https://line.me/R/ti/p/@qap7218t" class="btn-chat">💬 Live Chat Concierge</a></div>
 
   <script>
@@ -136,31 +145,128 @@
     const isAdmin = params.get('role') === 'admin' || localStorage.getItem('coco_admin_key') === 'true';
     let images = [], idx = 0;
 
-    const LANDMARKS = [{ name: "Hua Hin Beach", lat: 12.5696, lon: 99.9602 }, { name: "Cicada Market", lat: 12.5342, lon: 99.9655 }, { name: "Bluport Hua Hin Mall", lat: 12.5518, lon: 99.9631 }, { name: "Bangkok Hospital", lat: 12.5532, lon: 99.9610 }, { name: "Night Market", lat: 12.5714, lon: 99.9575 }, { name: "Railway Station", lat: 12.5674, lon: 99.9548 }, { name: "Black Mountain Golf", lat: 12.6146, lon: 99.8924 }];
+    const LANDMARKS = [
+      { name: "Hua Hin Beach", lat: 12.5696, lon: 99.9602 },
+      { name: "Cicada Market", lat: 12.5342, lon: 99.9655 },
+      { name: "Bluport Hua Hin Mall", lat: 12.5518, lon: 99.9631 },
+      { name: "Bangkok Hospital", lat: 12.5532, lon: 99.9610 },
+      { name: "Night Market", lat: 12.5714, lon: 99.9575 },
+      { name: "Railway Station", lat: 12.5674, lon: 99.9548 },
+      { name: "Black Mountain Golf", lat: 12.6146, lon: 99.8924 }
+    ];
 
-    function getDistance(lat1, lon1, lat2, lon2) { const R = 6371; const dLat = (lat2-lat1)*Math.PI/180; const dLon = (lon2-lon1)*Math.PI/180; const a = Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2); return R*(2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a)))*1.35; }
+    function getDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2-lat1)*Math.PI/180;
+      const dLon = (lon2-lon1)*Math.PI/180;
+      const a = Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
+      return R*(2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a)))*1.35;
+    }
 
-    // 🎯 ระบบลับปลดล็อค Admin
+    // 🔐 Admin unlock
     function unlockAdmin() { localStorage.setItem('coco_admin_key', 'true'); showAdminUI(); alert("ADMIN MODE ACTIVATED 🔐"); }
     function showAdminUI() { const btn = document.getElementById('adminKeyBtn'); if(btn) { btn.style.display='flex'; btn.href=`edit.html?id=${hpId}`; } }
 
-    async function init() { 
-      if(!hpId) return; 
+    async function init() {
+      if(!hpId) return;
       if(isAdmin) showAdminUI();
-      try { 
-        const res = await fetch(`${SCRIPT_URL}?mode=getUnitDetail&id=${hpId}`); 
-        const json = await res.json(); 
-        if(json.ok) renderData(json.data); 
-        hideSplash(); 
-      } catch(e) { hideSplash(); } 
+      try {
+        const res = await fetch(`${SCRIPT_URL}?mode=getUnitDetail&id=${hpId}`);
+        const json = await res.json();
+        if(json.ok) renderData(json.data);
+        hideSplash();
+      } catch(e) { hideSplash(); }
     }
 
-    function hideSplash() { const s = document.getElementById('pageSplash'); if(s) { s.style.opacity = '0'; setTimeout(()=>s.style.display='none', 400); } }
+    function hideSplash() {
+      const s = document.getElementById('pageSplash');
+      if(s) { s.style.opacity = '0'; setTimeout(()=>s.style.display='none', 400); }
+    }
+
+    /* =========================================================
+       ✅ MAP/NAV (ยก “แนวทาง Pyne Plus” มาใช้กับ CoCo)
+       - แก้ปัญหาแผนที่หลุดไปโลก/ซ้ำ ๆ : สาเหตุหลักคือมี "$" หน้าพิกัด
+       - รองรับ 3 แบบ:
+         1) Coordinates = "12.34,99.12"
+         2) Map_Link เป็นลิงก์ google maps (ถ้าแยกพิกัดได้ จะ embed ได้)
+         3) Map_Link เป็น maps.app.goo.gl (embed ไม่ได้) -> แสดงปุ่มนำทางอย่างเดียว
+       ========================================================= */
+    function normalizeCoords(raw) {
+      if(!raw) return null;
+      const s = String(raw).trim();
+
+      // ล้างตัวอักษรที่ทำให้พัง (เช่น "$")
+      const cleaned = s.replace(/\$/g,'').trim();
+
+      // หา lat,lon แบบตัวเลข
+      const m = cleaned.match(/(-?\d{1,3}\.\d+)\s*,\s*(-?\d{1,3}\.\d+)/);
+      if(!m) return null;
+
+      const lat = parseFloat(m[1]);
+      const lon = parseFloat(m[2]);
+      if(!isFinite(lat) || !isFinite(lon)) return null;
+      if(Math.abs(lat) > 90 || Math.abs(lon) > 180) return null;
+      return { lat, lon, text: `${lat},${lon}` };
+    }
+
+    function tryExtractCoordsFromMapUrl(url) {
+      if(!url) return null;
+      const s = String(url).trim();
+
+      // ตัวอย่างที่มักเจอ: .../@12.34,99.12,17z
+      const at = s.match(/@(-?\d{1,3}\.\d+),\s*(-?\d{1,3}\.\d+)/);
+      if(at) return normalizeCoords(`${at[1]},${at[2]}`);
+
+      // ตัวอย่าง: q=12.34,99.12
+      const q = s.match(/[?&]q=([^&]+)/);
+      if(q) return normalizeCoords(decodeURIComponent(q[1]));
+
+      // ตัวอย่าง: destination=12.34,99.12
+      const d = s.match(/[?&]destination=([^&]+)/);
+      if(d) return normalizeCoords(decodeURIComponent(d[1]));
+
+      return null;
+    }
+
+    function showMapAndNav({coords, navUrl}) {
+      const mapBox = document.getElementById('mapBox');
+      const mapFrame = document.getElementById('mapFrame');
+      const navLink = document.getElementById('navLink');
+
+      // NAV ปุ่ม
+      navLink.style.display = 'flex';
+      navLink.href = navUrl;
+      navLink.target = "_blank";
+
+      // MAP iframe (ถ้าไม่มี coords จริง จะไม่ฝืน embed)
+      if(coords && coords.text){
+        mapBox.style.display = 'block';
+        mapFrame.src = `https://maps.google.com/maps?q=${encodeURIComponent(coords.text)}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+      } else {
+        mapBox.style.display = 'none';
+        mapFrame.removeAttribute('src');
+      }
+    }
+
+    function updateNearbyFromCoords(coords){
+      if(!coords) return;
+      const grid = document.getElementById('nearbyGrid');
+      grid.innerHTML = LANDMARKS.map(loc => {
+        const d = getDistance(coords.lat, coords.lon, loc.lat, loc.lon);
+        return `<div class="nearby-item">
+          <div>
+            <div class="loc-name">${loc.name}</div>
+            <div class="loc-time">${Math.ceil(d*1.5)} mins drive</div>
+          </div>
+          <div class="loc-dist">${d.toFixed(1)} km</div>
+        </div>`;
+      }).join('');
+    }
 
     function renderData(u) {
-      const p = parseFloat(String(u.Sale_Price || 0).replace(/[^0-9.]/g, '')) || 0; 
+      const p = parseFloat(String(u.Sale_Price || 0).replace(/[^0-9.]/g, '')) || 0;
       const a = parseFloat(String(u.Living_Area_sq_m).replace(/[^0-9.]/g, '')) || 1;
-      
+
       document.getElementById('pPlot').textContent = `Plot ${u.Plot || '-'}`;
       document.getElementById('pLocText').textContent = `📍 ${u.SubDistrict || '-'}, ${u.District || '-'}`;
       document.getElementById('pPrice').textContent = `฿${p.toLocaleString()}`;
@@ -172,49 +278,103 @@
       document.getElementById('vFeeY').textContent = `฿${Math.round((parseFloat(u.Common_Fee_Rate)||0)*a*12).toLocaleString()} / Yr`;
       document.getElementById('vOwner').textContent = u.Ownership_Type || '-';
       document.getElementById('vTransfer').textContent = u.Transfer_Expenses || "-";
-      document.getElementById('vStatus').textContent = u.Status || "-"; 
-      document.getElementById('vDistrict').textContent = u.District || "-"; 
-      document.getElementById('vSubDistrict').textContent = u.SubDistrict || "-"; 
+      document.getElementById('vStatus').textContent = u.Status || "-";
+      document.getElementById('vDistrict').textContent = u.District || "-";
+      document.getElementById('vSubDistrict').textContent = u.SubDistrict || "-";
       document.getElementById('vZone').textContent = u.Zone || "-";
       document.getElementById('vBuildStage').textContent = u.Build_Stage || "-";
       document.getElementById('vFurnish').textContent = u.Furnishing || "-";
-      document.getElementById('vKitchen').textContent = u.Kitchen_Type || "-"; 
+      document.getElementById('vKitchen').textContent = u.Kitchen_Type || "-";
       document.getElementById('vParking').textContent = u.Parking || "-";
       document.getElementById('vPool').textContent = `${u.Pool_Size || '-'} (${u.Pool_Depth || '-'})`;
-      document.getElementById('vDirect').textContent = u.Direction || "-"; 
+      document.getElementById('vDirect').textContent = u.Direction || "-";
       document.getElementById('vUtil').textContent = `Elec: ${u.Electricity || '-'} | Water: ${u.Water_Source || '-'}`;
       document.getElementById('vDesc').textContent = u.Description || "-";
 
-      const pdfs = [{ id: 'pdf-floor', url: u.FloorPlan_PDF }, { id: 'pdf-brochure', url: u.Sales_Gallery }, { id: 'pdf-factsheet', url: u.Material_PDF }];
+      // PDFs
+      const pdfs = [
+        { id: 'pdf-floor', url: u.FloorPlan_PDF },
+        { id: 'pdf-brochure', url: u.Sales_Gallery },
+        { id: 'pdf-factsheet', url: u.Material_PDF }
+      ];
       let hasPdf = false;
-      pdfs.forEach(item => { if(item.url && item.url !== "#" && item.url.startsWith('http')) { const el = document.getElementById(item.id); el.href = item.url; el.style.display = 'flex'; hasPdf = true; } });
+      pdfs.forEach(item => {
+        if(item.url && item.url !== "#" && String(item.url).startsWith('http')) {
+          const el = document.getElementById(item.id);
+          el.href = item.url;
+          el.style.display = 'flex';
+          hasPdf = true;
+        }
+      });
       if(hasPdf) document.getElementById('pdfSuite').style.display = 'flex';
 
-      // 🎯 ส่วนที่แก้ไข: การดึงพิกัดที่ถูกต้องตามแบบ Pyne Plus (เพิ่มเครื่องหมาย $ )
-      if (u.Coordinates && u.Coordinates !== "#") {
-        document.getElementById('mapBox').style.display = 'block';
-        const coords = u.Coordinates.trim();
-        // แก้ไขโดยใส่ ${coords} เพื่อดึงพิกัดจริงไปใส่ใน URL ครับ
-        document.getElementById('mapFrame').src = `https://maps.google.com/maps?q=$${coords}&t=&z=15&ie=UTF8&iwloc=&output=embed`; 
-        document.getElementById('navLink').style.display = 'flex';
-        document.getElementById('navLink').href = `https://www.google.com/maps/dir/?api=1&destination=$${coords}`;
-        
-        const [la, lo] = coords.split(','); 
-        const grid = document.getElementById('nearbyGrid');
-        grid.innerHTML = LANDMARKS.map(loc => { 
-          const d = getDistance(parseFloat(la), parseFloat(lo), loc.lat, loc.lon); 
-          return `<div class="nearby-item"><div><div class="loc-name">${loc.name}</div><div class="loc-time">${Math.ceil(d*1.5)} mins drive</div></div><div class="loc-dist">${d.toFixed(1)} km</div></div>`; 
-        }).join('');
+      /* ✅ MAP/NAV ใหม่ (ตาม Pyne Plus) */
+      const mapBox = document.getElementById('mapBox');
+      const navLink = document.getElementById('navLink');
+      const mapFrame = document.getElementById('mapFrame');
+
+      // reset
+      mapBox.style.display = 'none';
+      navLink.style.display = 'none';
+      mapFrame.removeAttribute('src');
+
+      // Priority: Map_Link (ถ้ามี) -> Coordinates
+      const mapLinkRaw = u.Map_Link && u.Map_Link !== "#" ? String(u.Map_Link).trim() : "";
+      const coordsRaw  = u.Coordinates && u.Coordinates !== "#" ? String(u.Coordinates).trim() : "";
+
+      // 1) ถ้ามี Map_Link
+      if(mapLinkRaw){
+        // ถ้าเป็น short link (maps.app.goo.gl) embed จะทำงานไม่ดี → ให้ใช้ปุ่มนำทางอย่างเดียว
+        const isShort = /maps\.app\.goo\.gl/i.test(mapLinkRaw);
+
+        if(isShort){
+          showMapAndNav({ coords: null, navUrl: mapLinkRaw });
+        } else {
+          // พยายามดึงพิกัดจาก URL เพื่อ embed
+          const coordsFromUrl = tryExtractCoordsFromMapUrl(mapLinkRaw);
+          if(coordsFromUrl){
+            showMapAndNav({
+              coords: coordsFromUrl,
+              navUrl: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(coordsFromUrl.text)}`
+            });
+            updateNearbyFromCoords(coordsFromUrl);
+          } else {
+            // ดึงพิกัดไม่ได้ → อย่างน้อยให้กดนำทางได้
+            showMapAndNav({ coords: null, navUrl: mapLinkRaw });
+          }
+        }
       }
-      
-      images = u.__album || [u.Thumbnail_Image]; 
+      // 2) ถ้าไม่มี Map_Link แต่มี Coordinates
+      else if(coordsRaw){
+        const coords = normalizeCoords(coordsRaw);
+        if(coords){
+          showMapAndNav({
+            coords,
+            navUrl: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(coords.text)}`
+          });
+          updateNearbyFromCoords(coords);
+        }
+      }
+
+      // Album
+      images = u.__album || [u.Thumbnail_Image];
       if (images.length > 0) { renderThumbs(); setMain(0); }
     }
 
-    function setMain(i) { idx = (i + images.length) % images.length; const mainImg = document.getElementById('mainImg'); mainImg.style.opacity = '0.3'; setTimeout(() => { mainImg.src = images[idx]; mainImg.style.opacity = '1'; document.getElementById('countLabel').textContent = `${idx + 1} / ${images.length}`; document.querySelectorAll('.thumb').forEach((t, k) => t.classList.toggle('active', k === idx)); }, 150); }
+    function setMain(i) {
+      idx = (i + images.length) % images.length;
+      const mainImg = document.getElementById('mainImg');
+      mainImg.style.opacity = '0.3';
+      setTimeout(() => {
+        mainImg.src = images[idx];
+        mainImg.style.opacity = '1';
+        document.getElementById('countLabel').textContent = `${idx + 1} / ${images.length}`;
+        document.querySelectorAll('.thumb').forEach((t, k) => t.classList.toggle('active', k === idx));
+      }, 150);
+    }
     function changeSlide(n) { setMain(idx + n); }
     function renderThumbs() { document.getElementById('thumbStrip').innerHTML = images.map((src, i) => `<img class="thumb" src="${src}" onclick="setMain(${i})">`).join(''); }
-    
+
     init();
   </script>
 </body>
