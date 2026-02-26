@@ -16,8 +16,8 @@
     .thumb-stage { position: relative; width: 100%; aspect-ratio: 16/10; border-radius: 12px; overflow: hidden; border: 1px solid #eee; background: #fafafa; margin-bottom: 1rem; }
     .img-tile { position: relative; aspect-ratio: 1; border-radius: 12px; overflow: hidden; border: 1px solid #eee; transition: 0.3s; background: #fff; }
     .pdf-row { display: flex; align-items: center; gap: 8px; background: #F3F6F3; padding: 15px; border-radius: 18px; margin-bottom: 10px; border: 1px solid rgba(45,90,39,0.05); }
-    .pdf-name { font-size: 9px; color: #2D5A27; font-weight: 700; display: block; margin-top: 2px; }
-    .btn-pdf { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+    .pdf-name { font-size: 9px; color: #2D5A27; font-weight: 700; display: block; margin-top: 2px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+    .btn-pdf { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
     .upload-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.95); z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; }
     .loader { border: 4px solid #eee; border-top: 4px solid #2D5A27; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 15px; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -29,9 +29,10 @@
   <div id="upLoading" class="upload-overlay"><div class="loader"></div><div id="loadText" class="text-xs font-800 text-[#2D5A27] tracking-[0.3em]">SYNCING...</div></div>
   <div class="content-wrapper">
     <div class="bg-[#2D5A27] rounded-[2.5rem] p-8 text-white flex justify-between items-center mb-8 shadow-xl">
-      <div><p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">Editor Suite</p><h1 class="text-3xl font-800 tracking-tighter italic">UPDATE LISTING DATA</h1></div>
+      <div><p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">Editor Suite</p><h1 class="text-3xl font-800 tracking-tighter italic">UPDATE ASSET DATA</h1></div>
       <button onclick="location.href='dashboard.html'" class="bg-white/10 hover:bg-white/20 p-4 rounded-2xl transition-all">✕</button>
     </div>
+    
     <div class="flex gap-8 mb-8 border-b border-[#2D5A27]/10 px-4">
       <button onclick="switchTab('photo')" id="btn-photo" class="pb-4 font-800 text-[11px] uppercase tracking-widest tab-active">Visual Gallery</button>
       <button onclick="switchTab('info')" id="btn-info" class="pb-4 font-800 text-[11px] uppercase tracking-widest text-slate-400">Specifications</button>
@@ -111,7 +112,7 @@
           ["FloorPlan_PDF", "Sales_Gallery", "Material_PDF"].forEach(fId => {
             if(u[fId]) {
               pdfData[fId] = u[fId];
-              document.getElementById('txt-'+fId).innerText = "File connected ✅";
+              document.getElementById('txt-'+fId).innerText = "Connected ✅";
               document.getElementById('txt-'+fId).style.color = "#2D5A27";
             } else { document.getElementById('txt-'+fId).innerText = "No file attached"; }
           });
@@ -150,14 +151,16 @@
         document.querySelectorAll('input, select').forEach(el => { if(el.id) p[el.id] = el.value; });
         
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 20000); // 🎯 ป้องกันค้าง (20 วินาที)
+        const timeoutId = setTimeout(() => controller.abort(), 30000); 
 
         const res = await fetch(API, { method: 'POST', body: JSON.stringify(p), signal: controller.signal });
         clearTimeout(timeoutId);
+        const result = await res.json();
         
-        if((await res.json()).ok) { alert('DATA REFRESHED SUCCESSFULLY! ✅'); location.href='dashboard.html'; }
-      } catch(e) { alert('Sync Timeout or Error. Please check your connection.'); }
-      finally { hideLoading(); } // 🎯 ปิดตัวหมุนทุกกรณี (V185 Fix)
+        if(result.ok) { alert('DATABASE UPDATED! ✅'); location.href='dashboard.html'; }
+        else { alert('Sync Error: ' + result.msg); }
+      } catch(e) { alert('Update timed out or failed. Please refresh and try again.'); console.error(e); }
+      finally { hideLoading(); }
     }
 
     function switchTab(t) {
