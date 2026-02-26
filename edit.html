@@ -69,9 +69,9 @@
         <div>
           <label class="field-label">Build Stage</label>
           <select id="Build_Stage" class="field-input">
-            <option value="Ready to Move In">Ready</option>
-            <option value="Under Construction">Building</option>
-            <option value="Land & Build to Order">Plots</option>
+            <option value="Ready">Ready</option>
+            <option value="Building">Building</option>
+            <option value="Plots">Plots</option>
           </select>
         </div>
         
@@ -91,48 +91,36 @@
     async function init() {
       if(!hpIdFromUrl) { alert("Asset ID Missing!"); return; }
       showLoading("RETRIEVING ASSET...");
-      
       try {
-        // 1. ดึง Metadata สำหรับ Dropdowns (เหมือนหน้า Add)
-        const meta = (await (await fetch(`${API}?mode=getMetadata`)).json()).data;
+        const metaRes = await fetch(`${API}?mode=getMetadata`);
+        const meta = (await metaRes.json()).data;
         ["Status", "Listing_Type", "District", "Zone", "Furnishing"].forEach(f => { 
           if(document.getElementById(f) && meta[f]) {
             document.getElementById(f).innerHTML = meta[f].map(v => `<option value="${v}">${v}</option>`).join(''); 
           }
         });
 
-        // 2. ดึงข้อมูลเดิมของทรัพย์ชิ้นนี้มาโชว์
         const res = await fetch(`${API}?mode=getUnitDetail&id=${hpIdFromUrl}`);
         const json = await res.json();
         if(json.ok) {
           const u = json.data;
           document.getElementById('HP_ID').value = u.HP_ID;
-          
-          // กรอกข้อมูลลงใน Input และ Select ต่างๆ อัตโนมัติ
           document.querySelectorAll('input, select').forEach(el => {
             if(el.id && u[el.id] !== undefined) el.value = u[el.id];
           });
-
-          // ดึงรูป Cover
           thumbUrl = u.Thumbnail_Image;
           if(thumbUrl) document.getElementById('thumbPreview').innerHTML = `<img src="${thumbUrl}" class="w-full h-full object-cover">`;
-
-          // ดึงรูป Album
           if(u.__album) { gallery = u.__album; renderGallery(); }
-
-          // ดึงไฟล์ PDF
           ["FloorPlan_PDF", "Sales_Gallery", "Material_PDF"].forEach(fId => {
             if(u[fId]) {
               pdfData[fId] = u[fId];
               document.getElementById('txt-'+fId).innerText = "File connected ✅";
               document.getElementById('txt-'+fId).style.color = "#2D5A27";
-            } else {
-              document.getElementById('txt-'+fId).innerText = "No file attached";
-            }
+            } else { document.getElementById('txt-'+fId).innerText = "No file attached"; }
           });
         }
       } catch(e) { console.error(e); }
-      hideLoading();
+      finally { hideLoading(); }
     }
 
     async function handleUpload(input, target, fieldId) {
@@ -160,12 +148,24 @@
     async function saveUpdate() {
       if(!confirm("Apply these changes?")) return;
       showLoading("SYNCING DATABASE...");
-      const p = { mode: "updateUnit", Project_Name: "CoCo Hua Hin 88", Thumbnail_Image: thumbUrl, Album_Image: gallery.join(','), ...pdfData };
-      document.querySelectorAll('input, select').forEach(el => { if(el.id) p[el.id] = el.value; });
-      
-      const res = await fetch(API, { method: 'POST', body: JSON.stringify(p) });
-      if((await res.json()).ok) { alert('DATA REFRESHED SUCCESSFULLY! ✅'); location.href='dashboard.html'; }
-      hideLoading();
+      try {
+        const p = { mode: "updateUnit", Project_Name: "CoCo Hua Hin 88", Thumbnail_Image: thumbUrl, Album_Image: gallery.join(','), ...pdfData };
+        document.querySelectorAll('input, select').forEach(el => { if(el.id) p[el.id] = el.value; });
+        
+        const res = await fetch(API, { method: 'POST', body: JSON.stringify(p) });
+        const result = await res.json();
+        if(result.ok) { 
+          alert('DATA REFRESHED SUCCESSFULLY! ✅'); 
+          location.href='dashboard.html'; 
+        } else {
+          alert('Update failed: ' + (result.msg || 'Unknown Error'));
+        }
+      } catch(e) { 
+        alert('Connection Error! Check your script permissions.');
+        console.error(e); 
+      } finally {
+        hideLoading(); // 🎯 แก้ปัญหาหมุนค้าง: ปิดการโหลดเสมอ
+      }
     }
 
     function switchTab(t) {
