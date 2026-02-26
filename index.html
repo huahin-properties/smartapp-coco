@@ -7,11 +7,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
     :root { --brand: #2D5A27; --bg: #F8FAF8; --gold: #CEA86C; --text: #1A3017; --border: rgba(45, 90, 39, 0.1); --row-h: 80px; --thumb-w: 105px; }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background-color: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
 
-    /* ✅ Center layout (mobile + desktop) */
+    /* ✅ container ให้ทุกส่วน “อยู่กึ่งกลาง” แบบสมมาตร */
     .page{
       max-width: 1120px;
       margin: 0 auto;
@@ -21,6 +20,7 @@
     header {
       position: fixed; top: 0; left: 0; right: 0;
       height: 55px;
+      display: flex; align-items: center; justify-content: space-between;
       background: rgba(255, 255, 255, 0.98);
       backdrop-filter: blur(15px);
       z-index: 1000;
@@ -28,47 +28,27 @@
     }
     header .page{
       height: 55px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 12px;
+      display:flex; align-items:center; justify-content:space-between;
     }
 
     .hero { padding: 75px 0 10px; text-align: center; }
-    .hero .wrap{ max-width: 640px; margin: 0 auto; }
-
-    .search-input {
-      width: 100%;
-      background: #FFFFFF;
-      border: 1.5px solid var(--brand);
-      border-radius: 50px;
-      padding: 10px 15px 10px 40px;
-      color: var(--text);
-      font-weight: 600;
-      font-size: 0.85rem;
-      outline: none;
-      margin-bottom: 10px;
-      box-shadow: 0 4px 10px rgba(45, 90, 39, 0.05);
-    }
-
+    .search-input { width: 100%; background: #FFFFFF; border: 1.5px solid var(--brand); border-radius: 50px; padding: 10px 15px 10px 40px; color: var(--text); font-weight: 600; font-size: 0.85rem; outline: none; margin-bottom: 10px; box-shadow: 0 4px 10px rgba(45, 90, 39, 0.05); }
     .filters-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 10px; }
     .filter-select { background: #FFFFFF; border: 1px solid var(--border); border-radius: 8px; padding: 8px; color: var(--brand); font-size: 0.75rem; font-weight: 700; text-align: center; outline: none; appearance: none; }
 
-    /* ✅ Pill menu: center + balanced on desktop, scroll on mobile */
+    /* ✅ FIX: เมนู Pill ให้อยู่กึ่งกลางสมมาตร (desktop+mobile) */
     .pill-container{
       display: flex;
-      gap: 6px;
-      overflow-x: auto;
-      padding-bottom: 10px;
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
-      scroll-snap-type: x mandatory;
+      gap: 8px;
+      justify-content: center;   /* 🎯 ทำให้กึ่งกลาง */
+      align-items: center;
+      flex-wrap: wrap;          /* 🎯 มือถือจอแคบก็ยัง “สมมาตร” */
+      padding: 2px 0 10px;
     }
-    .pill-container::-webkit-scrollbar{ display:none; }
-    .pill{
+    .pill {
       white-space: nowrap;
       padding: 7px 14px;
-      border-radius: 999px;
+      border-radius: 50px;
       background: #FFF;
       border: 1px solid var(--border);
       color: #6B7A68;
@@ -76,55 +56,15 @@
       font-weight: 800;
       text-transform: uppercase;
       cursor: pointer;
-      scroll-snap-align: start;
-      flex: 0 0 auto;
       user-select: none;
     }
     .pill.active { background: var(--brand); color: #FFF; border-color: var(--brand); }
 
-    /* ✅ On wider screens: center pills, no horizontal scroll */
-    @media (min-width: 720px){
-      .pill-container{
-        justify-content: center;
-        overflow-x: visible;
-        scroll-snap-type: none;
-      }
-      .pill{ flex: 0 0 auto; font-size: 0.66rem; padding: 8px 16px; }
-    }
-
-    /* ✅ Section bar centered */
-    .section-bar{
-      border-top: 1px solid var(--border);
-      margin-top: 10px;
-    }
-    .section-bar .page{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding: 15px 12px;
-    }
-
-    .prop-list {
-      padding: 0 0 40px;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 8px;
-    }
-
-    .card {
-      background: #FFFFFF;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      display: flex;
-      height: var(--row-h);
-      overflow: hidden;
-      text-decoration: none;
-      color: inherit;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-    }
+    /* ✅ list centered */
+    .prop-list { padding: 0 0 40px; display: grid; grid-template-columns: 1fr; gap: 8px; max-width: 1120px; margin: 0 auto; }
+    .card { background: #FFFFFF; border: 1px solid var(--border); border-radius: 12px; display: flex; height: var(--row-h); overflow: hidden; text-decoration: none; color: inherit; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
     .card-img { width: var(--thumb-w); flex-shrink: 0; position: relative; }
     .card-img img { width: 100%; height: 100%; object-fit: cover; }
-
     .hp-id { position: absolute; top: 4px; left: 6px; font-size: 0.45rem; color: #FFF; background: rgba(0,0,0,0.4); padding: 2px 5px; border-radius: 3px; font-weight: 800; text-transform: uppercase; }
     .card-info { flex: 1; padding: 4px 10px; display: flex; flex-direction: column; justify-content: center; gap: 2px; min-width: 0; }
     .info-row { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 5px; }
@@ -133,15 +73,12 @@
     .status-tag { font-size: 0.48rem; padding: 1.5px 5px; border-radius: 3px; border: 1px solid; font-weight: 800; text-transform: uppercase; }
     .s-available { color: #2D5A27; border-color: #2D5A27; background: rgba(45, 90, 39, 0.05); }
     .furnish-tag { color: var(--gold); border-color: var(--gold); background: rgba(206, 168, 108, 0.05); font-size: 0.48rem; padding: 1.5px 5px; border-radius: 3px; border: 1px solid; font-weight: 800; text-transform: uppercase; }
-
     .admin-float { position: fixed; bottom: 25px; right: 20px; width: 45px; height: 45px; background: var(--brand); border: 2px solid #FFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #FFF; font-size: 18px; z-index: 9999; text-decoration: none; box-shadow: 0 10px 25px rgba(45, 90, 39, 0.3); }
 
     @media (min-width: 768px) {
       :root { --row-h: 90px; --thumb-w: 140px; }
       .prop-list { grid-template-columns: 1fr 1fr; gap: 12px; }
       .page{ padding: 0 16px; }
-      header .page{ padding: 0 16px; }
-      .section-bar .page{ padding: 16px; }
     }
   </style>
 </head>
@@ -157,16 +94,20 @@
 
   <section class="hero">
     <div class="page">
-      <div class="wrap">
+      <div style="max-width:550px; margin:0 auto;">
         <input type="text" id="sI" class="search-input" placeholder="Search Plot..." onkeyup="f()">
         <div class="filters-grid">
           <select id="zF" onchange="f()" class="filter-select"><option value="">All Plots</option></select>
-          <select id="sF" onchange="f()" class="filter-select"><option value="">Price Sort</option><option value="low">Low → High</option><option value="high">High → Low</option></select>
+          <select id="sF" onchange="f()" class="filter-select">
+            <option value="">Price Sort</option>
+            <option value="low">Low → High</option>
+            <option value="high">High → Low</option>
+          </select>
           <select id="bF" onchange="f()" class="filter-select"><option value="">Bedrooms</option></select>
         </div>
 
-        <!-- ✅ Keep same data-f keys to preserve existing filter logic -->
-        <div class="pill-container" id="pillBox" aria-label="Filters">
+        <!-- ✅ data-f เหมือนเดิมทุกตัว (รักษา logic การกรองเดิม 100%) -->
+        <div class="pill-container" id="pillBox">
           <div class="pill active" data-f="all">ALL Plots</div>
           <div class="pill" data-f="Ready to Move In">Ready</div>
           <div class="pill" data-f="Under Construction">Building</div>
@@ -176,11 +117,10 @@
     </div>
   </section>
 
-  <div class="section-bar">
-    <div class="page">
-      <h2 style="font-size:0.85rem; color:var(--brand); text-transform:uppercase; font-weight:800; letter-spacing: 1px;">
-        Elite Collections
-      </h2>
+  <!-- ✅ แถบหัวข้อให้กึ่งกลางตาม container -->
+  <div style="border-top:1px solid var(--border); margin-top:10px;">
+    <div class="page" style="display:flex; justify-content:space-between; padding:15px 0;">
+      <h2 style="font-size:0.85rem; color:var(--brand); text-transform:uppercase; font-weight:800; letter-spacing: 1px;">Elite Collections</h2>
       <span id="unitCount" style="font-size:0.65rem; color:#6B7A68; font-weight:700;">Loading...</span>
     </div>
   </div>
@@ -199,13 +139,10 @@
       try {
         const res = await fetch(`${API}?mode=getListSmall&project=coco`);
         data = await res.json();
-
         const plots = [...new Set(data.map(p => p.Plot))].filter(Boolean).sort();
         plots.forEach(p => document.getElementById('zF').innerHTML += `<option value="${p}">Plot ${p}</option>`);
-
-        const beds = [...new Set(data.map(p => p.Bedrooms))].filter(v => v !== "" && v != null).sort((a,b)=>a-b);
+        const beds = [...new Set(data.map(p => p.Bedrooms))].sort((a,b)=>a-b);
         beds.forEach(b => document.getElementById('bF').innerHTML += `<option value="${b}">${b} Bed</option>`);
-
         f();
       } catch (err) { console.error(err); }
     }
@@ -217,7 +154,7 @@
       const pill = document.querySelector('.pill.active').dataset.f;
       const sort = document.getElementById('sF').value;
 
-      // ✅ Keep original filtering logic (Build_Stage)
+      // ✅ รักษา logic เดิม (Build_Stage ตรงๆ)
       let res = data.filter(u =>
         (!q || `${u.Plot}`.toLowerCase().includes(q)) &&
         (!plot || u.Plot === plot) &&
@@ -229,12 +166,11 @@
       else if (sort === "high") res.sort((x,y) => (y.Sale_Price || 0) - (x.Sale_Price || 0));
 
       document.getElementById('unitCount').textContent = `${res.length} UNITS`;
-
       document.getElementById('propGrid').innerHTML = res.map(u => `
         <a href="details.html?id=${u.HP_ID}" class="card">
           <div class="card-img">
             <span class="hp-id">PLOT ${u.Plot || '-'}</span>
-            <img src="${u.Thumbnail_Image || 'https://via.placeholder.com/400x250'}" loading="lazy" alt="Plot ${u.Plot || ''}">
+            <img src="${u.Thumbnail_Image || 'https://via.placeholder.com/400x250'}" loading="lazy">
           </div>
           <div class="card-info">
             <div class="info-row">
@@ -242,13 +178,11 @@
               <div class="furnish-tag">${u.Furnishing || '-'}</div>
             </div>
             <div class="info-row">
-              <div style="font-size:0.62rem; color:#6B7A68; font-weight:600;">
-                ${u.Bedrooms} Bed | ${u.Living_Area_sq_m || 0} m²
-              </div>
-              <div class="price-new">฿${Number(u.Sale_Price || 0).toLocaleString()}</div>
+              <div style="font-size:0.62rem; color:#6B7A68; font-weight:600;">${u.Bedrooms} Bed | ${u.Living_Area_sq_m || 0} m²</div>
+              <div class="price-new">฿${Number(u.Sale_Price).toLocaleString()}</div>
             </div>
             <div class="info-row">
-              <span class="status-tag s-available">${u.Status || '-'}</span>
+              <span class="status-tag s-available">${u.Status}</span>
               <div style="font-size:0.55rem; color:#6B7A68; font-weight:600;">COCO HUA HIN 88</div>
             </div>
           </div>
@@ -257,11 +191,11 @@
     }
 
     document.getElementById('pillBox').addEventListener('click', (e) => {
-      const t = e.target.closest('.pill');
-      if (!t) return;
-      document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-      t.classList.add('active');
-      f();
+      if (e.target.classList.contains('pill')) {
+        document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+        e.target.classList.add('active');
+        f();
+      }
     });
 
     window.onload = init;
