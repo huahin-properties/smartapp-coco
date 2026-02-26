@@ -40,7 +40,7 @@
     .loc-name { font-size: 0.78rem; font-weight: 300; }
     .loc-dist { font-size: 0.75rem; font-weight: 400; color: var(--coco); }
     
-    .map-box { width: 100%; height: 230px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); margin: 10px 0; }
+    .map-box { width: 100%; height: 230px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); margin: 10px 0; background: #EEE; }
     .btn-nav { width: 100%; background: #000; color: #fff; text-decoration: none; padding: 14px; border-radius: 8px; display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 700; font-size: 0.85rem; margin-top: 10px; border: 1px solid rgba(255,255,255,0.1); }
 
     .pdf-suite { display: none; flex-direction: column; gap: 10px; margin-top: 20px; }
@@ -135,7 +135,7 @@
     const isAdmin = params.get('role') === 'admin' || localStorage.getItem('coco_admin_key') === 'true';
     let images = [], idx = 0;
 
-    const LANDMARKS = [{ name: "Hua Hin Beach", lat: 12.5696, lon: 99.9602 }, { name: "Cicada Market", lat: 12.5342, lon: 99.9655 }, { name: "Bluport Hua Hin Mall", lat: 12.5518, lon: 99.9631 }, { name: "Bangkok Hospital", lat: 12.5532, lon: 99.9610 }, { name: "Night Market", lat: 12.5714, lon: 99.9575 }, { name: "Black Mountain Golf", lat: 12.6146, lon: 99.8924 }];
+    const LANDMARKS = [{ name: "Hua Hin Beach", lat: 12.5696, lon: 99.9602 }, { name: "Cicada Market", lat: 12.5342, lon: 99.9655 }, { name: "Bluport Hua Hin Mall", lat: 12.5518, lon: 99.9631 }, { name: "Bangkok Hospital", lat: 12.5532, lon: 99.9610 }, { name: "Night Market", lat: 12.5714, lon: 99.9575 }, { name: "Railway Station", lat: 12.5674, lon: 99.9548 }, { name: "Black Mountain Golf", lat: 12.6146, lon: 99.8924 }];
 
     function getDistance(lat1, lon1, lat2, lon2) { const R = 6371; const dLat = (lat2-lat1)*Math.PI/180; const dLon = (lon2-lon1)*Math.PI/180; const a = Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2); return R*(2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a)))*1.35; }
 
@@ -192,7 +192,7 @@
       if (u.Coordinates && u.Coordinates !== "#") {
         document.getElementById('mapBox').style.display = 'block';
         const coords = u.Coordinates.trim();
-        // ใช้วิธี Pyne Plus: เพิ่มเลข 0 หน้าพิกัดสำหรับแผนที่ และ 1 สำหรับนำทาง
+        // ใช้วิธี Pyne Plus: เพิ่มรหัส 0 หน้าพิกัดสำหรับแผนที่ และ 1 สำหรับนำทาง
         document.getElementById('mapFrame').src = `https://maps.google.com/maps?q=$${coords}&t=&z=15&ie=UTF8&iwloc=&output=embed`; 
         document.getElementById('navLink').style.display = 'flex';
         document.getElementById('navLink').href = `https://www.google.com/maps/dir/?api=1&destination=$${coords}`;
