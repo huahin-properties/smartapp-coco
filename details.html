@@ -44,7 +44,7 @@
     .btn-nav { width: 100%; background: #000; color: #fff; text-decoration: none; padding: 14px; border-radius: 8px; display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 700; font-size: 0.85rem; margin-top: 10px; border: 1px solid rgba(255,255,255,0.1); }
 
     .pdf-suite { display: none; flex-direction: column; gap: 10px; margin-top: 20px; }
-    .btn-pdf-box { width: 100%; background: #FFFFFF; border: 1px solid var(--border); color: var(--coco); text-decoration: none; padding: 16px 20px; border-radius: 14px; display: flex; align-items: center; justify-content: space-between; font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+    .btn-pdf-box { width: 100%; background: #FFFFFF; border: 1px solid var(--border); color: var(--coco); text-decoration: none; padding: 16px 20px; border-radius: 14px; display: flex; align-items: center; justify-content: space-between; font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); transition: 0.2s; }
     .pdf-icon-red { color: var(--pdf-red); font-size: 1.25rem; }
 
     .admin-key-float { position: fixed; bottom: 85px; right: 20px; width: 48px; height: 48px; background: rgba(255, 255, 255, 0.95); border: 1.5px solid var(--coco); border-radius: 50%; display: none; align-items: center; justify-content: center; color: var(--coco); font-size: 20px; z-index: 9999; text-decoration: none; box-shadow: 0 8px 25px rgba(45,90,39,0.15); backdrop-filter: blur(8px); transition: 0.3s; }
@@ -114,7 +114,7 @@
       <a id="navLink" href="" target="_blank" class="btn-nav" style="display:none;">📍 Start GPS Navigation</a>
     </div>
 
-    <div class="info-card"><h2 class="section-title">Nearby Lifestyle & Amenities</h2><div id="nearbyGrid" class="nearby-grid"></div></div>
+    <div class="info-card"><h2 class="section-title">Nearby Amenities</h2><div id="nearbyGrid" class="nearby-grid"></div></div>
 
     <div id="pdfSuite" class="pdf-suite">
       <h2 class="section-title">Project Documents</h2>
@@ -188,10 +188,11 @@
       pdfs.forEach(item => { if(item.url && item.url !== "#" && item.url.startsWith('http')) { const el = document.getElementById(item.id); el.href = item.url; el.style.display = 'flex'; hasPdf = true; } });
       if(hasPdf) document.getElementById('pdfSuite').style.display = 'flex';
 
+      // 🎯 กู้คืนแผนที่และการนำทางตามแบบ Pyne Plus ที่ทำงานได้จริง
       if (u.Coordinates && u.Coordinates !== "#") {
         document.getElementById('mapBox').style.display = 'block';
         const coords = u.Coordinates.trim();
-        // ใช้วิธีดึงพิกัดที่ถูกต้อง (0=Map / 1=Nav)
+        // ใช้วิธีดึงแบบ Pyne Plus (0 หน้าพิกัดสำหรับแผนที่ / 1 หน้าพิกัดสำหรับนำทาง)
         document.getElementById('mapFrame').src = `https://maps.google.com/maps?q=$${coords}&t=&z=15&ie=UTF8&iwloc=&output=embed`; 
         document.getElementById('navLink').style.display = 'flex';
         document.getElementById('navLink').href = `https://www.google.com/maps/dir/?api=1&destination=$${coords}`;
