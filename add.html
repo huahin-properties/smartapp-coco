@@ -29,7 +29,7 @@
   <div id="upLoading" class="upload-overlay"><div class="loader"></div><div id="loadText" class="text-xs font-800 text-[#2D5A27] tracking-[0.3em]">RESERVING...</div></div>
   <div class="content-wrapper">
     <div class="bg-[#2D5A27] rounded-[2.5rem] p-8 text-white flex justify-between items-center mb-8 shadow-xl">
-      <div><p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">New Listing Registry</p><h1 class="text-3xl font-800 tracking-tighter italic">NEW PLOT REGISTRATION</h1></div>
+      <div><p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">Registry</p><h1 class="text-3xl font-800 tracking-tighter italic">ADD NEW LISTING</h1></div>
       <button onclick="location.href='dashboard.html'" class="bg-white/10 hover:bg-white/20 p-4 rounded-2xl transition-all">✕</button>
     </div>
     <div class="flex gap-8 mb-8 border-b border-[#2D5A27]/10 px-4">
@@ -68,14 +68,14 @@
         <div>
           <label class="field-label">Build Stage</label>
           <select id="Build_Stage" class="field-input">
-            <option value="Ready to Move In">Ready</option>
-            <option value="Under Construction">Building</option>
-            <option value="Land & Build to Order">Plots</option>
+            <option value="Ready">Ready</option>
+            <option value="Building">Building</option>
+            <option value="Plots">Plots</option>
           </select>
         </div>
         
         <div><label class="field-label">Zone</label><select id="Zone" class="field-input"></select></div>
-        <div class="bg-green-50 p-3 rounded-xl border border-green-100 shadow-inner"><label class="field-label text-[#2D5A27]">Market Price</label><input id="Sale_Price" class="field-input !bg-white font-800 text-[#2D5A27]" placeholder="0"></div>
+        <div class="bg-green-50 p-3 rounded-xl border border-green-100"><label class="field-label text-[#2D5A27]">Market Price</label><input id="Sale_Price" class="field-input !bg-white font-800 text-[#2D5A27]" placeholder="0"></div>
       </div>
     </div>
   </div>
@@ -88,14 +88,9 @@
       showLoading("SYNCING...");
       const resId = await (await fetch(`${API}?mode=getNextID`)).json();
       if(resId.ok) { hpId = resId.nextID; document.getElementById('HP_ID').value = hpId; }
-      
       const meta = (await (await fetch(`${API}?mode=getMetadata`)).json()).data;
-      
-      // 🎯 นำ Build_Stage ออกจากลูป Metadata เพื่อให้ใช้ตัวเลือกที่เราพิมพ์ไว้ใน HTML ครับ
       ["Status", "Listing_Type", "District", "Zone", "Furnishing"].forEach(f => { 
-        if(document.getElementById(f) && meta[f]) {
-          document.getElementById(f).innerHTML = meta[f].map(v => `<option value="${v}">${v}</option>`).join(''); 
-        }
+        if(document.getElementById(f) && meta[f]) document.getElementById(f).innerHTML = meta[f].map(v => `<option value="${v}">${v}</option>`).join(''); 
       });
       hideLoading();
     }
@@ -128,6 +123,7 @@
       document.querySelectorAll('input, select').forEach(el => { if(el.id && el.id !== "HP_ID") p[el.id] = el.value; });
       const res = await fetch(API, { method: 'POST', body: JSON.stringify(p) });
       if((await res.json()).ok) { alert('COCO DATABASE UPDATED! ✅'); location.href='dashboard.html'; }
+      hideLoading();
     }
 
     function switchTab(t) { document.getElementById('tab-photo').classList.toggle('hidden', t !== 'photo'); document.getElementById('tab-info').classList.toggle('hidden', t !== 'info'); document.getElementById('btn-photo').className = t === 'photo' ? 'pb-4 font-800 text-[11px] uppercase tracking-widest tab-active' : 'pb-4 font-800 text-[11px] uppercase tracking-widest text-slate-400'; document.getElementById('btn-info').className = t === 'info' ? 'pb-4 font-800 text-[11px] uppercase tracking-widest tab-active' : 'pb-4 font-800 text-[11px] uppercase tracking-widest text-slate-400'; }
