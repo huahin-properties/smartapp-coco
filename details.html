@@ -6,7 +6,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    :root { --coco: #2D5A27; --gold: #CEA86C; --white: #FFFFFF; --bg: #F8FAF8; --border: rgba(45, 90, 39, 0.08); --text: #1A3017; }
+    :root { --coco: #2D5A27; --gold: #CEA86C; --white: #FFFFFF; --bg: #F8FAF8; --border: rgba(45, 90, 39, 0.08); --text: #1A3017; --pdf-red: #E02424; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background-color: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; -webkit-font-smoothing: antialiased; }
     
@@ -44,14 +44,14 @@
     .map-box { width: 100%; height: 230px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); margin: 10px 0; }
     .btn-nav { width: 100%; background: #000; color: #fff; text-decoration: none; padding: 14px; border-radius: 8px; display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 500; font-size: 0.85rem; margin-top: 10px; }
 
-    /* 🎯 ส่วนที่ 1: แถบ PDF Downloads */
-    .pdf-section { display: none; flex-direction: column; gap: 10px; margin-top: 20px; }
-    .btn-pdf { width: 100%; background: #FFFFFF; border: 1px solid var(--border); color: var(--coco); text-decoration: none; padding: 18px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
-    .btn-pdf i { color: var(--gold); font-size: 1.1rem; }
+    /* 🎯 ส่วนที่ 1: แถบดาวน์โหลด PDF พร้อมไอคอนสีแดง */
+    .pdf-suite { display: none; flex-direction: column; gap: 10px; margin-top: 20px; }
+    .btn-pdf-box { width: 100%; background: #FFFFFF; border: 1px solid var(--border); color: var(--coco); text-decoration: none; padding: 16px 20px; border-radius: 14px; display: flex; align-items: center; justify-content: space-between; font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); transition: 0.2s; }
+    .pdf-icon-red { color: var(--pdf-red); font-size: 1.2rem; }
 
-    /* 🎯 ส่วนที่ 2: ไอคอน Admin ลอยซ่อน */
-    .admin-edit-float { position: fixed; bottom: 85px; right: 20px; width: 45px; height: 45px; background: rgba(255, 255, 255, 0.9); border: 1px solid var(--border); border-radius: 50%; display: none; align-items: center; justify-content: center; color: var(--coco); font-size: 18px; z-index: 9999; text-decoration: none; box-shadow: 0 8px 20px rgba(0,0,0,0.1); backdrop-filter: blur(5px); transition: 0.3s; }
-    .admin-edit-float:active { transform: scale(0.9); background: var(--coco); color: #fff; }
+    /* 🎯 ส่วนที่ 2: ไอคอนรูปกุญแจแก้ไข (Floating Admin Key) */
+    .admin-key-float { position: fixed; bottom: 85px; right: 20px; width: 48px; height: 48px; background: rgba(255, 255, 255, 0.95); border: 1.5px solid var(--coco); border-radius: 50%; display: none; align-items: center; justify-content: center; color: var(--coco); font-size: 20px; z-index: 9999; text-decoration: none; box-shadow: 0 8px 25px rgba(45,90,39,0.15); backdrop-filter: blur(8px); transition: 0.3s; }
+    .admin-key-float:active { transform: scale(0.9); background: var(--coco); color: #fff; }
 
     .footer { position: fixed; bottom: 0; width: 100%; background: #fff; padding: 12px 15px; border-top: 1px solid var(--border); z-index: 1000; }
     .btn-chat { background: var(--coco); color: #fff; text-decoration: none; padding: 15px; border-radius: 6px; display: block; text-align: center; font-size: 0.88rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; }
@@ -120,10 +120,7 @@
       </div>
     </div>
 
-    <div class="info-card">
-      <h2 class="section-title">Description</h2>
-      <p id="vDesc" style="font-size: 0.82rem; line-height: 1.8; color: #444; font-weight: 400; white-space: pre-line;">-</p>
-    </div>
+    <div class="info-card"><h2 class="section-title">Description</h2><p id="vDesc" style="font-size: 0.82rem; line-height: 1.8; color: #444; white-space: pre-line;">-</p></div>
 
     <div class="info-card">
       <h2 class="section-title">Location & Navigation</h2>
@@ -131,20 +128,17 @@
       <a id="navLink" href="" target="_blank" class="btn-nav" style="display:none;">📍 Start GPS Navigation</a>
     </div>
 
-    <div class="info-card">
-      <h2 class="section-title">Nearby Lifestyle & Amenities</h2>
-      <div id="nearbyGrid" class="nearby-grid"></div>
-    </div>
+    <div class="info-card"><h2 class="section-title">Nearby Lifestyle & Amenities</h2><div id="nearbyGrid" class="nearby-grid"></div></div>
 
-    <div id="pdfSuite" class="pdf-section">
+    <div id="pdfSuite" class="pdf-suite">
       <h2 class="section-title">Project Documents</h2>
-      <a id="pdf-floor" href="#" target="_blank" class="btn-pdf" style="display:none;"><span>Floor Plan PDF</span> <i class="fas fa-drafting-compass"></i></a>
-      <a id="pdf-brochure" href="#" target="_blank" class="btn-pdf" style="display:none;"><span>Sales Brochure</span> <i class="fas fa-file-pdf"></i></a>
-      <a id="pdf-factsheet" href="#" target="_blank" class="btn-pdf" style="display:none;"><span>Agent Fact Sheet</span> <i class="fas fa-info-circle"></i></a>
+      <a id="pdf-floor" href="#" target="_blank" class="btn-pdf-box" style="display:none;"><span>Floor Plan PDF</span> <i class="fas fa-file-pdf pdf-icon-red"></i></a>
+      <a id="pdf-brochure" href="#" target="_blank" class="btn-pdf-box" style="display:none;"><span>Sales Brochure</span> <i class="fas fa-file-pdf pdf-icon-red"></i></a>
+      <a id="pdf-factsheet" href="#" target="_blank" class="btn-pdf-box" style="display:none;"><span>Agent Fact Sheet</span> <i class="fas fa-file-pdf pdf-icon-red"></i></a>
     </div>
   </main>
 
-  <a id="adminEditBtn" href="#" class="admin-edit-float"><i class="fas fa-cog fa-spin"></i></a>
+  <a id="adminKeyBtn" href="#" class="admin-key-float"><i class="fas fa-key"></i></a>
 
   <div class="footer"><a href="https://line.me/R/ti/p/@qap7218t" class="btn-chat">💬 Live Chat Concierge</a></div>
 
@@ -162,12 +156,12 @@
     async function init() { 
       if(!hpId) return; 
       
-      // 🎯 แสดงปุ่มแก้ไขเฉพาะ Admin
+      // 🎯 ตรวจสอบสิทธิ์ Admin เพื่อโชว์ปุ่มกุญแจ
       if(isAdmin) {
         localStorage.setItem('coco_admin', 'true');
-        const editBtn = document.getElementById('adminEditBtn');
-        editBtn.style.display = 'flex';
-        editBtn.href = `edit.html?id=${hpId}`;
+        const keyBtn = document.getElementById('adminKeyBtn');
+        keyBtn.style.display = 'flex';
+        keyBtn.href = `edit.html?id=${hpId}`;
       }
 
       try { 
@@ -208,7 +202,7 @@
       document.getElementById('vUtil').textContent = `Elec: ${u.Electricity || '-'} | Water: ${u.Water_Source || '-'}`;
       document.getElementById('vDesc').textContent = u.Description || "-";
 
-      // 🎯 ส่วนของ PDF Downloads
+      // 🎯 แสดงปุ่มดาวน์โหลดไฟล์เอกสาร
       const pdfs = [
         { id: 'pdf-floor', url: u.FloorPlan_PDF },
         { id: 'pdf-brochure', url: u.Sales_Gallery },
