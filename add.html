@@ -65,7 +65,15 @@
         <div><label class="field-label">Furnishing</label><select id="Furnishing" class="field-input"></select></div>
         <div class="col-span-full border-t border-slate-100 pt-4"></div>
         
-        <div><label class="field-label">Build Stage</label><select id="Build_Stage" class="field-input"></select></div>
+        <div>
+          <label class="field-label">Build Stage</label>
+          <select id="Build_Stage" class="field-input">
+            <option value="Ready to Move In">Ready</option>
+            <option value="Under Construction">Building</option>
+            <option value="Land & Build to Order">Plots</option>
+          </select>
+        </div>
+        
         <div><label class="field-label">Zone</label><select id="Zone" class="field-input"></select></div>
         <div class="bg-green-50 p-3 rounded-xl border border-green-100 shadow-inner"><label class="field-label text-[#2D5A27]">Market Price</label><input id="Sale_Price" class="field-input !bg-white font-800 text-[#2D5A27]" placeholder="0"></div>
       </div>
@@ -83,8 +91,8 @@
       
       const meta = (await (await fetch(`${API}?mode=getMetadata`)).json()).data;
       
-      // 🎯 เพิ่ม Build_Stage เข้าไปในรายการดึงข้อมูล Metadata
-      ["Status", "Listing_Type", "District", "Zone", "Furnishing", "Build_Stage"].forEach(f => { 
+      // 🎯 นำ Build_Stage ออกจากลูป Metadata เพื่อให้ใช้ตัวเลือกที่เราพิมพ์ไว้ใน HTML ครับ
+      ["Status", "Listing_Type", "District", "Zone", "Furnishing"].forEach(f => { 
         if(document.getElementById(f) && meta[f]) {
           document.getElementById(f).innerHTML = meta[f].map(v => `<option value="${v}">${v}</option>`).join(''); 
         }
@@ -117,10 +125,7 @@
       if(!confirm("Create Listing?")) return;
       showLoading("PUBLISHING..."); 
       const p = { mode: "addNewUnit", HP_ID: hpId, Project_Name: "CoCo Hua Hin 88", Thumbnail_Image: thumbUrl, Album_Image: gallery.join(','), ...pdfData };
-      
-      // ดึงค่าอัตโนมัติจากทุก input และ select รวมถึง Build_Stage ที่เพิ่มใหม่
       document.querySelectorAll('input, select').forEach(el => { if(el.id && el.id !== "HP_ID") p[el.id] = el.value; });
-      
       const res = await fetch(API, { method: 'POST', body: JSON.stringify(p) });
       if((await res.json()).ok) { alert('COCO DATABASE UPDATED! ✅'); location.href='dashboard.html'; }
     }
