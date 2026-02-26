@@ -34,23 +34,22 @@
     
     .label { font-size: 0.55rem; color: #6B7A68; text-transform: uppercase; font-weight: 600; margin-bottom: 3px; }
     .val { font-size: 0.82rem; font-weight: 500; color: var(--text); }
-    .gold-txt { color: var(--gold); font-weight: 700; }
     .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
     
     .nearby-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 0.5px solid var(--border); }
     .loc-name { font-size: 0.78rem; font-weight: 300; }
     .loc-dist { font-size: 0.75rem; font-weight: 400; color: var(--coco); }
     
-    /* 🎯 Map Box สัดส่วนสมมาตร */
-    .map-box { width: 100%; height: 230px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); margin: 10px 0; }
+    /* 🎯 Map Box แก้ไขใหม่ให้โชว์แผนที่จริง */
+    .map-box { width: 100%; height: 230px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); margin: 10px 0; background: #EEE; }
     .btn-nav { width: 100%; background: #000; color: #fff; text-decoration: none; padding: 14px; border-radius: 8px; display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 500; font-size: 0.85rem; margin-top: 10px; }
 
     .pdf-suite { display: none; flex-direction: column; gap: 10px; margin-top: 20px; }
     .btn-pdf-box { width: 100%; background: #FFFFFF; border: 1px solid var(--border); color: var(--coco); text-decoration: none; padding: 16px 20px; border-radius: 14px; display: flex; align-items: center; justify-content: space-between; font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
     .pdf-icon-red { color: var(--pdf-red); font-size: 1.25rem; }
 
-    /* 🎯 ไอคอนรูปกุญแจแก้ไข (Floating Admin Key) */
-    .admin-key-float { position: fixed; bottom: 85px; right: 20px; width: 48px; height: 48px; background: rgba(255, 255, 255, 0.95); border: 1.5px solid var(--coco); border-radius: 50%; display: none; align-items: center; justify-content: center; color: var(--coco); font-size: 20px; z-index: 9999; text-decoration: none; box-shadow: 0 8px 25px rgba(45,90,39,0.15); backdrop-filter: blur(8px); transition: 0.3s; }
+    /* 🎯 ไอคอนรูปกุญแจแก้ไขลอยซ่อน */
+    .admin-key-float { position: fixed; bottom: 85px; right: 20px; width: 50px; height: 50px; background: rgba(255, 255, 255, 0.98); border: 1.5px solid var(--coco); border-radius: 50%; display: none; align-items: center; justify-content: center; color: var(--coco); font-size: 22px; z-index: 9999; text-decoration: none; box-shadow: 0 10px 30px rgba(45,90,39,0.2); backdrop-filter: blur(8px); transition: 0.3s; }
     .admin-key-float:active { transform: scale(0.9); background: var(--coco); color: #fff; }
 
     .footer { position: fixed; bottom: 0; width: 100%; background: #fff; padding: 12px 15px; border-top: 1px solid var(--border); z-index: 1000; }
@@ -66,17 +65,7 @@
     <div style="font-family:'Playfair Display',serif; color:var(--coco); font-weight:700; font-size: 0.9rem; cursor: pointer;" id="headerTitle" ondblclick="unlockAdmin()">SPECIFICATIONS</div>
   </header>
 
-  <div class="gallery-container">
-    <div class="gallery-card">
-      <div class="main-stage">
-        <img id="mainImg" class="main-img" src="">
-        <div class="nav-arrow" style="left:10px" onclick="changeSlide(-1)">❮</div>
-        <div class="nav-arrow" style="right:10px" onclick="changeSlide(1)">❯</div>
-        <div class="tag-count" id="countLabel">0 / 0</div>
-      </div>
-      <div class="thumb-row" id="thumbStrip"></div>
-    </div>
-  </div>
+  <div class="gallery-container"><div class="gallery-card"><div class="main-stage"><img id="mainImg" class="main-img" src=""><div class="nav-arrow" style="left:10px" onclick="changeSlide(-1)">❮</div><div class="nav-arrow" style="right:10px" onclick="changeSlide(1)">❯</div><div class="tag-count" id="countLabel">0 / 0</div></div><div class="thumb-row" id="thumbStrip"></div></div></div>
 
   <main class="content">
     <div class="info-card">
@@ -87,7 +76,7 @@
         <div><div class="label">Bed / Bath</div><div class="val" id="vBB">-</div></div>
         <div><div class="label">Living Area</div><div class="val" id="vLiving">-</div></div>
         <div><div class="label">Land Size</div><div class="val" id="vLand">-</div></div>
-        <div><div class="label">Price per Sq.m</div><div class="val gold-txt" id="vPriceSq">-</div></div>
+        <div><div class="label">Price per Sq.m</div><div class="val" style="color:var(--gold); font-weight:700;" id="vPriceSq">-</div></div>
       </div>
     </div>
 
@@ -113,7 +102,7 @@
       <h2 class="section-title">Ownership & Fees</h2>
       <div class="grid">
         <div><div class="label">Monthly Fee</div><div class="val" id="vFeeM">-</div></div>
-        <div><div class="label">Yearly Total</div><div class="val gold-txt" id="vFeeY">-</div></div>
+        <div><div class="label">Yearly Total</div><div class="val" style="color:var(--gold); font-weight:700;" id="vFeeY">-</div></div>
         <div><div class="label">Ownership</div><div class="val" id="vOwner">-</div></div>
         <div><div class="label">Transfer Exp.</div><div class="val" id="vTransfer">-</div></div>
       </div>
@@ -122,14 +111,14 @@
     <div class="info-card"><h2 class="section-title">Description</h2><p id="vDesc" style="font-size: 0.82rem; line-height: 1.8; color: #444; white-space: pre-line;">-</p></div>
 
     <div class="info-card">
-      <h2 class="section-title">Location & Navigation</h2>
+      <h2 class="section-title">Location Intelligence</h2>
       <div class="map-box" id="mapBox" style="display:none;">
         <iframe id="mapFrame" width="100%" height="100%" frameborder="0" style="border:0;"></iframe>
       </div>
       <a id="navLink" href="" target="_blank" class="btn-nav" style="display:none;">📍 Start GPS Navigation</a>
     </div>
 
-    <div class="info-card"><h2 class="section-title">Nearby Lifestyle & Amenities</h2><div id="nearbyGrid" class="nearby-grid"></div></div>
+    <div class="info-card"><h2 class="section-title">Nearby Amenities</h2><div id="nearbyGrid" class="nearby-grid"></div></div>
 
     <div id="pdfSuite" class="pdf-suite">
       <h2 class="section-title">Project Documents</h2>
@@ -147,19 +136,25 @@
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
     const params = new URLSearchParams(window.location.search);
     const hpId = params.get('id');
-    const isAdmin = params.get('role') === 'admin' || localStorage.getItem('coco_admin') === 'true';
     let images = [], idx = 0;
 
-    const LANDMARKS = [{ name: "Hua Hin Beach", lat: 12.5696, lon: 99.9602 }, { name: "Cicada Market", lat: 12.5342, lon: 99.9655 }, { name: "Bluport Hua Hin Mall", lat: 12.5518, lon: 99.9631 }, { name: "Bangkok Hospital", lat: 12.5532, lon: 99.9610 }, { name: "Night Market", lat: 12.5714, lon: 99.9575 }, { name: "Railway Station", lat: 12.5674, lon: 99.9548 }, { name: "Black Mountain Golf", lat: 12.6146, lon: 99.8924 }];
+    const LANDMARKS = [{ name: "Hua Hin Beach", lat: 12.5696, lon: 99.9602 }, { name: "Cicada Market", lat: 12.5342, lon: 99.9655 }, { name: "Bluport Hua Hin Mall", lat: 12.5518, lon: 99.9631 }, { name: "Bangkok Hospital", lat: 12.5532, lon: 99.9610 }, { name: "Night Market", lat: 12.5714, lon: 99.9575 }, { name: "Market Village", lat: 12.5598, lon: 99.9602 }, { name: "Vana Nava", lat: 12.5273, lon: 99.9642 }];
 
     function getDistance(lat1, lon1, lat2, lon2) { const R = 6371; const dLat = (lat2-lat1)*Math.PI/180; const dLon = (lon2-lon1)*Math.PI/180; const a = Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2); return R*(2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a)))*1.35; }
 
-    function unlockAdmin() { localStorage.setItem('coco_admin', 'true'); location.reload(); }
+    // 🎯 ระบบปลดล็อค Admin ลับ
+    function unlockAdmin() { localStorage.setItem('coco_admin_key', 'true'); showAdminUI(); alert("ADMIN MODE ACTIVATED 🔐"); }
+    function showAdminUI() { const keyBtn = document.getElementById('adminKeyBtn'); if(keyBtn) { keyBtn.style.display = 'flex'; keyBtn.href = `edit.html?id=${hpId}`; } }
 
     async function init() { 
       if(!hpId) return; 
-      if(isAdmin) { document.getElementById('adminKeyBtn').style.display = 'flex'; document.getElementById('adminKeyBtn').href = `edit.html?id=${hpId}`; }
-      try { const res = await fetch(`${SCRIPT_URL}?mode=getUnitDetail&id=${hpId}`); const json = await res.json(); if(json.ok) renderData(json.data); hideSplash(); } catch(e) { hideSplash(); } 
+      if(params.get('role') === 'admin' || localStorage.getItem('coco_admin_key') === 'true') { showAdminUI(); }
+      try { 
+        const res = await fetch(`${SCRIPT_URL}?mode=getUnitDetail&id=${hpId}`); 
+        const json = await res.json(); 
+        if(json.ok) renderData(json.data); 
+        hideSplash(); 
+      } catch(e) { hideSplash(); } 
     }
 
     function hideSplash() { const s = document.getElementById('pageSplash'); if(s) { s.style.opacity = '0'; setTimeout(()=>s.style.display='none', 400); } }
@@ -180,11 +175,11 @@
       document.getElementById('vOwner').textContent = u.Ownership_Type || '-';
       document.getElementById('vTransfer').textContent = u.Transfer_Expenses || "-";
       document.getElementById('vStatus').textContent = u.Status || "-"; 
-      document.getElementById('vFurnish').textContent = u.Furnishing || "-";
       document.getElementById('vDistrict').textContent = u.District || "-"; 
       document.getElementById('vSubDistrict').textContent = u.SubDistrict || "-"; 
       document.getElementById('vZone').textContent = u.Zone || "-";
       document.getElementById('vBuildStage').textContent = u.Build_Stage || "-";
+      document.getElementById('vFurnish').textContent = u.Furnishing || "-";
       document.getElementById('vKitchen').textContent = u.Kitchen_Type || "-"; 
       document.getElementById('vParking').textContent = u.Parking || "-";
       document.getElementById('vPool').textContent = `${u.Pool_Size || '-'} (${u.Pool_Depth || '-'})`;
@@ -197,19 +192,20 @@
       pdfs.forEach(item => { if(item.url && item.url !== "#" && item.url.startsWith('http')) { const el = document.getElementById(item.id); el.href = item.url; el.style.display = 'flex'; hasPdf = true; } });
       if(hasPdf) document.getElementById('pdfSuite').style.display = 'flex';
 
-      // 🎯 ส่วนที่กู้คืน: วิธีการดึงพิกัดแบบ Pyne Plus
+      // 🎯 ส่วนที่กู้คืน: วิธีดึงแผนที่แบบ Pyne Plus ที่ทำงานได้จริง
       if (u.Coordinates && u.Coordinates !== "#") {
-        document.getElementById('mapBox').style.display='block'; 
-        document.getElementById('navLink').style.display='flex';
+        document.getElementById('mapBox').style.display = 'block';
         const coords = u.Coordinates.trim();
-        // เทียบเคียงโค้ด Pyne Plus โดยใช้ URL กึ่งกลางแบบเดิม
-        document.getElementById('mapFrame').src = `https://maps.google.com/maps?q=$${coords}&t=&z=15&ie=UTF8&iwloc=&output=embed`; 
-        document.getElementById('navLink').href = `https://www.google.com/maps/dir/?api=1&destination=$${coords}`;
+        // ลบตัวเลขส่วนเกินข้างหน้าออก เพื่อให้พิกัดถูกต้อง 100%
+        document.getElementById('mapFrame').src = `https://maps.google.com/maps?q=${coords}&t=&z=15&ie=UTF8&iwloc=&output=embed`; 
+        document.getElementById('navLink').style.display = 'flex';
+        document.getElementById('navLink').href = `https://www.google.com/maps?q=${coords}`;
+        
         const [la, lo] = coords.split(','); 
         const grid = document.getElementById('nearbyGrid');
         grid.innerHTML = LANDMARKS.map(loc => { 
           const d = getDistance(parseFloat(la), parseFloat(lo), loc.lat, loc.lon); 
-          return `<div class="nearby-item"><div><div class="loc-name">${loc.name}</div><div class="loc-time">${Math.ceil(d*1.5)} mins drive</div></div><div class="loc-dist">${d.toFixed(1)} km</div></div>`; 
+          return `<div class="nearby-item"><div><div class="loc-name">${loc.name}</div></div><div class="loc-dist">${d.toFixed(1)} km</div></div>`; 
         }).join('');
       }
       
