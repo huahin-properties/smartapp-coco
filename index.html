@@ -15,7 +15,7 @@
     .filters-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 10px; }
     .filter-select { background: #FFFFFF; border: 1px solid var(--border); border-radius: 8px; padding: 8px; color: var(--brand); font-size: 0.75rem; font-weight: 700; text-align: center; outline: none; appearance: none; }
     
-    /* 🎯 สไตล์เมนู Pill ที่แก้ไขใหม่ตามรูป */
+    /* 🎯 เมนู Pill 4 ระดับตามรูป */
     .pill-container { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
     .pill { white-space: nowrap; padding: 6px 14px; border-radius: 50px; background: #FFF; border: 1px solid var(--border); color: #6B7A68; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; cursor: pointer; }
     .pill.active { background: var(--brand); color: #FFF; border-color: var(--brand); }
@@ -76,12 +76,12 @@
       const pill = document.querySelector('.pill.active').dataset.f;
       const sort = document.getElementById('sF').value;
       
-      // 🎯 กรองข้อมูลโดยใช้คอลัมน์ Build_Stage ตามโจทย์
+      // 🎯 แก้ไข Logic การกรอง: ดึงข้อมูลจากคอลัมน์ Build_Stage ตรงๆ
       let res = data.filter(u => 
         (!q || `${u.Plot}`.toLowerCase().includes(q)) && 
         (!plot || u.Plot === plot) && 
         (!b || String(u.Bedrooms) === b) && 
-        (pill === 'all' || u.Build_Stage === pill)
+        (pill === 'all' || (u.Build_Stage && u.Build_Stage.trim() === pill))
       );
       
       if (sort === "low") res.sort((x,y) => (x.Sale_Price || 0) - (y.Sale_Price || 0));
@@ -90,7 +90,7 @@
       document.getElementById('unitCount').textContent = `${res.length} UNITS`;
       document.getElementById('propGrid').innerHTML = res.map(u => `
           <a href="details.html?id=${u.HP_ID}" class="card">
-            <div class="card-img"><span class="hp-id">PLOT ${u.Plot || '-'}</span><img src="${u.Thumbnail_Image}" loading="lazy"></div>
+            <div class="card-img"><span class="hp-id">PLOT ${u.Plot || '-'}</span><img src="${u.Thumbnail_Image || 'https://via.placeholder.com/400x250'}" loading="lazy"></div>
             <div class="card-info">
               <div class="info-row"><div class="prop-name">Plot ${u.Plot || 'N/A'}</div><div class="furnish-tag">${u.Furnishing || '-'}</div></div>
               <div class="info-row"><div style="font-size:0.62rem; color:#6B7A68; font-weight:600;">${u.Bedrooms} Bed | ${u.Living_Area_sq_m || 0} m²</div><div class="price-new">฿${Number(u.Sale_Price).toLocaleString()}</div></div>
