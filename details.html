@@ -44,7 +44,6 @@
     .map-box { width: 100%; height: 230px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); margin: 10px 0; }
     .btn-nav { width: 100%; background: #000; color: #fff; text-decoration: none; padding: 14px; border-radius: 8px; display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 500; font-size: 0.85rem; margin-top: 10px; }
 
-    /* 🎯 ส่วนที่เพิ่ม: สไตล์แถบบาร์ Floor Plan PDF */
     .pdf-bar { display: none; background: #FFFFFF; border: 1.5px solid var(--border); padding: 18px 20px; border-radius: 15px; text-decoration: none; align-items: center; justify-content: space-between; margin-top: 10px; transition: 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
     .pdf-bar:active { transform: scale(0.98); background: #F3F6F3; }
     .pdf-text { color: var(--coco); font-weight: 800; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 1px; }
@@ -115,7 +114,8 @@
 
     <div class="info-card">
       <h2 class="section-title">Location & Navigation</h2>
-      <div class="map-box" id="mapBox" style="display:none;"><iframe id="mapFrame" width="100%" height="100%" frameborder="0"></iframe></div>
+      <div class="map-box" id="mapBox" style="display:none;"><iframe id="mapFrame" width="100%" height="100%" frameborder="0" style="border:0;" allowfullscreen="" loading="lazy"></iframe></div>
+      
       <a id="navLink" href="" target="_blank" class="btn-nav" style="display:none;">📍 Start GPS Navigation</a>
     </div>
 
@@ -173,21 +173,23 @@
       document.getElementById('vUtil').textContent = `Elec: ${u.Electricity || '-'} | Water: ${u.Water_Source || '-'}`;
       document.getElementById('vDesc').textContent = u.Description || "-";
 
-      // 🎯 ตรวจสอบและแสดงแถบดาวน์โหลด PDF
       if (u.FloorPlan_PDF && u.FloorPlan_PDF !== "#" && u.FloorPlan_PDF.startsWith('http')) {
         const bar = document.getElementById('pdfBar');
         bar.href = u.FloorPlan_PDF;
         bar.style.display = 'flex';
       }
 
+      // 🎯 แก้ไขระบบแผนที่และการนำทางให้แสดง "เส้นนำทาง" (Directions API)
       if (u.Coordinates && u.Coordinates !== "#") {
         document.getElementById('mapBox').style.display='block'; 
         document.getElementById('navLink').style.display='flex';
         const coords = u.Coordinates.trim();
-        document.getElementById('mapFrame').src = `https://www.google.com/maps/embed/v1/place?key=REPLACED_WITH_YOUR_KEY&q=${coords}&zoom=15`;
-        // หมายเหตุ: ในกรณีที่คุณใช้วิธีดึงแบบ Pyne Plus URL แผนที่คือ: `https://www.google.com/maps?q=${coords}&output=embed`
-        document.getElementById('mapFrame').src = `https://www.google.com/maps?q=${coords}&output=embed`;
-        document.getElementById('navLink').href = `https://www.google.com/maps?q=${coords}`;
+        
+        // 1. แผนที่แบบฝัง: ใช้ URL มาตรฐานของ Google Maps Embed
+        document.getElementById('mapFrame').src = `https://maps.google.com/maps?q=${coords}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+        
+        // 2. ปุ่มนำทาง: ใช้ Directions API เพื่อคำนวณ "เส้นทาง" (Route) จากตำแหน่งผู้ใช้ไปปลายทาง
+        document.getElementById('navLink').href = `https://www.google.com/maps/dir/?api=1&destination=${coords}`;
         
         const [la, lo] = coords.split(','); const grid = document.getElementById('nearbyGrid');
         grid.innerHTML = LANDMARKS.map(loc => { 
