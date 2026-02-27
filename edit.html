@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <title>Edit Listing | CoCo Hua Hin 88 V203</title>
+  <title>Edit Listing | CoCo Hua Hin 88 V204</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -36,7 +36,7 @@
   <div id="upLoading" class="upload-overlay"><div class="loader"></div><div id="loadText" class="text-xs font-800 text-[#2D5A27] tracking-[0.3em]">SYNCING...</div></div>
   <div class="content-wrapper">
     <div class="bg-[#2D5A27] rounded-[2.5rem] p-8 text-white flex justify-between items-center mb-8 shadow-xl">
-      <div><p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">Editor Suite</p><h1 id="displayId" class="text-3xl font-800 tracking-tighter italic">HP-XXXX</h1></div>
+      <div><p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">Editor Suite</p><h1 id="displayPlot" class="text-3xl font-800 tracking-tighter italic">PLOT --</h1></div>
       <button onclick="location.href='dashboard.html'" class="bg-white/10 hover:bg-white/20 p-4 rounded-2xl transition-all">✕</button>
     </div>
     
@@ -102,25 +102,33 @@
 
     <div id="tab-info" class="hidden space-y-6">
       <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div><label class="field-label">HP-ID</label><input id="HP_ID" class="field-input" readonly></div>
+        <input type="hidden" id="HP_ID">
+        
         <div><label class="field-label">Plot Reference</label><input id="Plot" class="field-input"></div>
         <div><label class="field-label">Status</label><select id="Status" class="field-input"></select></div>
+        <div><label class="field-label">Listing Type</label><select id="Listing_Type" class="field-input"></select></div>
+        
         <div class="col-span-full border-t border-slate-100 pt-2"></div>
+        
         <div><label class="field-label">Bedrooms</label><input type="number" id="Bedrooms" class="field-input"></div>
         <div><label class="field-label">Bathrooms</label><input type="number" id="Bathrooms" class="field-input"></div>
         <div><label class="field-label">Living Area (M²)</label><input type="number" id="Living_Area_sq_m" class="field-input"></div>
+        
         <div class="col-span-full border-t border-slate-100 pt-2"></div>
+        
         <div><label class="field-label">Land Size (M²)</label><input type="number" id="Land_Area_sq_m" class="field-input"></div>
-        <div><label class="field-label">Listing Type</label><select id="Listing_Type" class="field-input"></select></div>
-        <div><label class="field-label">Furnishing</label><select id="Furnishing" class="field-input"></select></div>
-        <div class="col-span-full border-t border-slate-100 pt-2"></div>
         <div><label class="field-label">District</label><select id="District" class="field-input"></select></div>
+        <div><label class="field-label">Furnishing</label><select id="Furnishing" class="field-input"></select></div>
+        
+        <div class="col-span-full border-t border-slate-100 pt-2"></div>
+        
         <div><label class="field-label">Build Stage</label><select id="Build_Stage" class="field-input"></select></div>
         <div><label class="field-label">Zone</label><select id="Zone" class="field-input"></select></div>
-        
-        <div class="col-span-full"><label class="field-label">Description</label><textarea id="Description" rows="4" class="field-input"></textarea></div>
+        <div class="bg-green-50 p-3 rounded-xl border border-green-100"><label class="field-label text-[#2D5A27]">Market Price</label><input id="Sale_Price" class="field-input !bg-white font-800 text-[#2D5A27]" placeholder="0"></div>
 
-        <div class="bg-green-50 p-3 rounded-xl border border-green-100 col-span-full mt-2"><label class="field-label text-[#2D5A27]">Market Price</label><input id="Sale_Price" class="field-input !bg-white font-800 text-[#2D5A27]" placeholder="0"></div>
+        <div class="col-span-full border-t border-slate-100 pt-2"></div>
+        
+        <div class="col-span-full"><label class="field-label">Detailed Description</label><textarea id="Description" rows="4" class="field-input"></textarea></div>
       </div>
     </div>
   </div>
@@ -143,7 +151,7 @@
       if(json.ok) {
         const u = json.data;
         document.getElementById('HP_ID').value = u.HP_ID;
-        document.getElementById('displayId').innerText = u.HP_ID;
+        document.getElementById('displayPlot').innerText = "PLOT " + (u.Plot || "N/A");
         Object.keys(u).forEach(k => { if(document.getElementById(k)) document.getElementById(k).value = u[k]; });
         syncPdfUI('FloorPlan_PDF', u.FloorPlan_PDF, u.FloorPlan_Name);
         syncPdfUI('Sales_Gallery', u.Sales_Gallery, u.Sales_Gallery_Name);
@@ -189,6 +197,7 @@
       const box = document.getElementById('galleryPreview');
       box.innerHTML = gallery.map((url, i) => `<div class="img-tile ${markedForDelete.includes(i) ? 'marked' : ''}" onclick="toggleMark(${i})"><div class="img-x"><i class="fas ${markedForDelete.includes(i) ? 'fa-check' : 'fa-times'}"></i></div><img src="${url}" class="w-full h-full object-cover"></div>`).join('') || '🗂️';
       document.getElementById('delBtn').style.display = markedForDelete.length > 0 ? 'block' : 'none';
+      document.getElementById('Album_Image').value = gallery.join(',');
     }
 
     function toggleMark(i) { const idx = markedForDelete.indexOf(i); if (idx > -1) markedForDelete.splice(idx, 1); else markedForDelete.push(i); renderGallery(); }
