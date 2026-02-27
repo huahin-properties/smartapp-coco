@@ -10,58 +10,37 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background-color: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
 
-    /* ✅ container ให้ทุกส่วน “อยู่กึ่งกลาง” แบบสมมาตร */
-    .page{
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 0 20px;
+    /* ✅ จัดระยะ Padding 20px ให้เหมาะสมและสมดุลเหมือน Pyne Plus */
+    header { 
+      position: fixed; top: 0; width: 100%; height: 55px; 
+      display: flex; align-items: center; justify-content: space-between; 
+      padding: 0 20px; background: rgba(255, 255, 255, 0.98); 
+      backdrop-filter: blur(15px); z-index: 1000; border-bottom: 1px solid var(--border); 
     }
-
-    header {
-      position: fixed; top: 0; left: 0; right: 0;
-      height: 55px;
-      display: flex; align-items: center; justify-content: space-between;
-      background: rgba(255, 255, 255, 0.98);
-      backdrop-filter: blur(15px);
-      z-index: 1000;
-      border-bottom: 1px solid var(--border);
-    }
-    header .page{
-      height: 55px;
-      display:flex; align-items:center; justify-content:space-between;
-    }
-
-    .hero { padding: 75px 0 10px; text-align: center; }
-    .search-input { width: 100%; background: #FFFFFF; border: 1.5px solid var(--brand); border-radius: 50px; padding: 10px 15px 10px 40px; color: var(--text); font-weight: 600; font-size: 0.85rem; outline: none; margin-bottom: 10px; box-shadow: 0 4px 10px rgba(45, 90, 39, 0.05); }
-    .filters-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 10px; }
+    
+    .hero { padding: 75px 20px 10px; text-align: center; }
+    .search-input { width: 100%; max-width: 550px; background: #FFFFFF; border: 1.5px solid var(--brand); border-radius: 50px; padding: 10px 15px 10px 40px; color: var(--text); font-weight: 600; font-size: 0.85rem; outline: none; margin: 0 auto 10px; display: block; box-shadow: 0 4px 10px rgba(45, 90, 39, 0.05); }
+    .filters-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 0 auto 10px; max-width: 550px; }
     .filter-select { background: #FFFFFF; border: 1px solid var(--border); border-radius: 8px; padding: 8px; color: var(--brand); font-size: 0.75rem; font-weight: 700; text-align: center; outline: none; appearance: none; }
 
-    /* ✅ FIX: เมนู Pill ให้อยู่กึ่งกลางสมมาตร (desktop+mobile) */
-    .pill-container{
-      display: flex;
-      gap: 8px;
-      justify-content: center;   /* 🎯 ทำให้กึ่งกลาง */
-      align-items: center;
-      flex-wrap: wrap;          /* 🎯 มือถือจอแคบก็ยัง “สมมาตร” */
-      padding: 2px 0 10px;
+    .pill-container {
+      display: flex; gap: 8px; justify-content: center; align-items: center; 
+      flex-wrap: wrap; padding: 2px 0 10px; max-width: 550px; margin: 0 auto;
     }
     .pill {
-      white-space: nowrap;
-      padding: 7px 14px;
-      border-radius: 50px;
-      background: #FFF;
-      border: 1px solid var(--border);
-      color: #6B7A68;
-      font-size: 0.62rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      cursor: pointer;
-      user-select: none;
+      white-space: nowrap; padding: 7px 14px; border-radius: 50px; background: #FFF; 
+      border: 1px solid var(--border); color: #6B7A68; font-size: 0.62rem; 
+      font-weight: 800; text-transform: uppercase; cursor: pointer; user-select: none;
     }
     .pill.active { background: var(--brand); color: #FFF; border-color: var(--brand); }
 
-    /* ✅ list centered */
-    .prop-list { padding: 0 0 40px; display: grid; grid-template-columns: 1fr; gap: 8px; max-width: 1120px; margin: 0 auto; }
+    /* ✅ จัดวาง Collections Bar ให้สมดุลซ้าย-ขวา 20px ตามแบบ Pyne Plus */
+    .collections-bar {
+      display: flex; justify-content: space-between; padding: 15px 20px; 
+      border-top: 1px solid var(--border); margin-top: 10px; max-width: 1120px; margin-left: auto; margin-right: auto;
+    }
+
+    .prop-list { padding: 0 20px 40px; display: grid; grid-template-columns: 1fr; gap: 8px; max-width: 1120px; margin: 0 auto; }
     .card { background: #FFFFFF; border: 1px solid var(--border); border-radius: 12px; display: flex; height: var(--row-h); overflow: hidden; text-decoration: none; color: inherit; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
     .card-img { width: var(--thumb-w); flex-shrink: 0; position: relative; }
     .card-img img { width: 100%; height: 100%; object-fit: cover; }
@@ -73,59 +52,50 @@
     .status-tag { font-size: 0.48rem; padding: 1.5px 5px; border-radius: 3px; border: 1px solid; font-weight: 800; text-transform: uppercase; }
     .s-available { color: #2D5A27; border-color: #2D5A27; background: rgba(45, 90, 39, 0.05); }
     .furnish-tag { color: var(--gold); border-color: var(--gold); background: rgba(206, 168, 108, 0.05); font-size: 0.48rem; padding: 1.5px 5px; border-radius: 3px; border: 1px solid; font-weight: 800; text-transform: uppercase; }
+    
+    /* ✅ Floating Admin Navigator (Admin Key) */
     .admin-float { position: fixed; bottom: 25px; right: 20px; width: 45px; height: 45px; background: var(--brand); border: 2px solid #FFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #FFF; font-size: 18px; z-index: 9999; text-decoration: none; box-shadow: 0 10px 25px rgba(45, 90, 39, 0.3); }
 
     @media (min-width: 768px) {
       :root { --row-h: 90px; --thumb-w: 140px; }
       .prop-list { grid-template-columns: 1fr 1fr; gap: 12px; }
-      .page{ padding: 0 25px; }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <div class="page">
-      <a href="#" style="color:var(--brand); font-weight:800; text-decoration:none; letter-spacing: 1px;">
-        COCO HUA HIN 88 <span style="font-weight:300; color:#6B7A68;">LUXURY</span>
-      </a>
-    </div>
+    <a href="#" style="color:var(--brand); font-weight:800; text-decoration:none; letter-spacing: 1px;">
+      COCO HUA HIN 88 <span style="font-weight:300; color:#6B7A68;">LUXURY</span>
+    </a>
   </header>
 
   <section class="hero">
-    <div class="page">
-      <div style="max-width:550px; margin:0 auto;">
-        <input type="text" id="sI" class="search-input" placeholder="Search Plot..." onkeyup="f()">
-        <div class="filters-grid">
-          <select id="zF" onchange="f()" class="filter-select"><option value="">All Plots</option></select>
-          <select id="sF" onchange="f()" class="filter-select">
-            <option value="">Price Sort</option>
-            <option value="low">Low → High</option>
-            <option value="high">High → Low</option>
-          </select>
-          <select id="bF" onchange="f()" class="filter-select"><option value="">Bedrooms</option></select>
-        </div>
+    <input type="text" id="sI" class="search-input" placeholder="Search Plot..." onkeyup="f()">
+    <div class="filters-grid">
+      <select id="zF" onchange="f()" class="filter-select"><option value="">All Plots</option></select>
+      <select id="sF" onchange="f()" class="filter-select">
+        <option value="">Price Sort</option>
+        <option value="low">Low → High</option>
+        <option value="high">High → Low</option>
+      </select>
+      <select id="bF" onchange="f()" class="filter-select"><option value="">Bedrooms</option></select>
+    </div>
 
-        <div class="pill-container" id="pillBox">
-          <div class="pill active" data-f="all">ALL Plots</div>
-          <div class="pill" data-f="Ready to Move In">Ready</div>
-          <div class="pill" data-f="Under Construction">Building</div>
-          <div class="pill" data-f="Land & Build to Order">Plots</div>
-        </div>
-      </div>
+    <div class="pill-container" id="pillBox">
+      <div class="pill active" data-f="all">ALL Plots</div>
+      <div class="pill" data-f="Ready to Move In">Ready</div>
+      <div class="pill" data-f="Under Construction">Building</div>
+      <div class="pill" data-f="Land & Build to Order">Plots</div>
     </div>
   </section>
 
-  <div style="border-top:1px solid var(--border); margin-top:10px;">
-    <div style="display:flex; justify-content:space-between; padding:15px; max-width: 1120px; margin: 0 auto;">
-      <h2 style="font-size:0.85rem; color:var(--brand); text-transform:uppercase; font-weight:800; letter-spacing: 1px;">Collections</h2>
-      <span id="unitCount" style="font-size:0.65rem; color:#6B7A68; font-weight:700;">Loading...</span>
-    </div>
+  <div class="collections-bar">
+    <h2 style="font-size:0.85rem; color:var(--brand); text-transform:uppercase; font-weight:800; letter-spacing: 1px;">Collections</h2>
+    <span id="unitCount" style="font-size:0.65rem; color:#6B7A68; font-weight:700;">Loading...</span>
   </div>
 
-  <main class="page">
-    <div class="prop-list" id="propGrid"></div>
-  </main>
+  <main class="prop-list" id="propGrid"></main>
 
   <a href="gateway.html" class="admin-float"><i class="fas fa-key"></i></a>
 
@@ -152,7 +122,7 @@
       const pill = document.querySelector('.pill.active').dataset.f;
       const sort = document.getElementById('sF').value;
 
-      // ✅ รักษา logic เดิม (Build_Stage ตรงๆ)
+      // ✅ แก้ไข Logic การนำทาง (Filtering) ให้เสถียรและแม่นยำตาม Build_Stage
       let res = data.filter(u =>
         (!q || `${u.Plot}`.toLowerCase().includes(q)) &&
         (!plot || u.Plot === plot) &&
