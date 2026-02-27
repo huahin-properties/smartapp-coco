@@ -10,11 +10,11 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background-color: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
 
-    /* ✅ container ให้ทุกส่วน “อยู่กึ่งกลาง” แบบสมมาตร */
+    /* ✅ แก้ไขระยะขอบ (Padding) จาก 12px เป็น 20px เพื่อความสมดุลซ้าย-ขวา */
     .page{
       max-width: 1120px;
       margin: 0 auto;
-      padding: 0 12px;
+      padding: 0 20px;
     }
 
     header {
@@ -36,13 +36,12 @@
     .filters-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 10px; }
     .filter-select { background: #FFFFFF; border: 1px solid var(--border); border-radius: 8px; padding: 8px; color: var(--brand); font-size: 0.75rem; font-weight: 700; text-align: center; outline: none; appearance: none; }
 
-    /* ✅ FIX: เมนู Pill ให้อยู่กึ่งกลางสมมาตร (desktop+mobile) */
     .pill-container{
       display: flex;
       gap: 8px;
-      justify-content: center;   /* 🎯 ทำให้กึ่งกลาง */
+      justify-content: center;
       align-items: center;
-      flex-wrap: wrap;          /* 🎯 มือถือจอแคบก็ยัง “สมมาตร” */
+      flex-wrap: wrap;
       padding: 2px 0 10px;
     }
     .pill {
@@ -60,7 +59,6 @@
     }
     .pill.active { background: var(--brand); color: #FFF; border-color: var(--brand); }
 
-    /* ✅ list centered */
     .prop-list { padding: 0 0 40px; display: grid; grid-template-columns: 1fr; gap: 8px; max-width: 1120px; margin: 0 auto; }
     .card { background: #FFFFFF; border: 1px solid var(--border); border-radius: 12px; display: flex; height: var(--row-h); overflow: hidden; text-decoration: none; color: inherit; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
     .card-img { width: var(--thumb-w); flex-shrink: 0; position: relative; }
@@ -78,7 +76,7 @@
     @media (min-width: 768px) {
       :root { --row-h: 90px; --thumb-w: 140px; }
       .prop-list { grid-template-columns: 1fr 1fr; gap: 12px; }
-      .page{ padding: 0 16px; }
+      .page{ padding: 0 20px; }
     }
   </style>
 </head>
@@ -106,7 +104,6 @@
           <select id="bF" onchange="f()" class="filter-select"><option value="">Bedrooms</option></select>
         </div>
 
-        <!-- ✅ data-f เหมือนเดิมทุกตัว (รักษา logic การกรองเดิม 100%) -->
         <div class="pill-container" id="pillBox">
           <div class="pill active" data-f="all">ALL Plots</div>
           <div class="pill" data-f="Ready to Move In">Ready</div>
@@ -117,10 +114,9 @@
     </div>
   </section>
 
-  <!-- ✅ แถบหัวข้อให้กึ่งกลางตาม container -->
   <div style="border-top:1px solid var(--border); margin-top:10px;">
     <div class="page" style="display:flex; justify-content:space-between; padding:15px 0;">
-      <h2 style="font-size:0.85rem; color:var(--brand); text-transform:uppercase; font-weight:800; letter-spacing: 1px;">Elite Collections</h2>
+      <h2 style="font-size:0.85rem; color:var(--brand); text-transform:uppercase; font-weight:800; letter-spacing: 1px;">Collections</h2>
       <span id="unitCount" style="font-size:0.65rem; color:#6B7A68; font-weight:700;">Loading...</span>
     </div>
   </div>
@@ -154,7 +150,6 @@
       const pill = document.querySelector('.pill.active').dataset.f;
       const sort = document.getElementById('sF').value;
 
-      // ✅ รักษา logic เดิม (Build_Stage ตรงๆ)
       let res = data.filter(u =>
         (!q || `${u.Plot}`.toLowerCase().includes(q)) &&
         (!plot || u.Plot === plot) &&
