@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <title>Master Editor V270 | Ownership Dynamic System</title>
+  <title>Master Editor V280 | Financial Logic & Real-world Rates</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -24,25 +24,23 @@
   </style>
 </head>
 <body>
-  <div id="loading" class="upload-overlay"><div class="loader"></div><div id="loadText" class="text-xs font-800 text-[#2D5A27] tracking-[0.3em]">RECALIBRATING MASTER VAULT...</div></div>
+  <div id="loading" class="upload-overlay"><div class="loader"></div><div id="loadText" class="text-xs font-800 text-[#2D5A27] tracking-[0.3em]">SYNCHRONIZING MASTER VAULT...</div></div>
   
   <div class="content-wrapper">
     <div class="bg-[#2D5A27] rounded-[2.5rem] p-10 text-white flex justify-between items-center mb-10 shadow-2xl relative overflow-hidden">
       <div class="relative z-10">
-        <p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">Master Vault | Dynamic Ownership Suite</p>
-        <h1 id="displayPlot" class="text-4xl font-800 tracking-tighter italic Sarabun">UNIT EDITOR</h1>
+        <p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">Master Vault | Real Estate Suite</p>
+        <h1 id="displayPlot" class="text-4xl font-800 tracking-tighter italic Sarabun">MASTER EDITOR</h1>
       </div>
-      <i class="fas fa-file-signature absolute right-[-20px] bottom-[-20px] text-white/5 text-9xl"></i>
+      <i class="fas fa-calculator absolute right-[-20px] bottom-[-20px] text-white/5 text-9xl"></i>
     </div>
 
     <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-8">
-      <input type="hidden" id="HP_ID">
-      
+      <div><label class="field-label">1. HP_ID <span>รหัสทรัพย์สิน</span></label><input id="HP_ID" class="field-input !bg-slate-100 font-800" readonly></div>
       <div><label class="field-label">2. Project Name <span>ชื่อโครงการ</span></label><select id="Project_Name" class="field-input dynamic-opt"></select></div>
       <div><label class="field-label">9. Plot Reference <span>หมายเลขแปลง</span></label><input id="Plot" class="field-input" placeholder="e.g. M17"></div>
-      <div><label class="field-label">3. System Visibility <span>สถานะในระบบ</span></label><select id="System_Status" class="field-input dynamic-opt"></select></div>
 
-      <div class="col-span-full grid grid-cols-1 md:grid-cols-3 gap-8 p-8 rounded-[2rem] bg-[#2D5A27]/5 border-2 border-[#2D5A27]/20 shadow-inner">
+      <div class="col-span-full grid grid-cols-1 md:grid-cols-3 gap-8 p-8 rounded-[2.5rem] bg-[#2D5A27]/5 border-2 border-[#2D5A27]/20 shadow-inner">
         <div>
           <label class="field-label">36. Sale Price (THB) <span>ราคาขายสุทธิ</span></label>
           <input type="number" id="Sale_Price" class="field-input !bg-white font-800 text-2xl !text-[#2D5A27]" oninput="runCalculations()" placeholder="0">
@@ -53,8 +51,8 @@
         </div>
         <div>
           <label class="field-label">33. Common Fee Rate <span>ส่วนกลาง (/m²)</span></label>
-          <input type="number" id="Common_Fee_Rate" class="field-input !bg-white font-800 text-2xl" oninput="runCalculations()" placeholder="e.g. 40">
-          <div id="commonFeeDisplay" class="calc-hint Sarabun">กรอกข้อมูลการเงินเพื่อคำนวณ...</div>
+          <input type="number" id="Common_Fee_Rate" class="field-input !bg-white font-800 text-2xl" oninput="runCalculations()" placeholder="เช่น 4">
+          <div id="commonFeeDisplay" class="calc-hint Sarabun">คำนวณรายเดือน/รายปีอัตโนมัติ...</div>
         </div>
         <div class="col-span-full border-t border-[#2D5A27]/10 pt-6">
           <label class="field-label">34. Price per m² <span>ราคาเฉลี่ยต่อ ตร.ม.</span></label>
@@ -62,8 +60,8 @@
         </div>
       </div>
 
-      <div><label class="field-label">18. Land Area (m²) <span>พื้นที่ที่ดิน (ม²)</span></label><input type="number" id="Land_Area_sq_m" class="field-input"></div>
-      <div><label class="field-label">19. Land Area (sq.w) <span>พื้นที่ที่ดิน (ตร.ว.)</span></label><input type="number" id="Land_Area_sq_w" class="field-input"></div>
+      <div><label class="field-label">18. Land Area (m²) <span>พื้นที่ดิน (ม²)</span></label><input type="number" id="Land_Area_sq_m" class="field-input"></div>
+      <div><label class="field-label">19. Land Area (sq.w) <span>พื้นที่ดิน (ตร.ว.)</span></label><input type="number" id="Land_Area_sq_w" class="field-input"></div>
       <div><label class="field-label">20. Furnishing <span>การตกแต่ง</span></label><select id="Furnishing" class="field-input dynamic-opt"></select></div>
 
       <div><label class="field-label">11. District <span>อำเภอ</span></label><select id="District" class="field-input dynamic-opt"></select></div>
@@ -92,12 +90,11 @@
       <div><label class="field-label">31. Land Title Deed <span>ประเภทโฉนด</span></label><select id="Land_Title_Deed_Type" class="field-input dynamic-opt"></select></div>
       <div><label class="field-label">32. Transfer Exp. <span>ค่าใช้จ่ายวันโอน</span></label><input id="Transfer_Expenses" class="field-input"></div>
 
-      <div class="col-span-full border-t border-slate-50 pt-4"></div>
-
+      <div><label class="field-label">3. System Visibility <span>สถานะในระบบ</span></label><select id="System_Status" class="field-input dynamic-opt"></select></div>
       <div><label class="field-label">4. Marketing Badge <span>ป้ายกำกับ</span></label><select id="Badge" class="field-input dynamic-opt"></select></div>
       <div><label class="field-label">5. Listing Type <span>ประกาศ</span></label><select id="Listing_Type" class="field-input dynamic-opt"></select></div>
       <div><label class="field-label">6. Asset Category <span>ประเภท</span></label><select id="Type" class="field-input dynamic-opt"></select></div>
-      <div><label class="field-label">7. Sales Status <span>สถานะการขาย</span></label><select id="Status" class="field-input dynamic-opt"></select></div>
+      <div><label class="field-label">7. Sales Status <span>สถานะขาย</span></label><select id="Status" class="field-input dynamic-opt"></select></div>
       <div><label class="field-label">8. Build Stage <span>ก่อสร้าง</span></label><select id="Build_Stage" class="field-input dynamic-opt"></select></div>
       <div><label class="field-label">10. GPS Coordinates <span>พิกัด</span></label><input id="Coordinates" class="field-input"></div>
 
@@ -114,6 +111,15 @@
     };
     const hpId = new URLSearchParams(window.location.search).get('id');
 
+    // 🎯 Fallback Options
+    const DEFAULT_OPTS = {
+      Ownership_Type: ['Thai Freehold', 'Foreign Freehold', 'Leasehold (30 Years)', 'Company Ownership'],
+      System_Status: ['Online', 'Offline', 'Pending'],
+      Electricity: ['PEA (Normal)', '3-Phase', 'Solar Hybrid'],
+      Status: ['Available', 'Reserved', 'Sold'],
+      Furnishing: ['Fully Furnished', 'Partly Furnished', 'Bare Shell']
+    };
+
     function runCalculations() {
       const price = parseFloat(document.getElementById('Sale_Price').value) || 0;
       const area = parseFloat(document.getElementById('Living_Area_sq_m').value) || 0;
@@ -127,35 +133,31 @@
           document.getElementById('commonFeeDisplay').innerHTML = 
             `<i class="fas fa-coins text-[#2D5A27] mr-2"></i> สรุป: ${monthly.toLocaleString()} บาท/เดือน | ${yearly.toLocaleString()} บาท/ปี`;
         } else {
-          document.getElementById('commonFeeDisplay').innerText = "กรอกอัตราส่วนกลางเพื่อคำนวณ...";
+          document.getElementById('commonFeeDisplay').innerText = "กรอกส่วนกลางเพื่อคำนวณ...";
         }
       }
     }
 
     async function init() {
-      showLoading("SYNCING WITH MASTER SETTINGS...");
+      showLoading("SYNCING MASTER VAULT...");
       try {
-        // 1. Fetch Metadata from Settings (Including Ownership_Type)
         const metaRes = await fetch(`${CONFIG.API}?mode=getMetadata`);
         const metaJson = await metaRes.json();
-        if(metaJson.ok) {
-          const meta = metaJson.data;
-          document.querySelectorAll('.dynamic-opt').forEach(el => {
-            const fieldId = el.id;
-            if(meta[fieldId]) {
-              el.innerHTML = `<option value="">-- Select --</option>` + 
-                meta[fieldId].map(val => `<option value="${val}">${val}</option>`).join('');
-            }
-          });
-        }
+        const meta = metaJson.ok ? metaJson.data : {};
 
-        // 2. Fetch Existing Unit Data
+        document.querySelectorAll('.dynamic-opt').forEach(el => {
+          const fieldId = el.id;
+          const opts = meta[fieldId] || DEFAULT_OPTS[fieldId] || [];
+          el.innerHTML = `<option value="">-- Select --</option>` + 
+            opts.map(val => `<option value="${val}">${val}</option>`).join('');
+        });
+
         if(hpId) {
           const res = await fetch(`${CONFIG.API}?mode=getUnitDetail&id=${hpId}`);
           const json = await res.json();
           if(json.ok) {
             const u = json.data;
-            document.getElementById('displayPlot').innerText = "EDITING: " + (u.Plot || u.HP_ID);
+            document.getElementById('displayPlot').innerText = "MASTER EDIT: " + (u.Plot || u.HP_ID);
             Object.keys(u).forEach(k => { if(document.getElementById(k)) document.getElementById(k).value = u[k] || ""; });
             runCalculations();
           }
@@ -165,12 +167,12 @@
     }
 
     async function save() {
-      if(!confirm("ยืนยันการบันทึกข้อมูลลงใน Master Vault?")) return;
-      showLoading("SAVING MASTER DATA...");
-      const p = { mode: "updateUnit", HP_ID: hpId };
+      if(!confirm("ยืนยันการบันทึกข้อมูล Master ใช่หรือไม่?")) return;
+      showLoading("SAVING MASTER...");
+      const p = { mode: "updateUnit", HP_ID: document.getElementById('HP_ID').value };
       document.querySelectorAll('input, select, textarea').forEach(el => { if(el.id) p[el.id] = el.value || ""; });
       const res = await fetch(CONFIG.API, { method: 'POST', body: JSON.stringify(p) });
-      if((await res.json()).ok) { alert('Master Updated Successfully! ✅'); location.href='dashboard.html'; }
+      if((await res.json()).ok) { alert('Master Vault Updated! ✅'); location.href='dashboard.html'; }
       hideLoading();
     }
 
