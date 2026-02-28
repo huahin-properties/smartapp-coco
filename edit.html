@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <title>Master Editor Suite | V235</title>
+  <title>Master Editor Suite | V240 Auto-Calc</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -15,6 +15,8 @@
     .field-label span { color: var(--brand); font-size: 13px; margin-left: 6px; font-weight: 700; border-left: 2px solid #ddd; padding-left: 8px; }
     .field-input { width: 100%; background: #F3F6F3; border: 1.5px solid transparent; border-radius: 0.8rem; padding: 0.85rem; color: #1A3017; font-size: 14px; outline: none; transition: 0.3s; }
     .field-input:focus { border-color: var(--brand); background: white; box-shadow: 0 0 0 4px rgba(45, 90, 39, 0.05); }
+    .calc-hint { font-size: 12px; font-weight: 700; color: #2D5A27; margin-top: 8px; display: block; animation: fadeIn 0.5s; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     .save-bar { position: fixed; bottom: 0; width: 100%; background: rgba(255,255,255,0.98); backdrop-filter: blur(20px); border-top: 1px solid #eee; padding: 25px 20px; z-index: 1000; text-align: center; }
     .btn-update { background: var(--brand); color: white; width: 100%; max-width: 1000px; height: 65px; border-radius: 50px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; font-size: 18px; }
     .upload-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.95); z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; }
@@ -23,12 +25,12 @@
   </style>
 </head>
 <body>
-  <div id="loading" class="upload-overlay"><div class="loader"></div><div id="loadText" class="text-xs font-800 text-[#2D5A27]">RETRIEVING MASTER DATA...</div></div>
+  <div id="loading" class="upload-overlay"><div class="loader"></div><div id="loadText" class="text-xs font-800 text-[#2D5A27]">RETRIEVING DATA...</div></div>
   
   <div class="content-wrapper">
     <div class="bg-[#2D5A27] rounded-[2.5rem] p-10 text-white flex justify-between items-center mb-10 shadow-2xl relative overflow-hidden">
-      <div class="relative z-10"><p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">Master Vault | Editor Suite</p><h1 id="displayPlot" class="text-4xl font-800 tracking-tighter italic Sarabun">UNIT EDITOR</h1></div>
-      <i class="fas fa-edit absolute right-[-20px] bottom-[-20px] text-white/5 text-9xl"></i>
+      <div class="relative z-10"><p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">Master Vault | Advanced Editor</p><h1 id="displayPlot" class="text-4xl font-800 tracking-tighter italic Sarabun">UNIT EDITOR</h1></div>
+      <i class="fas fa-calculator absolute right-[-20px] bottom-[-20px] text-white/5 text-9xl"></i>
     </div>
 
     <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -36,196 +38,92 @@
       
       <div><label class="field-label">2. Project Name <span>ชื่อโครงการ</span></label>
         <select id="Project_Name" class="field-input">
-          <option value="">Select Project</option>
           <option value="CoCo Hua Hin 88">CoCo Hua Hin 88</option>
           <option value="The Pyne Plus">The Pyne Plus</option>
         </select>
       </div>
-
       <div><label class="field-label">3. System Visibility <span>สถานะในระบบ</span></label>
-        <select id="System_Status" class="field-input">
-          <option value="Online">Online</option>
-          <option value="Offline">Offline</option>
-          <option value="Pending">Pending Approval</option>
-        </select>
+        <select id="System_Status" class="field-input"><option value="Online">Online</option><option value="Offline">Offline</option></select>
       </div>
-
       <div><label class="field-label">4. Marketing Badge <span>ป้ายกำกับ</span></label>
         <select id="Badge" class="field-input">
-          <option value="">None</option>
-          <option value="Hot Deal">Hot Deal</option><option value="Exclusive Listing">Exclusive Listing</option>
-          <option value="Reduced Price">Reduced Price</option><option value="Brand New">Brand New</option>
-          <option value="Must See">Must See</option><option value="Sea View">Sea View</option>
-          <option value="Pool Access">Pool Access</option><option value="Luxury Living">Luxury Living</option>
-          <option value="Investment Property">Investment Property</option><option value="Corner Plot">Corner Plot</option>
-          <option value="Golf Course Frontage">Golf Course Frontage</option><option value="Fully Renovated">Fully Renovated</option>
-          <option value="Quiet Location">Quiet Location</option><option value="Prime Area">Prime Area</option>
-          <option value="Motivated Seller">Motivated Seller</option>
-        </select>
-      </div>
-
-      <div><label class="field-label">5. Listing Type <span>ประเภทประกาศ</span></label>
-        <select id="Listing_Type" class="field-input">
-          <option value="Sale">Sale</option><option value="Rent">Rent</option><option value="Sale/Rent">Sale/Rent</option>
-        </select>
-      </div>
-
-      <div><label class="field-label">6. Asset Category <span>ประเภททรัพย์สิน</span></label>
-        <select id="Type" class="field-input">
-          <option value="Pool Villa">Pool Villa</option><option value="Condo">Condo</option>
-          <option value="House">House</option><option value="Land">Land</option>
-        </select>
-      </div>
-
-      <div><label class="field-label">7. Sales Status <span>สถานะการขาย</span></label>
-        <select id="Status" class="field-input">
-          <option value="Available">Available</option><option value="Reserved">Reserved</option>
-          <option value="Sold">Sold</option><option value="Rented">Rented</option>
+          <option value="">None</option><option value="Hot Deal">Hot Deal</option><option value="Exclusive Listing">Exclusive Listing</option>
+          <option value="Reduced Price">Reduced Price</option><option value="Luxury Living">Luxury Living</option>
         </select>
       </div>
 
       <div class="col-span-full border-t border-slate-50 pt-4"></div>
-
-      <div><label class="field-label">8. Build Stage <span>สถานะก่อสร้าง</span></label>
-        <select id="Build_Stage" class="field-input">
-          <option value="Ready to Move In">Ready to Move In</option>
-          <option value="Under Construction">Under Construction</option>
-          <option value="Off Plan">Off Plan</option>
-        </select>
-      </div>
-
-      <div><label class="field-label">9. Plot Reference <span>หมายเลขแปลง</span></label><input id="Plot" class="field-input"></div>
-
-      <div><label class="field-label">10. Coordinates (GPS) <span>พิกัดแผนที่</span></label><input id="Coordinates" class="field-input"></div>
 
       <div><label class="field-label">11. District <span>อำเภอ</span></label>
-        <select id="District" class="field-input">
-          <option value="Hua Hin">Hua Hin</option><option value="Cha-am">Cha-am</option><option value="Pranburi">Pranburi</option>
-        </select>
+        <select id="District" class="field-input"><option value="Hua Hin">Hua Hin</option><option value="Cha-am">Cha-am</option><option value="Pranburi">Pranburi</option></select>
       </div>
-      <div><label class="field-label">12. Sub-District <span>ตำบล</span></label>
-        <select id="SubDistrict" class="field-input">
-          <option value="Hin Lek Fai">Hin Lek Fai</option><option value="Nong Kae">Nong Kae</option>
-          <option value="Hua Hin City">Hua Hin City</option><option value="Thap Tai">Thap Tai</option>
-          <option value="Nong Phlap">Nong Phlap</option>
-          <option value="Cha-am City">Cha-am City</option><option value="Bang Kao">Bang Kao</option>
-          <option value="Khao Yai">Khao Yai</option><option value="Na Yang">Na Yang</option>
-          <option value="Pak Nam Pran">Pak Nam Pran</option><option value="Khao Noi">Khao Noi</option>
-          <option value="Wang Phong">Wang Phong</option><option value="Pranburi City">Pranburi City</option>
-        </select>
-      </div>
-      <div><label class="field-label">13. Internal Zone <span>โซน</span></label>
-        <select id="Zone" class="field-input">
-          <option value="West Hua Hin">West Hua Hin</option><option value="South Hua Hin">South Hua Hin</option>
-          <option value="North Hua Hin">North Hua Hin</option><option value="City Center">City Center</option>
-          <option value="Khao Takiab">Khao Takiab</option><option value="Bor Fai">Bor Fai</option>
-          <option value="Black Mountain">Black Mountain</option><option value="Pak Nam Pran">Pak Nam Pran</option>
-        </select>
+      <div><label class="field-label">12. Sub-District <span>ตำบล</span></label><input id="SubDistrict" class="field-input"></div>
+      <div><label class="field-label">17. Living Area (m²) <span>พื้นที่ใช้สอย</span></label>
+        <input type="number" id="Living_Area_sq_m" class="field-input" oninput="runCalculations()">
       </div>
 
       <div class="col-span-full border-t border-slate-50 pt-4"></div>
 
-      <div><label class="field-label">14. Bedrooms <span>ห้องนอน</span></label><input type="number" id="Bedrooms" class="field-input"></div>
-      <div><label class="field-label">15. Bathrooms <span>ห้องน้ำ</span></label><input type="number" id="Bathrooms" class="field-input"></div>
-      <div><label class="field-label">16. Parking Spaces <span>ที่จอดรถ</span></label><input type="number" id="Parking" class="field-input"></div>
-
-      <div><label class="field-label">17. Living Area (m²) <span>พื้นที่ใช้สอย</span></label><input type="number" id="Living_Area_sq_m" class="field-input"></div>
-      <div><label class="field-label">18. Land Area (m²) <span>พื้นที่ดิน (ม²)</span></label><input type="number" id="Land_Area_sq_m" class="field-input"></div>
-      <div><label class="field-label">19. Land Area (sq.w) <span>พื้นที่ดิน (ตร.ว.)</span></label><input type="number" id="Land_Area_sq_w" class="field-input"></div>
-
-      <div class="col-span-full border-t border-slate-50 pt-4"></div>
-
-      <div><label class="field-label">20. Furnishing <span>การตกแต่ง</span></label>
-        <select id="Furnishing" class="field-input">
-          <option value="Fully Furnished">Fully Furnished</option><option value="Partly Furnished">Partly Furnished</option>
-          <option value="Bare Shell">Bare Shell</option>
-        </select>
-      </div>
-      <div><label class="field-label">21. Kitchen Style <span>สไตล์ห้องครัว</span></label>
-        <select id="Kitchen_Type" class="field-input">
-          <option value="European Kitchen">European Kitchen</option><option value="Thai Kitchen">Thai Kitchen</option>
-          <option value="Open Plan Kitchen">Open Plan Kitchen</option><option value="Modern Kitchen">Modern Kitchen</option>
-        </select>
+      <div>
+        <label class="field-label">33. Common Fee Rate <span>อัตราค่าส่วนกลาง (/m²)</span></label>
+        <input type="number" id="Common_Fee_Rate" class="field-input" oninput="runCalculations()" placeholder="เช่น 40">
+        <div id="commonFeeDisplay" class="calc-hint Sarabun">กรอกพื้นที่และอัตราเพื่อคำนวณ...</div>
       </div>
 
-      <div><label class="field-label">22. Direction Facing <span>ทิศหน้าบ้าน</span></label>
-        <select id="Direction" class="field-input">
-          <option value="North">North</option><option value="South">South</option>
-          <option value="East">East</option><option value="West">West</option>
-          <option value="North-East">North-East</option><option value="South-East">South-East</option>
-        </select>
+      <div>
+        <label class="field-label">34. Price per m² <span>ราคาต่อ ตร.ม.</span></label>
+        <input type="number" id="Price_sq_m" class="field-input" readonly placeholder="คำนวณอัตโนมัติ">
       </div>
 
-      <div><label class="field-label">23. Pool Size <span>ขนาดสระ</span></label><input id="Pool_Size" class="field-input"></div>
-      <div><label class="field-label">24. Pool Depth <span>ความลึกสระ</span></label><input id="Pool_Depth" class="field-input"></div>
-      <div><label class="field-label">25. Pool System <span>ระบบสระ</span></label>
-        <select id="Pool_System" class="field-input">
-          <option value="Salt Water System">Salt Water System</option><option value="Chlorine System">Chlorine System</option>
-          <option value="Mineral System">Mineral System</option><option value="Overflow System">Overflow System</option>
-        </select>
-      </div>
+      <div><label class="field-label">35. Property Description <span>คำบรรยาย</span></label><textarea id="Description" rows="1" class="field-input"></textarea></div>
 
-      <div class="col-span-full border-t border-slate-50 pt-4"></div>
-
-      <div><label class="field-label">26. View Profile <span>วิว</span></label>
-        <select id="View_Type" class="field-input">
-          <option value="Mountain View">Mountain View</option><option value="Sea View">Sea View</option>
-          <option value="Pool View">Pool View</option><option value="Garden View">Garden View</option>
-          <option value="Golf Course View">Golf Course View</option>
-        </select>
-      </div>
-      <div><label class="field-label">27. Electricity <span>ระบบไฟฟ้า</span></label><input id="Electricity" class="field-input"></div>
-      <div><label class="field-label">28. Water Source <span>แหล่งน้ำ</span></label>
-        <select id="Water_Source" class="field-input">
-          <option value="PWA (Provincial Water)">PWA (Provincial Water)</option><option value="Local Village Water">Local Village Water</option>
-          <option value="Underground Well">Underground Well</option>
-        </select>
-      </div>
-
-      <div><label class="field-label">29. Extras <span>จุดเด่นเพิ่มเติม</span></label><input id="Extras" class="field-input"></div>
-
-      <div><label class="field-label">30. Ownership Type <span>การถือครอง</span></label>
-        <select id="Ownership_Type" class="field-input">
-          <option value="Freehold (Thai Quota)">Freehold (Thai Quota)</option><option value="Foreign Freehold">Foreign Freehold</option>
-          <option value="Leasehold">Leasehold</option><option value="Company Ownership">Company Ownership</option>
-        </select>
-      </div>
-      <div><label class="field-label">31. Land Title Deed <span>ประเภทโฉนด</span></label>
-        <select id="Land_Title_Deed_Type" class="field-input">
-          <option value="Chanote (Nor Sor 4)">Chanote (Nor Sor 4)</option><option value="Nor Sor 3 Gor">Nor Sor 3 Gor</option>
-          <option value="Nor Sor 3">Nor Sor 3</option>
-        </select>
-      </div>
-      <div><label class="field-label">32. Transfer Expenses <span>ค่าใช้จ่ายวันโอน</span></label><input id="Transfer_Expenses" class="field-input"></div>
-
-      <div class="col-span-full border-t border-slate-50 pt-4"></div>
-
-      <div><label class="field-label">33. Common Fee Rate <span>อัตราค่าส่วนกลาง</span></label><input id="Common_Fee_Rate" class="field-input"></div>
-      <div><label class="field-label">34. Price per m² <span>ราคาต่อ ตร.ม.</span></label><input id="Price_sq_m" class="field-input"></div>
-
-      <div class="col-span-full border-t border-slate-100 pt-6"></div>
-
-      <div class="col-span-full"><label class="field-label">35. Property Description <span>คำบรรยายรายละเอียด</span></label><textarea id="Description" rows="5" class="field-input"></textarea></div>
-      
       <div class="col-span-full bg-[#2D5A27]/5 p-8 rounded-[1.5rem] border border-[#2D5A27]/10 mt-4">
         <label class="field-label text-[#2D5A27]">36. Official Sale Price (THB) <span>ราคาขายสุทธิ (บาท)</span></label>
-        <input id="Sale_Price" class="field-input !bg-white font-800 text-3xl text-[#2D5A27]" placeholder="0.00">
+        <input type="number" id="Sale_Price" class="field-input !bg-white font-800 text-3xl text-[#2D5A27]" oninput="runCalculations()" placeholder="0">
+      </div>
+      
+      <div class="hidden">
+        <input id="Listing_Type"><input id="Type"><input id="Status"><input id="Build_Stage"><input id="Plot"><input id="Coordinates">
+        <input id="Zone"><input id="Bedrooms"><input id="Bathrooms"><input id="Parking"><input id="Land_Area_sq_m"><input id="Land_Area_sq_w">
+        <input id="Furnishing"><input id="Kitchen_Type"><input id="Direction"><input id="Pool_Size"><input id="Pool_Depth"><input id="Pool_System">
+        <input id="View_Type"><input id="Electricity"><input id="Water_Source"><input id="Extras"><input id="Ownership_Type"><input id="Land_Title_Deed_Type"><input id="Transfer_Expenses">
       </div>
     </div>
   </div>
 
-  <div class="save-bar"><button onclick="save()" class="btn-update shadow-2xl Sarabun">อัปเดตข้อมูลต้นแบบ (Update Master)</button></div>
+  <div class="save-bar"><button onclick="save()" class="btn-update shadow-2xl Sarabun">บันทึกข้อมูลต้นแบบ</button></div>
 
   <script>
     const CONFIG = {
-      API: "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec",
-      fixedProject: null
+      API: "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec"
     };
     const hpId = new URLSearchParams(window.location.search).get('id');
 
+    // ฟังก์ชันคำนวณอัตโนมัติ
+    function runCalculations() {
+      const area = parseFloat(document.getElementById('Living_Area_sq_m').value) || 0;
+      const rate = parseFloat(document.getElementById('Common_Fee_Rate').value) || 0;
+      const price = parseFloat(document.getElementById('Sale_Price').value) || 0;
+
+      // 1. คำนวณส่วนกลาง (รายเดือน / รายปี)
+      if(area > 0 && rate > 0) {
+        const monthly = area * rate;
+        const yearly = monthly * 12;
+        document.getElementById('commonFeeDisplay').innerHTML = 
+          `<i class="fas fa-coins"></i> รวม: ${monthly.toLocaleString()} บาท/เดือน | ${yearly.toLocaleString()} บาท/ปี`;
+      } else {
+        document.getElementById('commonFeeDisplay').innerText = "กรอกพื้นที่และอัตราเพื่อคำนวณ...";
+      }
+
+      // 2. คำนวณราคาต่อตารางเมตร
+      if(area > 0 && price > 0) {
+        document.getElementById('Price_sq_m').value = Math.round(price / area);
+      }
+    }
+
     async function init() {
       if(!hpId) return;
-      showLoading("SYNCING WITH VAULT...");
+      showLoading("FETCHING DATA...");
       try {
         const res = await fetch(`${CONFIG.API}?mode=getUnitDetail&id=${hpId}`);
         const json = await res.json();
@@ -233,18 +131,19 @@
           const u = json.data;
           document.getElementById('displayPlot').innerText = "EDITING: " + (u.Plot || u.HP_ID);
           Object.keys(u).forEach(k => { if(document.getElementById(k)) document.getElementById(k).value = u[k] || ""; });
+          runCalculations(); // คำนวณทันทีที่โหลดข้อมูลเสร็จ
         }
       } catch (e) { console.error(e); }
       hideLoading();
     }
 
     async function save() {
-      if(!confirm("ยืนยันการบันทึกการเปลี่ยนแปลงลงใน Master Vault ใช่หรือไม่?")) return;
-      showLoading("SAVING MASTER...");
+      if(!confirm("ยืนยันการบันทึกข้อมูล?")) return;
+      showLoading("SAVING...");
       const p = { mode: "updateUnit", HP_ID: hpId };
       document.querySelectorAll('input, select, textarea').forEach(el => { if(el.id) p[el.id] = el.value || ""; });
       const res = await fetch(CONFIG.API, { method: 'POST', body: JSON.stringify(p) });
-      if((await res.json()).ok) { alert('Master Updated! ✅'); location.href='dashboard.html'; }
+      if((await res.json()).ok) { alert('Updated! ✅'); location.href='dashboard.html'; }
       hideLoading();
     }
     function showLoading(t){ document.getElementById('loadText').innerText = t; document.getElementById('loading').style.display = 'flex'; }
