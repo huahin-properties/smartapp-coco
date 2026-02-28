@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <title>Master Editor V280 | Financial Logic & Real-world Rates</title>
+  <title>Master Editor V285 | Optimized Financial Flow</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -29,7 +29,7 @@
   <div class="content-wrapper">
     <div class="bg-[#2D5A27] rounded-[2.5rem] p-10 text-white flex justify-between items-center mb-10 shadow-2xl relative overflow-hidden">
       <div class="relative z-10">
-        <p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">Master Vault | Real Estate Suite</p>
+        <p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">Master Vault | Advanced Workflow Editor</p>
         <h1 id="displayPlot" class="text-4xl font-800 tracking-tighter italic Sarabun">MASTER EDITOR</h1>
       </div>
       <i class="fas fa-calculator absolute right-[-20px] bottom-[-20px] text-white/5 text-9xl"></i>
@@ -50,13 +50,13 @@
           <input type="number" id="Living_Area_sq_m" class="field-input !bg-white font-800 text-2xl" oninput="runCalculations()" placeholder="0">
         </div>
         <div>
-          <label class="field-label">33. Common Fee Rate <span>ส่วนกลาง (/m²)</span></label>
-          <input type="number" id="Common_Fee_Rate" class="field-input !bg-white font-800 text-2xl" oninput="runCalculations()" placeholder="เช่น 4">
-          <div id="commonFeeDisplay" class="calc-hint Sarabun">คำนวณรายเดือน/รายปีอัตโนมัติ...</div>
+          <label class="field-label">34. Price per m² <span>ราคาเฉลี่ยต่อ ตร.ม.</span></label>
+          <input type="number" id="Price_sq_m" class="field-input !bg-white !text-2xl !font-800 !text-[#2D5A27]" readonly value="0">
         </div>
         <div class="col-span-full border-t border-[#2D5A27]/10 pt-6">
-          <label class="field-label">34. Price per m² <span>ราคาเฉลี่ยต่อ ตร.ม.</span></label>
-          <input type="number" id="Price_sq_m" class="field-input !bg-white !text-3xl !font-800 !text-[#2D5A27]" readonly value="0">
+          <label class="field-label">33. Common Fee Rate <span>ส่วนกลาง (/m²)</span></label>
+          <input type="number" id="Common_Fee_Rate" class="field-input !bg-white font-800 text-3xl" oninput="runCalculations()" placeholder="เช่น 4">
+          <div id="commonFeeDisplay" class="calc-hint Sarabun">กรอกราคาและพื้นที่เพื่อคำนวณ...</div>
         </div>
       </div>
 
@@ -111,7 +111,6 @@
     };
     const hpId = new URLSearchParams(window.location.search).get('id');
 
-    // 🎯 Fallback Options
     const DEFAULT_OPTS = {
       Ownership_Type: ['Thai Freehold', 'Foreign Freehold', 'Leasehold (30 Years)', 'Company Ownership'],
       System_Status: ['Online', 'Offline', 'Pending'],
@@ -157,6 +156,7 @@
           const json = await res.json();
           if(json.ok) {
             const u = json.data;
+            document.getElementById('HP_ID').value = u.HP_ID || "";
             document.getElementById('displayPlot').innerText = "MASTER EDIT: " + (u.Plot || u.HP_ID);
             Object.keys(u).forEach(k => { if(document.getElementById(k)) document.getElementById(k).value = u[k] || ""; });
             runCalculations();
