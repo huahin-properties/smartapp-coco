@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <title>Master Editor V330 | Full Visuals & Specs Suite</title>
+  <title>Master Editor V340 | Full 36-Field Specs & Visuals</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -11,9 +11,9 @@
     body { font-family: 'Sarabun', 'Montserrat', sans-serif; background: #F8FAF8; color: #1A3017; margin: 0; padding: 0; }
     .content-wrapper { padding: 20px 20px 200px; max-width: 1200px; margin: 0 auto; }
     
-    /* Tab System */
+    /* Tab System Logic */
     .tab-bar { display: flex; gap: 2rem; margin-bottom: 2rem; border-bottom: 2px solid #eee; padding: 0 1rem; }
-    .tab-btn { padding: 1rem 0; font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #999; cursor: pointer; position: relative; transition: 0.3s; }
+    .tab-btn { padding: 1rem 0; font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #999; cursor: pointer; position: relative; transition: 0.3s; background: none; border: none; }
     .tab-btn.active { color: var(--brand); }
     .tab-btn.active::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 3px; background: var(--brand); border-radius: 10px; }
     .tab-content { display: none; animation: fadeIn 0.4s ease-out; }
@@ -26,7 +26,7 @@
     .field-input { width: 100%; background: var(--brand-light); border: 1.5px solid transparent; border-radius: 1rem; padding: 1rem; color: #1A3017; font-size: 15px; outline: none; transition: 0.3s; }
     .field-input:focus { border-color: var(--brand); background: white; }
 
-    /* Visual Asset Styles from Pyne Plus */
+    /* Visual Management Styles */
     .thumb-stage { position: relative; width: 100%; aspect-ratio: 16/10; border-radius: 1.5rem; overflow: hidden; border: 1px solid #eee; background: #fdfdfd; margin-bottom: 1rem; }
     .img-tile { position: relative; aspect-ratio: 1; border-radius: 1rem; overflow: hidden; border: 1px solid #eee; transition: 0.3s; background: #fff; cursor: pointer; }
     .img-tile.marked { opacity: 0.3; border: 3px solid #EF4444; filter: grayscale(0.8); }
@@ -42,7 +42,7 @@
   </style>
 </head>
 <body>
-  <div id="upLoading" class="upload-overlay"><div class="border-4 border-[#eee] border-t-[#2D5A27] rounded-full w-10 h-10 animate-spin mb-4"></div><div id="loadText" class="text-xs font-800 text-[#2D5A27] tracking-widest uppercase">Syncing...</div></div>
+  <div id="upLoading" class="upload-overlay"><div class="border-4 border-[#eee] border-t-[#2D5A27] rounded-full w-10 h-10 animate-spin mb-4"></div><div id="loadText" class="text-xs font-800 text-[#2D5A27] tracking-widest uppercase text-center">Master System Syncing...</div></div>
   
   <div class="content-wrapper">
     <div class="bg-[#2D5A27] rounded-[2.5rem] p-10 text-white flex justify-between items-center mb-8 shadow-2xl relative overflow-hidden">
@@ -111,7 +111,7 @@
       <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-8">
         <div><label class="field-label">1. HP_ID <span>รหัสทรัพย์สิน</span></label><input id="HP_ID" class="field-input !bg-slate-100 font-800" readonly></div>
         <div><label class="field-label">2. Listing Type <span>ประกาศ</span></label><select id="Listing_Type" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">3. Asset Category <span>ประเภท</span></label><select id="Type" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">3. Asset Category <span>ประเภททรัพย์สิน</span></label><select id="Type" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">4. Project Name <span>ชื่อโครงการ</span></label><select id="Project_Name" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">5. Plot Reference <span>หมายเลขแปลง</span></label><input id="Plot" class="field-input"></div>
         <div><label class="field-label">6. Sales Status <span>สถานะขาย</span></label><select id="Status" class="field-input dynamic-opt"></select></div>
@@ -127,16 +127,39 @@
           </div>
         </div>
         
-        <div class="hidden">
-          <input id="Land_Area_sq_m"><input id="Land_Area_sq_w"><input id="Furnishing"><select id="District"></select><select id="SubDistrict"></select><select id="Zone"></select>
-          <input id="Bedrooms"><input id="Bathrooms"><input id="Parking"><input id="Kitchen_Type"><input id="Direction"><input id="Electricity">
-          <input id="Pool_Size"><input id="Pool_Depth"><input id="Pool_System"><input id="View_Type"><input id="Water_Source"><input id="Extras">
-          <input id="Ownership_Type"><input id="Land_Title_Deed_Type"><input id="Transfer_Expenses"><input id="Badge"><input id="Build_Stage"><input id="Coordinates">
-          <textarea id="Description"></textarea>
-        </div>
+        <div><label class="field-label">11. Land Area (m²) <span>พื้นที่ดิน (ม²)</span></label><input type="number" id="Land_Area_sq_m" class="field-input"></div>
+        <div><label class="field-label">12. Land Area (sq.w) <span>พื้นที่ดิน (ตร.ว.)</span></label><input type="number" id="Land_Area_sq_w" class="field-input"></div>
+        <div><label class="field-label">13. Furnishing <span>การตกแต่ง</span></label><select id="Furnishing" class="field-input dynamic-opt"></select></div>
+
+        <div><label class="field-label">14. District <span>อำเภอ</span></label><select id="District" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">15. Sub-District <span>ตำบล</span></label><select id="SubDistrict" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">16. Zone <span>โซน</span></label><select id="Zone" class="field-input dynamic-opt"></select></div>
+
+        <div><label class="field-label">17. Bedrooms <span>ห้องนอน</span></label><input type="number" id="Bedrooms" class="field-input"></div>
+        <div><label class="field-label">18. Bathrooms <span>ห้องน้ำ</span></label><input type="number" id="Bathrooms" class="field-input"></div>
+        <div><label class="field-label">19. Parking Spaces <span>ที่จอดรถ</span></label><input type="number" id="Parking" class="field-input"></div>
+        <div><label class="field-label">20. Kitchen Style <span>สไตล์ครัว</span></label><select id="Kitchen_Type" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">21. Direction Facing <span>ทิศหน้าบ้าน</span></label><select id="Direction" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">22. Electricity <span>ระบบไฟฟ้า</span></label><select id="Electricity" class="field-input dynamic-opt"></select></div>
+
+        <div><label class="field-label">23. Pool Size <span>ขนาดสระ</span></label><input id="Pool_Size" class="field-input"></div>
+        <div><label class="field-label">24. Pool Depth <span>ความลึกสระ</span></label><input id="Pool_Depth" class="field-input"></div>
+        <div><label class="field-label">25. Pool System <span>ระบบสระ</span></label><select id="Pool_System" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">26. View Profile <span>วิว</span></label><select id="View_Type" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">27. Water Source <span>แหล่งน้ำ</span></label><select id="Water_Source" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">28. Extras <span>จุดเด่นเพิ่มเติม</span></label><select id="Extras" class="field-input dynamic-opt"></select></div>
+
+        <div><label class="field-label">29. Ownership <span>การถือครอง</span></label><select id="Ownership_Type" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">30. Land Title Deed <span>ประเภทโฉนด</span></label><select id="Land_Title_Deed_Type" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">31. Transfer Exp. <span>ค่าใช้จ่ายวันโอน</span></label><input id="Transfer_Expenses" class="field-input"></div>
+
+        <div><label class="field-label">32. Marketing Badge <span>ป้ายกำกับ</span></label><select id="Badge" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">33. Build Stage <span>ก่อสร้าง</span></label><select id="Build_Stage" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">34. GPS Coordinates <span>พิกัด</span></label><input id="Coordinates" class="field-input"></div>
+        <div class="col-span-full"><label class="field-label">35. Property Description <span>คำบรรยายรายละเอียด</span></label><textarea id="Description" rows="4" class="field-input"></textarea></div>
         
         <div class="col-span-full bg-[#F3F6F3] p-6 rounded-[1.5rem] border-2 border-dashed border-[#2D5A27]/20 mt-4">
-          <label class="field-label !text-[#2D5A27]">36. System Visibility <span>สถานะในระบบ</span></label>
+          <label class="field-label !text-[#2D5A27]">36. System Visibility <span>สถานะในระบบ (Active Status)</span></label>
           <select id="System_Status" class="field-input !bg-white !text-lg !font-700 dynamic-opt"></select>
         </div>
       </div>
@@ -153,11 +176,12 @@
     // 🎯 INITIALIZATION
     async function init() {
       if (!hpId) return;
-      showLoading("FETCHING MASTER ASSET...");
+      showLoading("FETCHING FULL MASTER ASSET...");
       try {
         const metaRes = await fetch(`${API}?mode=getMetadata`);
         const meta = (await metaRes.json()).data;
-        ["Listing_Type", "Type", "Project_Name", "Status", "Furnishing", "District", "SubDistrict", "Zone", "Ownership_Type", "Land_Title_Deed_Type", "System_Status"].forEach(f => {
+        const dropdowns = ["Listing_Type", "Type", "Project_Name", "Status", "Furnishing", "District", "SubDistrict", "Zone", "Ownership_Type", "Land_Title_Deed_Type", "System_Status", "Badge", "Build_Stage", "Direction", "Electricity", "Pool_System", "View_Type", "Water_Source", "Extras", "Kitchen_Type"];
+        dropdowns.forEach(f => {
           if(document.getElementById(f) && meta[f]) document.getElementById(f).innerHTML = `<option value="">-- Select --</option>` + meta[f].map(v => `<option value="${v}">${v}</option>`).join('');
         });
 
@@ -180,21 +204,22 @@
       hideLoading();
     }
 
-    // 📑 TAB SWITCHING
+    // 📑 TAB SWITCHING FIXED
     function switchTab(t) {
-      document.getElementById('tab-photo').classList.toggle('hidden', t !== 'photo');
-      document.getElementById('tab-photo').classList.toggle('active', t === 'photo');
-      document.getElementById('tab-info').classList.toggle('hidden', t !== 'info');
-      document.getElementById('tab-info').classList.toggle('active', t === 'info');
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
       
-      document.getElementById('btn-photo').className = t === 'photo' ? 'tab-btn active' : 'tab-btn';
-      document.getElementById('btn-info').className = t === 'info' ? 'tab-btn active' : 'tab-btn';
+      const targetContent = document.getElementById('tab-' + t);
+      const targetBtn = document.getElementById('btn-' + (t === 'photo' ? 'photo' : 'info'));
+      
+      if(targetContent) targetContent.classList.add('active');
+      if(targetBtn) targetBtn.classList.add('active');
     }
 
-    // 🖼️ VISUAL MANAGEMENT (From Pyne Plus Logic)
+    // 🖼️ VISUAL MANAGEMENT (From Pyne Plus)
     async function handleUpload(input, target, fieldId) {
       const filesArr = Array.from(input.files); if (!filesArr.length) return;
-      showLoading("UPLOADING...");
+      showLoading("UPLOADING MEDIA...");
       for(let f of filesArr) {
         const base64 = await new Promise(res => { const r = new FileReader(); r.readAsDataURL(f); r.onload = () => res(r.result.split(',')[1]); });
         const res = await fetch(API, { method:'POST', body: JSON.stringify({ mode:'uploadFile', target, hpId, data: base64, type: f.type, name: f.name }) });
@@ -258,7 +283,7 @@
       const p = { mode: "updateUnit", HP_ID: hpId, Thumbnail_Image: thumbUrl, Album_Image: gallery.join(','), ...pdfData };
       document.querySelectorAll('input, select, textarea').forEach(el => { if(el.id) p[el.id] = el.value; });
       const res = await fetch(API, { method: 'POST', body: JSON.stringify(p) });
-      if((await res.json()).ok) { alert('PUBLISHED! ✅'); location.href='dashboard.html'; }
+      if((await res.json()).ok) { alert('MASTER UPDATED! ✅'); location.href='dashboard.html'; }
       hideLoading();
     }
 
