@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <title>Master Editor V290 | Perfect Ordered Suite</title>
+  <title>Master Editor V295 | Final System Order</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -24,15 +24,15 @@
   </style>
 </head>
 <body>
-  <div id="loading" class="upload-overlay"><div class="loader"></div><div id="loadText" class="text-xs font-800 text-[#2D5A27] tracking-[0.3em]">MASTER VAULT SYNCING...</div></div>
+  <div id="loading" class="upload-overlay"><div class="loader"></div><div id="loadText" class="text-xs font-800 text-[#2D5A27] tracking-[0.3em]">MASTER VAULT FINALIZING...</div></div>
   
   <div class="content-wrapper">
     <div class="bg-[#2D5A27] rounded-[2.5rem] p-10 text-white flex justify-between items-center mb-10 shadow-2xl relative overflow-hidden">
       <div class="relative z-10">
-        <p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">Master Vault | Perfectly Ordered Edition</p>
+        <p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">Master Vault | Sequential Workflow V295</p>
         <h1 id="displayPlot" class="text-4xl font-800 tracking-tighter italic Sarabun">MASTER EDITOR</h1>
       </div>
-      <i class="fas fa-list-ol absolute right-[-20px] bottom-[-20px] text-white/5 text-9xl"></i>
+      <i class="fas fa-tasks absolute right-[-20px] bottom-[-20px] text-white/5 text-9xl"></i>
     </div>
 
     <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -92,16 +92,18 @@
 
       <div class="col-span-full border-t border-slate-50 pt-4"></div>
 
-      <div><label class="field-label">29. System Visibility <span>สถานะในระบบ</span></label><select id="System_Status" class="field-input dynamic-opt"></select></div>
-      <div><label class="field-label">30. Marketing Badge <span>ป้ายกำกับ</span></label><select id="Badge" class="field-input dynamic-opt"></select></div>
-      <div><label class="field-label">31. Listing Type <span>ประกาศ</span></label><select id="Listing_Type" class="field-input dynamic-opt"></select></div>
-      <div><label class="field-label">32. Asset Category <span>ประเภท</span></label><select id="Type" class="field-input dynamic-opt"></select></div>
-      <div><label class="field-label">33. Sales Status <span>สถานะขาย</span></label><select id="Status" class="field-input dynamic-opt"></select></div>
-      <div><label class="field-label">34. Build Stage <span>ก่อสร้าง</span></label><select id="Build_Stage" class="field-input dynamic-opt"></select></div>
-      <div><label class="field-label">35. GPS Coordinates <span>พิกัด</span></label><input id="Coordinates" class="field-input"></div>
-
-      <div class="col-span-full border-t border-slate-100 pt-6"></div>
-      <div class="col-span-full"><label class="field-label">36. Property Description <span>คำบรรยายรายละเอียด</span></label><textarea id="Description" rows="5" class="field-input"></textarea></div>
+      <div><label class="field-label">29. Marketing Badge <span>ป้ายกำกับ</span></label><select id="Badge" class="field-input dynamic-opt"></select></div>
+      <div><label class="field-label">30. Listing Type <span>ประกาศ</span></label><select id="Listing_Type" class="field-input dynamic-opt"></select></div>
+      <div><label class="field-label">31. Asset Category <span>ประเภท</span></label><select id="Type" class="field-input dynamic-opt"></select></div>
+      <div><label class="field-label">32. Sales Status <span>สถานะขาย</span></label><select id="Status" class="field-input dynamic-opt"></select></div>
+      <div><label class="field-label">33. Build Stage <span>ก่อสร้าง</span></label><select id="Build_Stage" class="field-input dynamic-opt"></select></div>
+      <div><label class="field-label">34. GPS Coordinates <span>พิกัด</span></label><input id="Coordinates" class="field-input"></div>
+      <div><label class="field-label">35. Property Description <span>คำบรรยายรายละเอียด</span></label><textarea id="Description" rows="5" class="field-input"></textarea></div>
+      
+      <div class="col-span-full bg-[#F3F6F3] p-6 rounded-[1.5rem] border-2 border-dashed border-[#2D5A27]/20">
+        <label class="field-label !text-[#2D5A27]">36. System Visibility <span>สถานะในระบบ (Active Status)</span></label>
+        <select id="System_Status" class="field-input !bg-white !text-lg !font-700 dynamic-opt"></select>
+      </div>
     </div>
   </div>
 
@@ -136,7 +138,7 @@
     }
 
     async function init() {
-      showLoading("SYNCING ORDERED MASTER...");
+      showLoading("SYNCING MASTER VAULT V295...");
       try {
         const metaRes = await fetch(`${CONFIG.API}?mode=getMetadata`);
         const metaJson = await metaRes.json();
@@ -165,12 +167,12 @@
     }
 
     async function save() {
-      if(!confirm("บันทึกข้อมูล Master V290 ใช่หรือไม่?")) return;
-      showLoading("SAVING ORDERED DATA...");
+      if(!confirm("บันทึกข้อมูล Master V295 ใช่หรือไม่?")) return;
+      showLoading("SAVING FINAL ORDER...");
       const p = { mode: "updateUnit", HP_ID: document.getElementById('HP_ID').value };
       document.querySelectorAll('input, select, textarea').forEach(el => { if(el.id) p[el.id] = el.value || ""; });
       const res = await fetch(CONFIG.API, { method: 'POST', body: JSON.stringify(p) });
-      if((await res.json()).ok) { alert('Master Vault V290 Updated! ✅'); location.href='dashboard.html'; }
+      if((await res.json()).ok) { alert('Master Vault V295 Updated! ✅'); location.href='dashboard.html'; }
       hideLoading();
     }
 
