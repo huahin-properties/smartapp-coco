@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>Master Edit Form | V220 (36 Fields)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root { --brand: #2D5A27; }
+    body { font-family: 'Montserrat', sans-serif; background: #F8FAF8; color: #1A3017; margin: 0; padding: 0; }
+    .content-wrapper { padding: 20px 20px 200px; max-width: 1100px; margin: 0 auto; }
+    .input-card { background: white; border: 1px solid rgba(45,90,39,0.1); padding: 2rem; border-radius: 2rem; margin-bottom: 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.02); }
+    .field-label { font-size: 10px; font-weight: 800; color: #6B7A68; text-transform: uppercase; margin-bottom: 0.6rem; display: block; letter-spacing: 1.2px; }
+    .field-input { width: 100%; background: #F3F6F3; border: 1.5px solid transparent; border-radius: 0.8rem; padding: 0.85rem; color: #1A3017; font-size: 14px; outline: none; transition: 0.3s; }
+    .field-input:focus { border-color: var(--brand); background: white; box-shadow: 0 0 0 4px rgba(45, 90, 39, 0.05); }
+    .field-input:disabled { opacity: 0.6; cursor: not-allowed; background: #eee; }
+    .save-bar { position: fixed; bottom: 0; width: 100%; background: rgba(255,255,255,0.98); backdrop-filter: blur(20px); border-top: 1px solid #eee; padding: 25px 20px; z-index: 1000; text-align: center; }
+    .btn-update { background: var(--brand); color: white; width: 100%; max-width: 1000px; height: 65px; border-radius: 50px; font-weight: 800; text-transform: uppercase; letter-spacing: 4px; box-shadow: 0 15px 30px rgba(45, 90, 39, 0.2); }
+    .upload-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.95); z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; }
+    .loader { border: 4px solid #eee; border-top: 4px solid var(--brand); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 15px; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div id="loading" class="upload-overlay"><div class="loader"></div><div id="loadText" class="text-xs font-800 text-[#2D5A27] tracking-[0.3em]">RETRIEVING DATA...</div></div>
+  
+  <div class="content-wrapper">
+    <div class="bg-[#2D5A27] rounded-[2.5rem] p-10 text-white flex justify-between items-center mb-10 shadow-2xl relative overflow-hidden">
+      <div class="relative z-10">
+        <p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">Master Editor v1.0</p>
+        <h1 id="displayPlot" class="text-4xl font-800 tracking-tighter italic">UNIT EDITOR</h1>
+      </div>
+      <i class="fas fa-edit absolute right-[-20px] bottom-[-20px] text-white/5 text-9xl"></i>
+    </div>
+
+    <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-8">
+      <input type="hidden" id="HP_ID">
+      
+      <div><label class="field-label">1. Project Name</label><select id="Project_Name" class="field-input"></select></div>
+      <div><label class="field-label">2. System Visibility</label><select id="System_Status" class="field-input"><option value="Pending">Pending Approval</option><option value="Online">Online</option><option value="Offline">Offline</option></select></div>
+      <div><label class="field-label">3. Marketing Badge</label><input id="Badge" class="field-input"></div>
+
+      <div><label class="field-label">4. Listing Type</label><select id="Listing_Type" class="field-input"></select></div>
+      <div><label class="field-label">5. Asset Category (Type)</label><select id="Type" class="field-input"></select></div>
+      <div><label class="field-label">6. Sales Status</label><select id="Status" class="field-input"></select></div>
+
+      <div class="col-span-full border-t border-slate-50 pt-4"></div>
+
+      <div><label class="field-label">7. Build Stage</label><select id="Build_Stage" class="field-input"></select></div>
+      <div><label class="field-label">8. Plot Reference</label><input id="Plot" class="field-input"></div>
+      <div><label class="field-label">9. Coordinates (GPS Lat, Lon)</label><input id="Coordinates" class="field-input"></div>
+
+      <div><label class="field-label">10. District (Amphur)</label><select id="District" class="field-input"></select></div>
+      <div><label class="field-label">11. Sub-District (Tambon)</label><input id="SubDistrict" class="field-input"></div>
+      <div><label class="field-label">12. Internal Zone</label><select id="Zone" class="field-input"></select></div>
+      
+      <div class="col-span-full border-t border-slate-50 pt-4"></div>
+
+      <div><label class="field-label">13. Bedrooms</label><input type="number" id="Bedrooms" class="field-input"></div>
+      <div><label class="field-label">14. Bathrooms</label><input type="number" id="Bathrooms" class="field-input"></div>
+      <div><label class="field-label">15. Parking Spaces</label><input id="Parking" class="field-input"></div>
+
+      <div><label class="field-label">16. Living Area (m²)</label><input type="number" id="Living_Area_sq_m" class="field-input"></div>
+      <div><label class="field-label">17. Land Area (m²)</label><input type="number" id="Land_Area_sq_m" class="field-input"></div>
+      <div><label class="field-label">18. Land Area (sq.w)</label><input id="Land_Area_sq_w" class="field-input"></div>
+
+      <div class="col-span-full border-t border-slate-50 pt-4"></div>
+
+      <div><label class="field-label">19. Furnishing Status</label><select id="Furnishing" class="field-input"></select></div>
+      <div><label class="field-label">20. Kitchen Style</label><input id="Kitchen_Type" class="field-input"></div>
+      <div><label class="field-label">21. Direction Facing</label><input id="Direction" class="field-input"></div>
+
+      <div><label class="field-label">22. Pool Size</label><input id="Pool_Size" class="field-input"></div>
+      <div><label class="field-label">23. Pool Depth</label><input id="Pool_Depth" class="field-input"></div>
+      <div><label class="field-label">24. Pool System</label><input id="Pool_System" class="field-input"></div>
+
+      <div class="col-span-full border-t border-slate-50 pt-4"></div>
+
+      <div><label class="field-label">25. View Profile</label><input id="View_Type" class="field-input"></div>
+      <div><label class="field-label">26. Electricity System</label><input id="Electricity" class="field-input"></div>
+      <div><label class="field-label">27. Water Source</label><input id="Water_Source" class="field-input"></div>
+
+      <div><label class="field-label">28. Ownership Type</label><input id="Ownership_Type" class="field-input"></div>
+      <div><label class="field-label">29. Land Title Deed</label><input id="Land_Title_Deed_Type" class="field-input"></div>
+      <div><label class="field-label">30. Transfer Expenses</label><input id="Transfer_Expenses" class="field-input"></div>
+
+      <div class="col-span-full border-t border-slate-50 pt-4"></div>
+
+      <div><label class="field-label">31. Common Fee Rate</label><input id="Common_Fee_Rate" class="field-input"></div>
+      <div><label class="field-label">32. Price per m²</label><input id="Price_sq_m" class="field-input"></div>
+      <div><label class="field-label">33. Extra Features</label><input id="Extras" class="field-input"></div>
+
+      <div class="col-span-full border-t border-slate-100 pt-6"></div>
+      <div><label class="field-label">34. Description (Short/Main)</label><textarea id="Description" rows="4" class="field-input"></textarea></div>
+      <div class="col-span-2 bg-[#2D5A27]/5 p-8 rounded-[1.5rem] border border-[#2D5A27]/10">
+        <label class="field-label text-[#2D5A27]">35. Official Sale Price (THB)</label>
+        <input id="Sale_Price" class="field-input !bg-white font-800 text-3xl text-[#2D5A27]">
+      </div>
+      </div>
+  </div>
+
+  <div class="save-bar"><button onclick="handleUpdate()" id="saveBtn" class="btn-update">Sync Master Updates</button></div>
+
+  <script>
+    // 🎯 CONFIGURATION สำหรับ Master Vault
+    const CONFIG = {
+      API: "YOUR_DEPLOYED_GS_URL", // 👈 ใส่ URL จากการ Deploy GS
+      fixedProject: null // 👈 null เพื่อให้หน้า Edit เปลี่ยนโครงการได้
+    };
+    
+    const hpIdFromUrl = new URLSearchParams(window.location.search).get('id');
+
+    async function init() {
+      if(!hpIdFromUrl) return;
+      showLoading("SYNCING DATABASE...");
+      try {
+        // 1. ดึง Metadata สำหรับ Dropdown
+        const metaRes = await fetch(`${CONFIG.API}?mode=getMetadata`);
+        const meta = (await metaRes.json()).data;
+        const selectFields = ["Project_Name", "Status", "Listing_Type", "District", "Zone", "Furnishing", "Build_Stage", "Type"];
+        
+        selectFields.forEach(f => {
+          const el = document.getElementById(f);
+          if(el && meta[f]) {
+            el.innerHTML = meta[f].map(v => `<option value="${v}">${v}</option>`).join('');
+            if(f === "Project_Name" && CONFIG.fixedProject) {
+              el.value = CONFIG.fixedProject;
+              el.disabled = true;
+            }
+          }
+        });
+
+        // 2. ดึงข้อมูล Unit เดิมมาแสดง
+        const unitRes = await fetch(`${CONFIG.API}?mode=getUnitDetail&id=${hpIdFromUrl}`);
+        const unitJson = await unitRes.json();
+        if(unitJson.ok) {
+          const u = unitJson.data;
+          document.getElementById('displayPlot').innerText = "EDITING: " + (u.Plot || u.HP_ID);
+          Object.keys(u).forEach(k => {
+            const el = document.getElementById(k);
+            if(el) el.value = u[k] || "";
+          });
+        }
+      } catch (e) { console.error("Init Error:", e); }
+      hideLoading();
+    }
+
+    function handleUpdate() { alert("นี่คือไฟล์ Master Vault (ต้นแบบ) กรุณาก๊อปปี้ไปใช้งานในโฟลเดอร์โปรเจกต์จริงครับ"); }
+    function showLoading(txt) { document.getElementById('loadText').innerText = txt; document.getElementById('loading').style.display = 'flex'; }
+    function hideLoading() { document.getElementById('loading').style.display = 'none'; }
+    window.onload = init;
+  </script>
+</body>
+</html>
