@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <title>Master Editor V300 | Perfectly Sequenced Suite</title>
+  <title>Master Editor V310 | Perfect Logic Suite</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -29,19 +29,19 @@
   <div class="content-wrapper">
     <div class="bg-[#2D5A27] rounded-[2.5rem] p-10 text-white flex justify-between items-center mb-10 shadow-2xl relative overflow-hidden">
       <div class="relative z-10">
-        <p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">Master Vault | Perfect Sequenced Edition</p>
+        <p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">Master Vault | Final Logical Sequence V310</p>
         <h1 id="displayPlot" class="text-4xl font-800 tracking-tighter italic Sarabun">MASTER EDITOR</h1>
       </div>
-      <i class="fas fa-layer-group absolute right-[-20px] bottom-[-20px] text-white/5 text-9xl"></i>
+      <i class="fas fa-stream absolute right-[-20px] bottom-[-20px] text-white/5 text-9xl"></i>
     </div>
 
     <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-8">
       <div><label class="field-label">1. HP_ID <span>รหัสทรัพย์สิน</span></label><input id="HP_ID" class="field-input !bg-slate-100 font-800" readonly></div>
-      <div><label class="field-label">2. Asset Category <span>ประเภททรัพย์สิน</span></label><select id="Type" class="field-input dynamic-opt"></select></div>
-      <div><label class="field-label">3. Listing Type <span>ประกาศ</span></label><select id="Listing_Type" class="field-input dynamic-opt"></select></div>
-      <div><label class="field-label">4. Sales Status <span>สถานะขาย</span></label><select id="Status" class="field-input dynamic-opt"></select></div>
-      <div><label class="field-label">5. Project Name <span>ชื่อโครงการ</span></label><select id="Project_Name" class="field-input dynamic-opt"></select></div>
-      <div><label class="field-label">6. Plot Reference <span>หมายเลขแปลง</span></label><input id="Plot" class="field-input" placeholder="e.g. M17"></div>
+      <div><label class="field-label">2. Listing Type <span>ประกาศ</span></label><select id="Listing_Type" class="field-input dynamic-opt"></select></div>
+      <div><label class="field-label">3. Asset Category <span>ประเภททรัพย์สิน</span></label><select id="Type" class="field-input dynamic-opt"></select></div>
+      <div><label class="field-label">4. Project Name <span>ชื่อโครงการ</span></label><select id="Project_Name" class="field-input dynamic-opt"></select></div>
+      <div><label class="field-label">5. Plot Reference <span>หมายเลขแปลง</span></label><input id="Plot" class="field-input" placeholder="e.g. M17"></div>
+      <div><label class="field-label">6. Sales Status <span>สถานะขาย</span></label><select id="Status" class="field-input dynamic-opt"></select></div>
 
       <div class="col-span-full grid grid-cols-1 md:grid-cols-3 gap-8 p-8 rounded-[2.5rem] bg-[#2D5A27]/5 border-2 border-[#2D5A27]/20 shadow-inner">
         <div>
@@ -138,7 +138,7 @@
     }
 
     async function init() {
-      showLoading("SYNCING SEQUENCED MASTER...");
+      showLoading("SYNCING V310 MASTER...");
       try {
         const metaRes = await fetch(`${CONFIG.API}?mode=getMetadata`);
         const metaJson = await metaRes.json();
@@ -167,12 +167,12 @@
     }
 
     async function save() {
-      if(!confirm("บันทึกข้อมูล Master V300 ใช่หรือไม่?")) return;
+      if(!confirm("บันทึกข้อมูล Master V310 ใช่หรือไม่?")) return;
       showLoading("SAVING SEQUENCED DATA...");
       const p = { mode: "updateUnit", HP_ID: document.getElementById('HP_ID').value };
       document.querySelectorAll('input, select, textarea').forEach(el => { if(el.id) p[el.id] = el.value || ""; });
       const res = await fetch(CONFIG.API, { method: 'POST', body: JSON.stringify(p) });
-      if((await res.json()).ok) { alert('Master Vault V300 Updated! ✅'); location.href='dashboard.html'; }
+      if((await res.json()).ok) { alert('Master Vault V310 Updated! ✅'); location.href='dashboard.html'; }
       hideLoading();
     }
 
