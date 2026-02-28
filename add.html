@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <title>New Asset | Master Vault V1.0</title>
+  <title>New Asset | Master Vault V1.1</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -26,11 +26,12 @@
     .field-input { width: 100%; background: var(--brand-light); border: 1.5px solid transparent; border-radius: 1rem; padding: 1rem; color: #1A3017; font-size: 15px; outline: none; transition: 0.3s; }
     .field-input:focus { border-color: var(--brand); background: white; }
 
-    /* Visual Management Styles */
-    .thumb-stage { position: relative; width: 100%; aspect-ratio: 16/10; border-radius: 1.5rem; overflow: hidden; border: 1px solid #eee; background: #fdfdfd; margin-bottom: 1rem; }
+    /* Clean Visual Placeholders (Pyne icons removed) */
+    .thumb-stage { position: relative; width: 100%; aspect-ratio: 16/10; border-radius: 1.5rem; overflow: hidden; border: 2px dashed #eee; background: #fdfdfd; margin-bottom: 1rem; }
     .img-tile { position: relative; aspect-ratio: 1; border-radius: 1rem; overflow: hidden; border: 1px solid #eee; transition: 0.3s; background: #fff; cursor: pointer; }
     .img-tile.marked { opacity: 0.3; border: 3px solid #EF4444; filter: grayscale(0.8); }
     .img-x { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border-radius: 50%; background: rgba(239,68,68,0.9); color: white; font-size: 12px; display: flex; align-items: center; justify-content: center; z-index: 10; border: 2px solid white; }
+    
     .pdf-row { display: flex; align-items: center; gap: 12px; background: var(--brand-light); padding: 15px; border-radius: 1.2rem; margin-bottom: 10px; border: 1px solid rgba(45,90,39,0.05); }
     .btn-pdf { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
     .btn-delete-batch { background: #EF4444; color: white; padding: 12px; border-radius: 12px; font-size: 11px; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; display: none; width: 100%; }
@@ -38,11 +39,10 @@
     .save-bar { position: fixed; bottom: 0; width: 100%; background: rgba(255,255,255,0.98); backdrop-filter: blur(20px); border-top: 1px solid #eee; padding: 25px 20px; z-index: 1000; text-align: center; }
     .btn-update { background: var(--brand); color: white; width: 100%; max-width: 800px; height: 70px; border-radius: 50px; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; font-size: 20px; box-shadow: 0 15px 35px rgba(45, 90, 39, 0.25); }
     .upload-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.95); z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; }
-    .calc-hint { font-size: 13px; font-weight: 700; color: #2D5A27; margin-top: 10px; display: block; background: #e8f0e7; padding: 10px 15px; border-radius: 0.8rem; border-left: 4px solid var(--brand); }
   </style>
 </head>
 <body>
-  <div id="upLoading" class="upload-overlay"><div class="border-4 border-[#eee] border-t-[#2D5A27] rounded-full w-10 h-10 animate-spin mb-4"></div><div id="loadText" class="text-xs font-800 text-[#2D5A27] tracking-widest uppercase text-center">Master Registry Syncing...</div></div>
+  <div id="upLoading" class="upload-overlay"><div class="border-4 border-[#eee] border-t-[#2D5A27] rounded-full w-10 h-10 animate-spin mb-4"></div><div id="loadText" class="text-xs font-800 text-[#2D5A27] tracking-widest uppercase text-center">Master Registry Processing...</div></div>
   
   <div class="content-wrapper">
     <div class="bg-[#2D5A27] rounded-[2.5rem] p-10 text-white flex justify-between items-center mb-8 shadow-2xl relative overflow-hidden">
@@ -59,7 +59,8 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div class="input-card">
           <span class="field-label">Main Image <span>รูปภาพหน้าปก</span></span>
-          <div id="thumbPreview" class="thumb-stage flex items-center justify-center"><span class="text-4xl opacity-10">✨</span></div>
+          <div id="thumbPreview" class="thumb-stage flex items-center justify-center">
+            <i class="fas fa-cloud-upload-alt text-4xl text-slate-200"></i> </div>
           <button onclick="document.getElementById('file_thumb').click()" class="w-full py-4 bg-blue-600 text-white rounded-xl font-800 uppercase text-xs">Upload Cover</button>
           <input type="file" id="file_thumb" class="hidden" accept="image/*" onchange="handleUpload(this, 'thumb')">
           <input type="hidden" id="Thumbnail_Image">
@@ -120,47 +121,35 @@
           <div class="col-span-full border-t border-[#2D5A27]/10 pt-6">
             <label class="field-label">10. Common Fee Rate <span>ส่วนกลาง (/m²)</span></label>
             <input type="number" id="Common_Fee_Rate" class="field-input !bg-white font-800 text-3xl" oninput="runCalculations()" placeholder="เช่น 4">
-            <div id="commonFeeDisplay" class="calc-hint Sarabun">คำนวณรายเดือน/รายปี...</div>
           </div>
         </div>
         
         <div><label class="field-label">11. Land Area (m²) <span>พื้นที่ดิน (ม²)</span></label><input type="number" id="Land_Area_sq_m" class="field-input"></div>
         <div><label class="field-label">12. Land Area (sq.w) <span>พื้นที่ดิน (ตร.ว.)</span></label><input type="number" id="Land_Area_sq_w" class="field-input"></div>
         <div><label class="field-label">13. Furnishing <span>การตกแต่ง</span></label><select id="Furnishing" class="field-input dynamic-opt"></select></div>
-
         <div><label class="field-label">14. District <span>อำเภอ</span></label><select id="District" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">15. Sub-District <span>ตำบล</span></label><select id="SubDistrict" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">16. Zone <span>โซน</span></label><select id="Zone" class="field-input dynamic-opt"></select></div>
-
         <div><label class="field-label">17. Bedrooms <span>ห้องนอน</span></label><input type="number" id="Bedrooms" class="field-input"></div>
         <div><label class="field-label">18. Bathrooms <span>ห้องน้ำ</span></label><input type="number" id="Bathrooms" class="field-input"></div>
         <div><label class="field-label">19. Parking Spaces <span>ที่จอดรถ</span></label><input type="number" id="Parking" class="field-input"></div>
-
         <div><label class="field-label">20. Kitchen Style <span>สไตล์ครัว</span></label><select id="Kitchen_Type" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">21. Direction Facing <span>ทิศหน้าบ้าน</span></label><select id="Direction" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">22. Electricity <span>ระบบไฟฟ้า</span></label><select id="Electricity" class="field-input dynamic-opt"></select></div>
-
         <div><label class="field-label">23. Pool Size <span>ขนาดสระ</span></label><input id="Pool_Size" class="field-input"></div>
         <div><label class="field-label">24. Pool Depth <span>ความลึกสระ</span></label><input id="Pool_Depth" class="field-input"></div>
         <div><label class="field-label">25. Pool System <span>ระบบสระ</span></label><select id="Pool_System" class="field-input dynamic-opt"></select></div>
-
         <div><label class="field-label">26. View Profile <span>วิว</span></label><select id="View_Type" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">27. Water Source <span>แหล่งน้ำ</span></label><select id="Water_Source" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">28. Extras <span>จุดเด่นเพิ่มเติม</span></label><select id="Extras" class="field-input dynamic-opt"></select></div>
-
         <div><label class="field-label">29. Ownership <span>การถือครอง</span></label><select id="Ownership_Type" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">30. Land Title Deed <span>ประเภทโฉนด</span></label><select id="Land_Title_Deed_Type" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">31. Transfer Exp. <span>ค่าใช้จ่ายวันโอน</span></label><input id="Transfer_Expenses" class="field-input"></div>
-
         <div><label class="field-label">32. Marketing Badge <span>ป้ายกำกับ</span></label><select id="Badge" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">33. Build Stage <span>ก่อสร้าง</span></label><select id="Build_Stage" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">34. GPS Coordinates <span>พิกัด</span></label><input id="Coordinates" class="field-input"></div>
         <div class="col-span-full"><label class="field-label">35. Property Description <span>คำบรรยายรายละเอียด</span></label><textarea id="Description" rows="4" class="field-input"></textarea></div>
-        
-        <div class="col-span-full bg-[#F3F6F3] p-6 rounded-[1.5rem] border-2 border-dashed border-[#2D5A27]/20 mt-4">
-          <label class="field-label !text-[#2D5A27]">36. System Visibility <span>สถานะในระบบ (Active Status)</span></label>
-          <select id="System_Status" class="field-input !bg-white !text-lg !font-700 dynamic-opt"></select>
-        </div>
+        <div class="col-span-full bg-[#F3F6F3] p-6 rounded-[1.5rem] border-2 border-dashed border-[#2D5A27]/20 mt-4"><label class="field-label !text-[#2D5A27]">36. System Visibility <span>สถานะในระบบ</span></label><select id="System_Status" class="field-input !bg-white !text-lg !font-700 dynamic-opt"></select></div>
       </div>
     </div>
   </div>
@@ -171,9 +160,8 @@
     const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
     let gallery = [], markedForDelete = [], thumbUrl = "", pdfData = {};
 
-    // 🎯 INITIALIZATION
     async function init() {
-      showLoading("FETCHING MASTER SETTINGS...");
+      showLoading("FETCHING SETTINGS...");
       try {
         const metaRes = await fetch(`${API}?mode=getMetadata`);
         const meta = (await metaRes.json()).data;
@@ -185,7 +173,6 @@
       hideLoading();
     }
 
-    // 📑 TAB SWITCHING
     function switchTab(t) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
@@ -193,20 +180,21 @@
       document.getElementById('btn-' + (t === 'photo' ? 'photo' : 'info')).classList.add('active');
     }
 
-    // 🖼️ VISUAL MANAGEMENT (New Entry Context)
+    // Fixed Handle Upload for New Entries
     async function handleUpload(input, target, fieldId) {
       const filesArr = Array.from(input.files); if (!filesArr.length) return;
-      showLoading("PROCESSING MEDIA...");
-      // For Add page, we upload using a temp placeholder if ID isn't set, 
-      // but your GS is built to handle hpId = null as a new entry.
+      showLoading("UPLOADING MEDIA...");
       for(let f of filesArr) {
         const base64 = await new Promise(res => { const r = new FileReader(); r.readAsDataURL(f); r.onload = () => res(r.result.split(',')[1]); });
-        const res = await fetch(API, { method:'POST', body: JSON.stringify({ mode:'uploadFile', target, hpId: 'NEW', data: base64, type: f.type, name: f.name }) });
+        // Sending 'MASTER_ENTRY' instead of 'NEW' to help GS identify initial creation
+        const res = await fetch(API, { method:'POST', body: JSON.stringify({ mode:'uploadFile', target, hpId: 'MASTER_ENTRY', data: base64, type: f.type, name: f.name }) });
         const result = await res.json();
         if (result.ok) {
           if (target === 'thumb') { thumbUrl = result.url; renderMainThumb(thumbUrl); }
           else if (target === 'album') { gallery.push(result.url); renderGallery(); }
           else { pdfData[fieldId] = result.url; syncPdfUI(fieldId, result.url, f.name); }
+        } else {
+          alert("Upload failed: " + (result.message || "Unknown error"));
         }
       }
       hideLoading();
@@ -221,58 +209,36 @@
     function renderMainThumb(url) {
       const box = document.getElementById('thumbPreview');
       if (url) { box.innerHTML = `<div class="img-x" onclick="deleteMainThumb()">✕</div><img src="${url}" class="w-full h-full object-cover">`; document.getElementById('Thumbnail_Image').value = url; }
-      else { box.innerHTML = `<span class="text-4xl opacity-10">✨</span>`; document.getElementById('Thumbnail_Image').value = ""; }
+      else { box.innerHTML = `<i class="fas fa-cloud-upload-alt text-4xl text-slate-200"></i>`; document.getElementById('Thumbnail_Image').value = ""; }
     }
 
     function deleteMainThumb() { renderMainThumb(""); thumbUrl = ""; }
-
     function renderGallery() {
       const box = document.getElementById('galleryPreview');
       box.innerHTML = gallery.map((url, i) => `<div class="img-tile ${markedForDelete.includes(i) ? 'marked' : ''}" onclick="toggleMark(${i})"><div class="img-x"><i class="fas ${markedForDelete.includes(i) ? 'fa-check' : 'fa-times'}"></i></div><img src="${url}" class="w-full h-full object-cover"></div>`).join('') || '🗂️';
       document.getElementById('delBtn').style.display = markedForDelete.length > 0 ? 'block' : 'none';
       document.getElementById('Album_Image').value = gallery.join(',');
     }
-
     function toggleMark(i) { const idx = markedForDelete.indexOf(i); if (idx > -1) markedForDelete.splice(idx, 1); else markedForDelete.push(i); renderGallery(); }
+    function processBatchDelete() { gallery = gallery.filter((_, i) => !markedForDelete.includes(i)); markedForDelete = []; renderGallery(); }
 
-    function processBatchDelete() {
-      const targets = markedForDelete.sort((a,b) => b-a);
-      for (const idx of targets) { gallery.splice(idx, 1); }
-      markedForDelete = []; renderGallery();
-    }
-
-    // 📝 SPECS LOGIC
     function runCalculations() {
       const price = parseFloat(document.getElementById('Sale_Price').value) || 0;
       const area = parseFloat(document.getElementById('Living_Area_sq_m').value) || 0;
-      const rate = parseFloat(document.getElementById('Common_Fee_Rate').value) || 0;
-      if(area > 0) {
-        document.getElementById('Price_sq_m').value = price > 0 ? Math.round(price / area) : 0;
-        if(rate > 0) {
-          const m = area * rate;
-          document.getElementById('commonFeeDisplay').innerHTML = `สรุป: ${m.toLocaleString()} บาท/เดือน | ${(m*12).toLocaleString()} บาท/ปี`;
-        }
-      }
+      if(area > 0) document.getElementById('Price_sq_m').value = price > 0 ? Math.round(price / area) : 0;
     }
 
-    // 🚀 SAVE DATA (mode: addUnit)
     async function saveData() {
-      if(!confirm("Create new entry in Master Vault?")) return;
-      showLoading("ENROLLING NEW ASSET...");
+      if(!confirm("Enroll this entry?")) return;
+      showLoading("CREATING ASSET...");
       const p = { mode: "addUnit", Thumbnail_Image: thumbUrl, Album_Image: gallery.join(','), ...pdfData };
       document.querySelectorAll('input, select, textarea').forEach(el => { if(el.id) p[el.id] = el.value; });
-      
-      const res = await fetch(API, { method: 'POST', body: JSON.stringify(p) });
-      const result = await res.json();
-      if(result.ok) { 
-        alert(`SUCCESS! NEW ASSET ID: ${result.newId} ✅`); 
-        location.href='dashboard.html'; 
-      }
+      const res = await (await fetch(API, { method: 'POST', body: JSON.stringify(p) })).json();
+      if(res.ok) { alert(`SUCCESS! ID: ${res.newId}`); location.href='dashboard.html'; }
       hideLoading();
     }
-
-    function viewFile(id) { const url = pdfData[id]; if (url) window.open(url, '_blank'); }
-    function showLoading(txt) { document.getElementById('loadText').innerText = txt; document.getElementById('upLoading').style.display = 'flex'; }
+    function viewFile(id) { if (pdfData[id]) window.open(pdfData[id], '_blank'); }
+    function showLoading(t) { document.getElementById('loadText').innerText = t; document.getElementById('upLoading').style.display = 'flex'; }
     function hideLoading() { document.getElementById('upLoading').style.display = 'none'; }
     window.onload = init;
   </script>
