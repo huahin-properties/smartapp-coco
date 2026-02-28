@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <title>Master Editor V325 | Integrated Visuals & Specs</title>
+  <title>Master Editor V330 | Full Visuals & Specs Suite</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -13,14 +13,14 @@
     
     /* Tab System */
     .tab-bar { display: flex; gap: 2rem; margin-bottom: 2rem; border-bottom: 2px solid #eee; padding: 0 1rem; }
-    .tab-btn { padding: 1rem 0; font-weight: 800; font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; color: #999; cursor: pointer; position: relative; transition: 0.3s; }
+    .tab-btn { padding: 1rem 0; font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #999; cursor: pointer; position: relative; transition: 0.3s; }
     .tab-btn.active { color: var(--brand); }
     .tab-btn.active::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 3px; background: var(--brand); border-radius: 10px; }
     .tab-content { display: none; animation: fadeIn 0.4s ease-out; }
     .tab-content.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    .input-card { background: white; border: 1px solid rgba(45,90,39,0.1); padding: 2rem; border-radius: 2rem; margin-bottom: 1.5rem; box-shadow: 0 10px 40px rgba(0,0,0,0.03); }
+    .input-card { background: white; border: 1px solid rgba(45,90,39,0.1); padding: 2.2rem; border-radius: 2.2rem; margin-bottom: 1.5rem; box-shadow: 0 10px 40px rgba(0,0,0,0.03); }
     .field-label { font-size: 11px; font-weight: 800; color: #6B7A68; text-transform: uppercase; margin-bottom: 0.6rem; display: block; letter-spacing: 0.5px; }
     .field-label span { color: var(--brand); font-size: 13px; margin-left: 8px; font-weight: 700; border-left: 2px solid #ddd; padding-left: 10px; }
     .field-input { width: 100%; background: var(--brand-light); border: 1.5px solid transparent; border-radius: 1rem; padding: 1rem; color: #1A3017; font-size: 15px; outline: none; transition: 0.3s; }
@@ -32,13 +32,13 @@
     .img-tile.marked { opacity: 0.3; border: 3px solid #EF4444; filter: grayscale(0.8); }
     .img-x { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border-radius: 50%; background: rgba(239,68,68,0.9); color: white; font-size: 12px; display: flex; align-items: center; justify-content: center; z-index: 10; border: 2px solid white; }
     .pdf-row { display: flex; align-items: center; gap: 12px; background: var(--brand-light); padding: 15px; border-radius: 1.2rem; margin-bottom: 10px; border: 1px solid rgba(45,90,39,0.05); }
-    .pdf-name { font-size: 10px; color: var(--brand); font-weight: 700; display: block; margin-top: 2px; }
     .btn-pdf { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
     .btn-delete-batch { background: #EF4444; color: white; padding: 12px; border-radius: 12px; font-size: 11px; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; display: none; width: 100%; }
 
     .save-bar { position: fixed; bottom: 0; width: 100%; background: rgba(255,255,255,0.98); backdrop-filter: blur(20px); border-top: 1px solid #eee; padding: 25px 20px; z-index: 1000; text-align: center; }
     .btn-update { background: var(--brand); color: white; width: 100%; max-width: 800px; height: 70px; border-radius: 50px; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; font-size: 20px; box-shadow: 0 15px 35px rgba(45, 90, 39, 0.25); }
     .upload-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.95); z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; }
+    .calc-hint { font-size: 13px; font-weight: 700; color: #2D5A27; margin-top: 10px; display: block; background: #e8f0e7; padding: 10px 15px; border-radius: 0.8rem; border-left: 4px solid var(--brand); }
   </style>
 </head>
 <body>
@@ -51,8 +51,8 @@
     </div>
 
     <div class="tab-bar">
-      <div id="btn-photo" class="tab-btn active" onclick="switchTab('photo')">Visual Assets</div>
-      <div id="btn-info" class="tab-btn" onclick="switchTab('info')">Specifications</div>
+      <button id="btn-photo" class="tab-btn active" onclick="switchTab('photo')">Visual Assets</button>
+      <button id="btn-info" class="tab-btn" onclick="switchTab('info')">Specifications</button>
     </div>
 
     <div id="tab-photo" class="tab-content active space-y-6">
@@ -77,34 +77,31 @@
         <span class="field-label">Asset Documents (PDF Manager) <span>จัดการไฟล์เอกสาร</span></span>
         <div class="space-y-3 mt-4">
           <div class="pdf-row">
-            <div class="flex-1"><span class="text-[10px] font-800 block text-slate-400">FLOOR PLAN</span><span id="txt-FloorPlan_PDF" class="pdf-name truncate">No file attached</span></div>
+            <div class="flex-1"><span class="text-[10px] font-800 block text-slate-400 uppercase">Floor Plan</span><span id="txt-FloorPlan_PDF" class="text-[10px] font-700 text-[#2D5A27] truncate">No file attached</span></div>
             <div class="flex gap-2">
               <button onclick="viewFile('FloorPlan_PDF')" id="view-FloorPlan_PDF" class="btn-pdf bg-white text-emerald-600 border border-emerald-100 hidden"><i class="fas fa-eye"></i></button>
               <button onclick="document.getElementById('f_floor').click()" class="btn-pdf bg-blue-600 text-white"><i class="fas fa-upload"></i></button>
               <button onclick="deleteFile('FloorPlan_PDF')" class="btn-pdf bg-red-50 text-red-500 border border-red-100"><i class="fas fa-trash"></i></button>
             </div>
-            <input type="file" id="f_floor" class="hidden" accept="application/pdf" onchange="handleUpload(this, 'floor', 'FloorPlan_PDF')">
-            <input type="hidden" id="FloorPlan_PDF">
+            <input type="file" id="f_floor" class="hidden" accept="application/pdf" onchange="handleUpload(this, 'floor', 'FloorPlan_PDF')"><input type="hidden" id="FloorPlan_PDF">
           </div>
           <div class="pdf-row">
-            <div class="flex-1"><span class="text-[10px] font-800 block text-slate-400">CUSTOMER BROCHURE</span><span id="txt-Sales_Gallery" class="pdf-name truncate">No file attached</span></div>
+            <div class="flex-1"><span class="text-[10px] font-800 block text-slate-400 uppercase">Customer Brochure</span><span id="txt-Sales_Gallery" class="text-[10px] font-700 text-[#2D5A27] truncate">No file attached</span></div>
             <div class="flex gap-2">
               <button onclick="viewFile('Sales_Gallery')" id="view-Sales_Gallery" class="btn-pdf bg-white text-emerald-600 border border-emerald-100 hidden"><i class="fas fa-eye"></i></button>
               <button onclick="document.getElementById('f_customer').click()" class="btn-pdf bg-blue-600 text-white"><i class="fas fa-upload"></i></button>
               <button onclick="deleteFile('Sales_Gallery')" class="btn-pdf bg-red-50 text-red-500 border border-red-100"><i class="fas fa-trash"></i></button>
             </div>
-            <input type="file" id="f_customer" class="hidden" accept="application/pdf" onchange="handleUpload(this, 'customer', 'Sales_Gallery')">
-            <input type="hidden" id="Sales_Gallery">
+            <input type="file" id="f_customer" class="hidden" accept="application/pdf" onchange="handleUpload(this, 'customer', 'Sales_Gallery')"><input type="hidden" id="Sales_Gallery">
           </div>
           <div class="pdf-row">
-            <div class="flex-1"><span class="text-[10px] font-800 block text-slate-400">AGENT FACT SHEET</span><span id="txt-Material_PDF" class="pdf-name truncate">No file attached</span></div>
+            <div class="flex-1"><span class="text-[10px] font-800 block text-slate-400 uppercase">Agent Fact Sheet</span><span id="txt-Material_PDF" class="text-[10px] font-700 text-[#2D5A27] truncate">No file attached</span></div>
             <div class="flex gap-2">
               <button onclick="viewFile('Material_PDF')" id="view-Material_PDF" class="btn-pdf bg-white text-emerald-600 border border-emerald-100 hidden"><i class="fas fa-eye"></i></button>
               <button onclick="document.getElementById('f_agent').click()" class="btn-pdf bg-blue-600 text-white"><i class="fas fa-upload"></i></button>
               <button onclick="deleteFile('Material_PDF')" class="btn-pdf bg-red-50 text-red-500 border border-red-100"><i class="fas fa-trash"></i></button>
             </div>
-            <input type="file" id="f_agent" class="hidden" accept="application/pdf" onchange="handleUpload(this, 'agent', 'Material_PDF')">
-            <input type="hidden" id="Material_PDF">
+            <input type="file" id="f_agent" class="hidden" accept="application/pdf" onchange="handleUpload(this, 'agent', 'Material_PDF')"><input type="hidden" id="Material_PDF">
           </div>
         </div>
       </div>
@@ -119,16 +116,17 @@
         <div><label class="field-label">5. Plot Reference <span>หมายเลขแปลง</span></label><input id="Plot" class="field-input"></div>
         <div><label class="field-label">6. Sales Status <span>สถานะขาย</span></label><select id="Status" class="field-input dynamic-opt"></select></div>
 
-        <div class="col-span-full grid grid-cols-1 md:grid-cols-3 gap-8 p-8 rounded-[2.5rem] bg-[#2D5A27]/5 border-2 border-[#2D5A27]/20">
-          <div><label class="field-label">7. Sale Price (THB) <span>ราคาขายสุทธิ</span></label><input type="number" id="Sale_Price" class="field-input !bg-white font-800 text-2xl" oninput="runCalculations()"></div>
+        <div class="col-span-full grid grid-cols-1 md:grid-cols-3 gap-8 p-8 rounded-[2.5rem] bg-[#2D5A27]/5 border-2 border-[#2D5A27]/20 shadow-inner">
+          <div><label class="field-label">7. Sale Price (THB) <span>ราคาขายสุทธิ</span></label><input type="number" id="Sale_Price" class="field-input !bg-white font-800 text-2xl !text-[#2D5A27]" oninput="runCalculations()"></div>
           <div><label class="field-label">8. Living Area (m²) <span>พื้นที่ใช้สอย</span></label><input type="number" id="Living_Area_sq_m" class="field-input !bg-white font-800 text-2xl" oninput="runCalculations()"></div>
-          <div><label class="field-label">9. Price per m² <span>ราคาต่อ ตร.ม.</span></label><input type="number" id="Price_sq_m" class="field-input !bg-white !text-2xl !font-800" readonly value="0"></div>
+          <div><label class="field-label">9. Price per m² <span>ราคาต่อ ตร.ม.</span></label><input type="number" id="Price_sq_m" class="field-input !bg-white !text-2xl !font-800 !text-[#2D5A27]" readonly value="0"></div>
           <div class="col-span-full border-t border-[#2D5A27]/10 pt-6">
             <label class="field-label">10. Common Fee Rate <span>ส่วนกลาง (/m²)</span></label>
             <input type="number" id="Common_Fee_Rate" class="field-input !bg-white font-800 text-3xl" oninput="runCalculations()" placeholder="เช่น 4">
             <div id="commonFeeDisplay" class="calc-hint Sarabun">คำนวณรายเดือน/รายปี...</div>
           </div>
         </div>
+        
         <div class="hidden">
           <input id="Land_Area_sq_m"><input id="Land_Area_sq_w"><input id="Furnishing"><select id="District"></select><select id="SubDistrict"></select><select id="Zone"></select>
           <input id="Bedrooms"><input id="Bathrooms"><input id="Parking"><input id="Kitchen_Type"><input id="Direction"><input id="Electricity">
@@ -136,6 +134,7 @@
           <input id="Ownership_Type"><input id="Land_Title_Deed_Type"><input id="Transfer_Expenses"><input id="Badge"><input id="Build_Stage"><input id="Coordinates">
           <textarea id="Description"></textarea>
         </div>
+        
         <div class="col-span-full bg-[#F3F6F3] p-6 rounded-[1.5rem] border-2 border-dashed border-[#2D5A27]/20 mt-4">
           <label class="field-label !text-[#2D5A27]">36. System Visibility <span>สถานะในระบบ</span></label>
           <select id="System_Status" class="field-input !bg-white !text-lg !font-700 dynamic-opt"></select>
@@ -154,30 +153,25 @@
     // 🎯 INITIALIZATION
     async function init() {
       if (!hpId) return;
-      showLoading("FETCHING ASSET...");
+      showLoading("FETCHING MASTER ASSET...");
       try {
-        // 1. Load Dropdowns from Settings
         const metaRes = await fetch(`${API}?mode=getMetadata`);
         const meta = (await metaRes.json()).data;
         ["Listing_Type", "Type", "Project_Name", "Status", "Furnishing", "District", "SubDistrict", "Zone", "Ownership_Type", "Land_Title_Deed_Type", "System_Status"].forEach(f => {
           if(document.getElementById(f) && meta[f]) document.getElementById(f).innerHTML = `<option value="">-- Select --</option>` + meta[f].map(v => `<option value="${v}">${v}</option>`).join('');
         });
 
-        // 2. Load Unit Details
         const res = await (await fetch(`${API}?mode=getUnitDetail&id=${hpId}`)).json();
         if (res.ok) {
           const u = res.data;
           Object.keys(u).forEach(k => { if(document.getElementById(k)) document.getElementById(k).value = u[k]; });
-          document.getElementById('displayPlot').innerText = "PLOT " + (u.Plot || "N/A");
+          document.getElementById('displayPlot').innerText = "MASTER EDIT: " + (u.Plot || u.HP_ID);
           
-          // Sync Visuals
           syncPdfUI('FloorPlan_PDF', u.FloorPlan_PDF, u.FloorPlan_Name);
           syncPdfUI('Sales_Gallery', u.Sales_Gallery, u.Sales_Gallery_Name);
           syncPdfUI('Material_PDF', u.Material_PDF, u.Material_PDF_Name);
           
-          thumbUrl = u.Thumbnail_Image || ""; 
-          renderMainThumb(thumbUrl);
-          
+          thumbUrl = u.Thumbnail_Image || ""; renderMainThumb(thumbUrl);
           gallery = u.Album_Image ? u.Album_Image.split(',').filter(Boolean) : [];
           renderGallery();
           runCalculations();
@@ -186,13 +180,18 @@
       hideLoading();
     }
 
-    // 🖼️ VISUAL HANDLING LOGIC (From Pyne Plus)
-    function syncPdfUI(id, url, name) {
-      const txt = document.getElementById('txt-'+id); const view = document.getElementById('view-'+id);
-      if (url && url !== "") { txt.innerText = name || "Linked ✅"; view.classList.remove('hidden'); pdfData[id] = url; }
-      else { txt.innerText = "No file selected"; view.classList.add('hidden'); }
+    // 📑 TAB SWITCHING
+    function switchTab(t) {
+      document.getElementById('tab-photo').classList.toggle('hidden', t !== 'photo');
+      document.getElementById('tab-photo').classList.toggle('active', t === 'photo');
+      document.getElementById('tab-info').classList.toggle('hidden', t !== 'info');
+      document.getElementById('tab-info').classList.toggle('active', t === 'info');
+      
+      document.getElementById('btn-photo').className = t === 'photo' ? 'tab-btn active' : 'tab-btn';
+      document.getElementById('btn-info').className = t === 'info' ? 'tab-btn active' : 'tab-btn';
     }
 
+    // 🖼️ VISUAL MANAGEMENT (From Pyne Plus Logic)
     async function handleUpload(input, target, fieldId) {
       const filesArr = Array.from(input.files); if (!filesArr.length) return;
       showLoading("UPLOADING...");
@@ -207,6 +206,12 @@
         }
       }
       hideLoading();
+    }
+
+    function syncPdfUI(id, url, name) {
+      const txt = document.getElementById('txt-'+id); const view = document.getElementById('view-'+id);
+      if (url && url !== "") { txt.innerText = name || "Linked ✅"; view.classList.remove('hidden'); pdfData[id] = url; }
+      else { txt.innerText = "No file selected"; view.classList.add('hidden'); }
     }
 
     function renderMainThumb(url) {
@@ -233,7 +238,7 @@
       markedForDelete = []; renderGallery();
     }
 
-    // 📝 SPECIFICATIONS LOGIC (Coco Legacy)
+    // 📝 SPECS LOGIC
     function runCalculations() {
       const price = parseFloat(document.getElementById('Sale_Price').value) || 0;
       const area = parseFloat(document.getElementById('Living_Area_sq_m').value) || 0;
@@ -242,7 +247,7 @@
         document.getElementById('Price_sq_m').value = price > 0 ? Math.round(price / area) : 0;
         if(rate > 0) {
           const m = area * rate;
-          document.getElementById('commonFeeDisplay').innerHTML = `รวม: ${m.toLocaleString()} บาท/เดือน | ${(m*12).toLocaleString()} บาท/ปี`;
+          document.getElementById('commonFeeDisplay').innerHTML = `สรุป: ${m.toLocaleString()} บาท/เดือน | ${(m*12).toLocaleString()} บาท/ปี`;
         }
       }
     }
@@ -253,17 +258,10 @@
       const p = { mode: "updateUnit", HP_ID: hpId, Thumbnail_Image: thumbUrl, Album_Image: gallery.join(','), ...pdfData };
       document.querySelectorAll('input, select, textarea').forEach(el => { if(el.id) p[el.id] = el.value; });
       const res = await fetch(API, { method: 'POST', body: JSON.stringify(p) });
-      if((await res.json()).ok) { alert('PUBLISHED SUCCESSFULLY! ✅'); location.href='dashboard.html'; }
+      if((await res.json()).ok) { alert('PUBLISHED! ✅'); location.href='dashboard.html'; }
       hideLoading();
     }
 
-    // Utility
-    function switchTab(t) {
-      document.getElementById('tab-photo').classList.toggle('hidden', t !== 'photo');
-      document.getElementById('tab-info').classList.toggle('hidden', t !== 'info');
-      document.getElementById('btn-photo').className = t === 'photo' ? 'tab-btn active' : 'tab-btn';
-      document.getElementById('btn-info').className = t === 'info' ? 'tab-btn active' : 'tab-btn';
-    }
     function viewFile(id) { const url = pdfData[id]; if (url) window.open(url, '_blank'); }
     function deleteFile(fieldId) { const url = pdfData[fieldId]; if (!url || !confirm("Delete file?")) return; pdfData[fieldId] = ""; syncPdfUI(fieldId, "", ""); fetch(API, { method: 'POST', body: JSON.stringify({ mode: 'deleteFile', url }) }); }
     function showLoading(txt) { document.getElementById('loadText').innerText = txt; document.getElementById('upLoading').style.display = 'flex'; }
