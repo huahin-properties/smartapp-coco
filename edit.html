@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <title>Master Editor V260 | Financial Workflow & Dynamic Settings</title>
+  <title>Master Editor V265 | Perfect Layout & Dynamic Settings</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -24,22 +24,22 @@
   </style>
 </head>
 <body>
-  <div id="loading" class="upload-overlay"><div class="loader"></div><div id="loadText" class="text-xs font-800 text-[#2D5A27] tracking-[0.3em]">CONNECTING TO MASTER VAULT...</div></div>
+  <div id="loading" class="upload-overlay"><div class="loader"></div><div id="loadText" class="text-xs font-800 text-[#2D5A27] tracking-[0.3em]">SYNCHRONIZING MASTER VAULT...</div></div>
   
   <div class="content-wrapper">
     <div class="bg-[#2D5A27] rounded-[2.5rem] p-10 text-white flex justify-between items-center mb-10 shadow-2xl relative overflow-hidden">
       <div class="relative z-10">
-        <p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">Master Vault | Advanced Workflow Editor</p>
+        <p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">Master Vault | Final Layout Suite</p>
         <h1 id="displayPlot" class="text-4xl font-800 tracking-tighter italic Sarabun">UNIT EDITOR</h1>
       </div>
-      <i class="fas fa-calculator absolute right-[-20px] bottom-[-20px] text-white/5 text-9xl"></i>
+      <i class="fas fa-coins absolute right-[-20px] bottom-[-20px] text-white/5 text-9xl"></i>
     </div>
 
     <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-8">
       <input type="hidden" id="HP_ID">
       
       <div><label class="field-label">2. Project Name <span>ชื่อโครงการ</span></label><select id="Project_Name" class="field-input dynamic-opt"></select></div>
-      <div><label class="field-label">9. Plot Reference <span>หมายเลขแปลง</span></label><input id="Plot" class="field-input" placeholder="เช่น M17"></div>
+      <div><label class="field-label">9. Plot Reference <span>หมายเลขแปลง</span></label><input id="Plot" class="field-input" placeholder="e.g. M17"></div>
       <div><label class="field-label">3. System Visibility <span>สถานะในระบบ</span></label><select id="System_Status" class="field-input dynamic-opt"></select></div>
 
       <div class="col-span-full grid grid-cols-1 md:grid-cols-3 gap-8 p-8 rounded-[2rem] bg-[#2D5A27]/5 border-2 border-[#2D5A27]/20 shadow-inner">
@@ -49,7 +49,7 @@
         </div>
         <div>
           <label class="field-label">17. Living Area (m²) <span>พื้นที่ใช้สอย</span></label>
-          <input type="number" id="Living_Area_sq_m" class="field-input !bg-white font-800 text-2xl" oninput="runCalculations()" placeholder="กรอกขนาดบ้าน">
+          <input type="number" id="Living_Area_sq_m" class="field-input !bg-white font-800 text-2xl" oninput="runCalculations()" placeholder="ขนาดพื้นที่บ้าน">
         </div>
         <div>
           <label class="field-label">33. Common Fee Rate <span>ส่วนกลาง (/m²)</span></label>
@@ -62,17 +62,35 @@
         </div>
       </div>
 
+      <div><label class="field-label">18. Land Area (m²) <span>พื้นที่ที่ดิน (ม²)</span></label><input type="number" id="Land_Area_sq_m" class="field-input"></div>
+      <div><label class="field-label">19. Land Area (sq.w) <span>พื้นที่ที่ดิน (ตร.ว.)</span></label><input type="number" id="Land_Area_sq_w" class="field-input"></div>
+      <div><label class="field-label">20. Furnishing <span>การตกแต่ง</span></label><select id="Furnishing" class="field-input dynamic-opt"></select></div>
+
       <div><label class="field-label">11. District <span>อำเภอ</span></label><select id="District" class="field-input dynamic-opt"></select></div>
       <div><label class="field-label">12. Sub-District <span>ตำบล</span></label><select id="SubDistrict" class="field-input dynamic-opt"></select></div>
       <div><label class="field-label">13. Internal Zone <span>โซน</span></label><select id="Zone" class="field-input dynamic-opt"></select></div>
+
+      <div class="col-span-full border-t border-slate-50 pt-4"></div>
 
       <div><label class="field-label">14. Bedrooms <span>ห้องนอน</span></label><input type="number" id="Bedrooms" class="field-input"></div>
       <div><label class="field-label">15. Bathrooms <span>ห้องน้ำ</span></label><input type="number" id="Bathrooms" class="field-input"></div>
       <div><label class="field-label">16. Parking Spaces <span>ที่จอดรถ</span></label><input type="number" id="Parking" class="field-input"></div>
 
-      <div><label class="field-label">18. Land Area (m²) <span>พื้นที่ที่ดิน (ม²)</span></label><input type="number" id="Land_Area_sq_m" class="field-input"></div>
-      <div><label class="field-label">19. Land Area (sq.w) <span>พื้นที่ที่ดิน (ตร.ว.)</span></label><input type="number" id="Land_Area_sq_w" class="field-input"></div>
-      <div><label class="field-label">20. Furnishing <span>การตกแต่ง</span></label><select id="Furnishing" class="field-input dynamic-opt"></select></div>
+      <div><label class="field-label">21. Kitchen Style <span>สไตล์ครัว</span></label><select id="Kitchen_Type" class="field-input dynamic-opt"></select></div>
+      <div><label class="field-label">22. Direction Facing <span>ทิศหน้าบ้าน</span></label><select id="Direction" class="field-input dynamic-opt"></select></div>
+      <div><label class="field-label">27. Electricity <span>ระบบไฟฟ้า</span></label><select id="Electricity" class="field-input dynamic-opt"></select></div>
+
+      <div><label class="field-label">23. Pool Size <span>ขนาดสระ</span></label><input id="Pool_Size" class="field-input"></div>
+      <div><label class="field-label">24. Pool Depth <span>ความลึกสระ</span></label><input id="Pool_Depth" class="field-input"></div>
+      <div><label class="field-label">25. Pool System <span>ระบบสระ</span></label><select id="Pool_System" class="field-input dynamic-opt"></select></div>
+
+      <div><label class="field-label">26. View Profile <span>วิว</span></label><select id="View_Type" class="field-input dynamic-opt"></select></div>
+      <div><label class="field-label">28. Water Source <span>แหล่งน้ำ</span></label><select id="Water_Source" class="field-input dynamic-opt"></select></div>
+      <div><label class="field-label">29. Extras <span>จุดเด่นเพิ่มเติม</span></label><select id="Extras" class="field-input dynamic-opt"></select></div>
+
+      <div><label class="field-label">30. Ownership <span>การถือครอง</span></label><select id="Ownership_Type" class="field-input dynamic-opt"></select></div>
+      <div><label class="field-label">31. Title Deed <span>ประเภทโฉนด</span></label><select id="Land_Title_Deed_Type" class="field-input dynamic-opt"></select></div>
+      <div><label class="field-label">32. Transfer Exp. <span>ค่าใช้จ่ายวันโอน</span></label><input id="Transfer_Expenses" class="field-input"></div>
 
       <div class="col-span-full border-t border-slate-50 pt-4"></div>
 
@@ -83,20 +101,6 @@
       <div><label class="field-label">8. Build Stage <span>ก่อสร้าง</span></label><select id="Build_Stage" class="field-input dynamic-opt"></select></div>
       <div><label class="field-label">10. GPS Coordinates <span>พิกัด</span></label><input id="Coordinates" class="field-input"></div>
 
-      <div><label class="field-label">21. Kitchen Style <span>สไตล์ครัว</span></label><select id="Kitchen_Type" class="field-input dynamic-opt"></select></div>
-      <div><label class="field-label">22. Direction Facing <span>ทิศหน้าบ้าน</span></label><select id="Direction" class="field-input dynamic-opt"></select></div>
-      <div><label class="field-label">23. Pool Size <span>ขนาดสระ</span></label><input id="Pool_Size" class="field-input"></div>
-      <div><label class="field-label">24. Pool Depth <span>ความลึกสระ</span></label><input id="Pool_Depth" class="field-input"></div>
-      <div><label class="field-label">25. Pool System <span>ระบบสระ</span></label><select id="Pool_System" class="field-input dynamic-opt"></select></div>
-      <div><label class="field-label">26. View Profile <span>วิว</span></label><select id="View_Type" class="field-input dynamic-opt"></select></div>
-
-      <div><label class="field-label">27. Electricity <span>ไฟ</span></label><input id="Electricity" class="field-input"></div>
-      <div><label class="field-label">28. Water Source <span>น้ำ</span></label><select id="Water_Source" class="field-input dynamic-opt"></select></div>
-      <div><label class="field-label">29. Extras <span>จุดเด่น</span></label><input id="Extras" class="field-input"></div>
-      <div><label class="field-label">30. Ownership <span>ถือครอง</span></label><select id="Ownership_Type" class="field-input dynamic-opt"></select></div>
-      <div><label class="field-label">31. Title Deed <span>โฉนด</span></label><select id="Land_Title_Deed_Type" class="field-input dynamic-opt"></select></div>
-      <div><label class="field-label">32. Transfer Exp. <span>ค่าโอน</span></label><input id="Transfer_Expenses" class="field-input"></div>
-
       <div class="col-span-full border-t border-slate-100 pt-6"></div>
       <div class="col-span-full"><label class="field-label">35. Property Description <span>คำบรรยายรายละเอียด</span></label><textarea id="Description" rows="5" class="field-input"></textarea></div>
     </div>
@@ -106,22 +110,18 @@
 
   <script>
     const CONFIG = {
-      API: "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec",
-      fixedProject: null
+      API: "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec"
     };
     const hpId = new URLSearchParams(window.location.search).get('id');
 
-    // 🎯 Live Calculator
+    // 🎯 ระบบคำนวณอัตโนมัติ
     function runCalculations() {
       const price = parseFloat(document.getElementById('Sale_Price').value) || 0;
       const area = parseFloat(document.getElementById('Living_Area_sq_m').value) || 0;
       const rate = parseFloat(document.getElementById('Common_Fee_Rate').value) || 0;
 
       if(area > 0) {
-        // 1. Price per Square Meter
         document.getElementById('Price_sq_m').value = price > 0 ? Math.round(price / area) : 0;
-        
-        // 2. Common Fee Summary
         if(rate > 0) {
           const monthly = area * rate;
           const yearly = monthly * 12;
@@ -134,9 +134,9 @@
     }
 
     async function init() {
-      showLoading("SYNCING MASTER DATA...");
+      showLoading("SYNCING WITH MASTER SETTINGS...");
       try {
-        // 1. Fetch Dynamic Dropdowns from Settings
+        // 1. ดึง Metadata จาก Settings อัตโนมัติ
         const metaRes = await fetch(`${CONFIG.API}?mode=getMetadata`);
         const metaJson = await metaRes.json();
         if(metaJson.ok) {
@@ -150,7 +150,7 @@
           });
         }
 
-        // 2. Fetch Existing Unit Data
+        // 2. ดึงข้อมูลทรัพย์สิน
         if(hpId) {
           const res = await fetch(`${CONFIG.API}?mode=getUnitDetail&id=${hpId}`);
           const json = await res.json();
@@ -166,12 +166,12 @@
     }
 
     async function save() {
-      if(!confirm("ยืนยันการบันทึกข้อมูลลง Master Vault?")) return;
-      showLoading("SAVING MASTER...");
+      if(!confirm("ยืนยันการบันทึกข้อมูลลงใน Master Vault?")) return;
+      showLoading("SAVING MASTER DATA...");
       const p = { mode: "updateUnit", HP_ID: hpId };
       document.querySelectorAll('input, select, textarea').forEach(el => { if(el.id) p[el.id] = el.value || ""; });
       const res = await fetch(CONFIG.API, { method: 'POST', body: JSON.stringify(p) });
-      if((await res.json()).ok) { alert('Updated Successfully! ✅'); location.href='dashboard.html'; }
+      if((await res.json()).ok) { alert('Master Updated! ✅'); location.href='dashboard.html'; }
       hideLoading();
     }
 
