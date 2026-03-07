@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Edit Asset | CoCo Hua Hin 88 V4.18</title>
+  <title>Edit Asset | CoCo Hua Hin 88 V4.20</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -29,7 +29,6 @@
     .btn-update { background: var(--brand); color: white; width: 100%; max-width: 800px; height: 70px; border-radius: 50px; font-weight: 800; text-transform: uppercase; font-size: 20px; box-shadow: 0 10px 30px rgba(45,90,39,0.2); }
     .mini-status { font-size: 9px; font-weight: 800; text-transform: uppercase; color: var(--brand); display: none; margin-top: 5px; }
     .mini-status.active { display: flex; align-items: center; gap: 5px; }
-
     .ownership-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 10px; }
     .own-item { display: flex; align-items: center; gap: 10px; background: #F9F9F8; padding: 10px 15px; border-radius: 10px; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
     .own-item:hover { background: #F0F2F0; }
@@ -41,6 +40,7 @@
   <div class="content-wrapper">
     <div class="bg-[#2D5A27] rounded-[2.5rem] p-10 text-white flex justify-between items-center mb-8 shadow-2xl relative overflow-hidden">
       <div class="relative z-10"><p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">CoCo Hua Hin 88 | Editor Suite</p><h1 id="displayPlot" class="text-4xl font-800 tracking-tighter italic Sarabun uppercase">EDIT ASSET</h1></div>
+      <i class="fas fa-leaf absolute right-[-20px] bottom-[-20px] text-white/5 text-9xl"></i>
     </div>
     <div class="tab-bar">
       <button id="btn-photo" class="tab-btn active" onclick="switchTab('photo')">Visual Assets</button>
@@ -95,18 +95,18 @@
           </div>
         </div>
 
-        <div><label class="field-label">13. Land Area (m²) <span>พื้นที่ดิน (ม²)</span></label><input type="number" id="Land_Area_sq_m" class="field-input"></div>
-        <div><label class="field-label">14. Land Area (sq.w) <span>พื้นที่ดิน (ตร.ว.)</span></label><input type="number" id="Land_Area_sq_w" class="field-input"></div>
-        <div><label class="field-label">15. Furnishing <span>การตกแต่ง</span></label><select id="Furnishing" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">16. District <span>อำเภอ</span></label><select id="District" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">17. Sub-District <span>ตำบล</span></label><select id="SubDistrict" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">18. Zone <span>โซน</span></label><select id="Zone" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">19. Bedrooms <span>ห้องนอน</span></label><select id="Bedrooms" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">20. Bathrooms <span>ห้องน้ำ</span></label><select id="Bathrooms" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">21. Parking <span>ที่จอดรถ</span></label><select id="Parking" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">22. Kitchen <span>สไตล์ครัว</span></label><select id="Kitchen_Type" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">23. Direction <span>ทิศหน้าบ้าน</span></label><select id="Direction" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">24. Electricity <span>ระบบไฟฟ้า</span></label><select id="Electricity" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">13. Land Area (m²)</label><input type="number" id="Land_Area_sq_m" class="field-input"></div>
+        <div><label class="field-label">14. Land Area (sq.w)</label><input type="number" id="Land_Area_sq_w" class="field-input"></div>
+        <div><label class="field-label">15. Furnishing</label><select id="Furnishing" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">16. District</label><select id="District" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">17. Sub-District</label><select id="SubDistrict" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">18. Zone</label><select id="Zone" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">19. Bedrooms</label><select id="Bedrooms" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">20. Bathrooms</label><select id="Bathrooms" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">21. Parking Spaces</label><select id="Parking" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">22. Kitchen Style</label><select id="Kitchen_Type" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">23. Direction Facing</label><select id="Direction" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">24. Electricity</label><select id="Electricity" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">25. Pool Size</label><input id="Pool_Size" class="field-input"></div>
         <div><label class="field-label">26. Pool Depth</label><input id="Pool_Depth" class="field-input"></div>
         <div><label class="field-label">27. Pool System</label><select id="Pool_System" class="field-input dynamic-opt"></select></div>
@@ -115,7 +115,7 @@
         <div><label class="field-label">30. Extras</label><select id="Extras" class="field-input dynamic-opt"></select></div>
         
         <div class="col-span-1 md:col-span-2">
-          <label class="field-label">31. Ownership <span>การถือครอง (Multi-Select)</span></label>
+          <label class="field-label">31. Ownership <span>(เลือกได้หลายแบบ)</span></label>
           <div class="ownership-grid">
             <label class="own-item"><input type="checkbox" name="own_opt" value="Thai Freehold"> <span>Thai Freehold</span></label>
             <label class="own-item"><input type="checkbox" name="own_opt" value="Foreign Freehold"> <span>Foreign Freehold</span></label>
@@ -124,21 +124,21 @@
           <input type="hidden" id="Ownership_Type">
         </div>
 
-        <div><label class="field-label">32. Title Deed</label><select id="Land_Title_Deed_Type" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">32. Land Title Deed</label><select id="Land_Title_Deed_Type" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">33. Transfer Exp.</label><input id="Transfer_Expenses" class="field-input"></div>
-        <div><label class="field-label">34. marketing Badge</label><select id="Badge" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">34. Marketing Badge</label><select id="Badge" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">35. Build Stage</label><select id="Build_Stage" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">36. GPS Coordinates</label><input id="Coordinates" class="field-input"></div>
-        <div class="col-span-full"><label class="field-label">37. Description</label><textarea id="Description" rows="4" class="field-input"></textarea></div>
+        <div class="col-span-full"><label class="field-label">37. Property Description</label><textarea id="Description" rows="4" class="field-input"></textarea></div>
         <div class="col-span-full bg-slate-100 p-6 rounded-2xl border-2 border-dashed border-slate-300">
-          <label class="field-label !text-blue-600 font-800">38. Visibility <span>สถานะในระบบ</span></label>
+          <label class="field-label !text-blue-600 font-800">38. System Visibility <span>สถานะในระบบ</span></label>
           <select id="System_Status" class="field-input !bg-white dynamic-opt"></select>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="save-bar"><button id="btn_save" onclick="saveData()" class="btn-update shadow-2xl uppercase">Publish Updates to CoCo Vault</button></div>
+  <div class="save-bar"><button id="btn_save" onclick="saveData()" class="btn-update shadow-2xl">PUBLISH UPDATES TO VAULT</button></div>
 
   <script>
     const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
@@ -216,7 +216,7 @@
       document.getElementById('bulkDelBtn').classList.toggle('hidden', gallery.length === 0);
     }
 
-    async function deleteThumb() { if(confirm("Remove?")) { const old = thumbUrl; thumbUrl = ""; renderMainThumb(""); await fetch(API, { method:'POST', body: JSON.stringify({ mode:'deleteFiles', urls: [old] }) }); } }
+    async function deleteThumb() { if(confirm("Remove Cover?")) { const old = thumbUrl; thumbUrl = ""; renderMainThumb(""); await fetch(API, { method:'POST', body: JSON.stringify({ mode:'deleteFiles', urls: [old] }) }); } }
 
     async function bulkDelete() {
       const checked = Array.from(document.querySelectorAll('.bulk-check:checked'));
@@ -243,7 +243,7 @@
       if(!confirm("Update Asset?")) return;
       const owns = Array.from(document.querySelectorAll('input[name="own_opt"]:checked')).map(cb => cb.value);
       document.getElementById('Ownership_Type').value = owns.join(', ');
-      document.getElementById('btn_save').innerText = "SYNCING UPDATES...";
+      document.getElementById('btn_save').innerText = "SYNCING...";
       const p = { mode: "updateUnit", HP_ID: hpId, Thumbnail_Image: thumbUrl, Album_Image: gallery.join(',') };
       document.querySelectorAll('input, select, textarea').forEach(el => { if(el.id) p[el.id] = el.value; });
       const res = await (await fetch(API, { method: 'POST', body: JSON.stringify(p) })).json();
