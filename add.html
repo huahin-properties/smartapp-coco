@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <title>Add Asset | CoCo Hua Hin 88 V1.8</title>
+  <title>Add Asset | CoCo Hua Hin 88 V1.9</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -25,6 +25,7 @@
     .field-label span { color: var(--brand); font-size: 13px; margin-left: 8px; font-weight: 700; border-left: 2px solid #ddd; padding-left: 10px; }
     .field-input { width: 100%; background: var(--brand-light); border: 1.5px solid transparent; border-radius: 1rem; padding: 1rem; font-size: 15px; outline: none; transition: 0.3s; }
     .field-input:focus { border-color: var(--brand); background: white; }
+    .field-input[readonly] { background: #f0f2f0; color: var(--brand); font-weight: 700; cursor: not-allowed; }
 
     .thumb-stage { position: relative; width: 100%; aspect-ratio: 16/10; border-radius: 1.5rem; overflow: hidden; border: 2px dashed #ddd; background: #fdfdfd; margin-bottom: 1rem; }
     .img-tile { position: relative; aspect-ratio: 1; border-radius: 1rem; overflow: hidden; border: 1px solid #eee; background: #fff; }
@@ -44,12 +45,11 @@
   <input type="hidden" id="HP_ID" value="MASTER_ENTRY">
   <input type="hidden" id="Listing_Type" value="Sale">
   <input type="hidden" id="Type" value="Pool Villa">
-  <input type="hidden" id="Project_Name" value="CoCo Hua Hin 88">
 
   <div class="content-wrapper">
     <div class="bg-[#2D5A27] rounded-[2.5rem] p-10 text-white flex justify-between items-center mb-8 shadow-2xl relative overflow-hidden">
       <div class="relative z-10">
-        <p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">CoCo Hua Hin 88 | Enrollment</p>
+        <p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">CoCo Hua Hin 88 | Official Dashboard</p>
         <h1 class="text-4xl font-800 tracking-tighter italic Sarabun uppercase">ENROLL ASSET</h1>
       </div>
       <i class="fas fa-leaf absolute right-[-20px] bottom-[-20px] text-white/5 text-9xl"></i>
@@ -111,6 +111,11 @@
 
     <div id="tab-info" class="tab-content space-y-6">
       <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <label class="field-label">4. Project Name <span>ชื่อโครงการ</span></label>
+          <input id="Project_Name" class="field-input font-800" readonly value="CoCo Hua Hin 88">
+        </div>
+        
         <div><label class="field-label">5. Plot Reference <span>หมายเลขแปลง</span></label><input id="Plot" class="field-input" placeholder="e.g. M17"></div>
         <div><label class="field-label">6. Sales Status <span>สถานะขาย</span></label><select id="Status" class="field-input dynamic-opt"></select></div>
 
@@ -148,7 +153,7 @@
         <div><label class="field-label">33. Transfer Exp.</label><input id="Transfer_Expenses" class="field-input"></div>
         <div><label class="field-label">34. Badge Type</label><select id="Badge" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">35. Build Stage</label><select id="Build_Stage" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">36. GPS Coordinates</label><input id="Coordinates" class="field-input"></div>
+        <div><label class="field-label">36. GPS Coordinates</label><input id="Coordinates" class="field-input" placeholder="12.56, 99.95"></div>
         <div class="col-span-full"><label class="field-label">37. Description</label><textarea id="Description" rows="4" class="field-input"></textarea></div>
         <div class="col-span-full bg-[#F3F6F3] p-6 rounded-2xl border-2 border-dashed border-[#2D5A27]/20 mt-4">
           <label class="field-label !text-[#2D5A27]">38. Visibility</label>
@@ -245,7 +250,7 @@
     }
 
     async function saveData() {
-      if(!confirm("Submit Asset to Vault?")) return;
+      if(!confirm("Submit Asset to Database?")) return;
       document.getElementById('btn_save').innerText = "PUBLISHING...";
       const p = { mode: "addUnit" };
       document.querySelectorAll('input, select, textarea').forEach(el => { if(el.id) p[el.id] = el.value; });
