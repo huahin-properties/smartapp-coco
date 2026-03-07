@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <title>Add Asset | CoCo Hua Hin 88 V1.7</title>
+  <title>Add Asset | CoCo Hua Hin 88 V1.8</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -44,11 +44,12 @@
   <input type="hidden" id="HP_ID" value="MASTER_ENTRY">
   <input type="hidden" id="Listing_Type" value="Sale">
   <input type="hidden" id="Type" value="Pool Villa">
+  <input type="hidden" id="Project_Name" value="CoCo Hua Hin 88">
 
   <div class="content-wrapper">
     <div class="bg-[#2D5A27] rounded-[2.5rem] p-10 text-white flex justify-between items-center mb-8 shadow-2xl relative overflow-hidden">
       <div class="relative z-10">
-        <p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">CoCo Hua Hin 88 | Plug & Play</p>
+        <p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">CoCo Hua Hin 88 | Enrollment</p>
         <h1 class="text-4xl font-800 tracking-tighter italic Sarabun uppercase">ENROLL ASSET</h1>
       </div>
       <i class="fas fa-leaf absolute right-[-20px] bottom-[-20px] text-white/5 text-9xl"></i>
@@ -65,7 +66,7 @@
           <span class="field-label">Main Image <span>รูปภาพหน้าปก</span></span>
           <div id="thumbPreview" class="thumb-stage flex items-center justify-center overflow-hidden"><i class="fas fa-cloud-upload-alt text-4xl text-slate-200"></i></div>
           <button onclick="document.getElementById('file_thumb').click()" class="w-full py-4 bg-blue-600 text-white rounded-xl font-800 text-xs uppercase">Upload Cover Image</button>
-          <div id="status_thumb" class="mini-status"><i class="fas fa-circle-notch animate-spin"></i> Firebase Syncing...</div>
+          <div id="status_thumb" class="mini-status"><i class="fas fa-circle-notch animate-spin"></i> Syncing to Firebase...</div>
           <input type="file" id="file_thumb" class="hidden" accept="image/*" onchange="handleUpload(this, 'thumb')">
         </div>
         <div class="input-card">
@@ -110,9 +111,8 @@
 
     <div id="tab-info" class="tab-content space-y-6">
       <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div><label class="field-label">4. Project Name</label><select id="Project_Name" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">5. Plot Reference</label><input id="Plot" class="field-input" placeholder="e.g. M17"></div>
-        <div><label class="field-label">6. Sales Status</label><select id="Status" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">5. Plot Reference <span>หมายเลขแปลง</span></label><input id="Plot" class="field-input" placeholder="e.g. M17"></div>
+        <div><label class="field-label">6. Sales Status <span>สถานะขาย</span></label><select id="Status" class="field-input dynamic-opt"></select></div>
 
         <div class="col-span-full grid grid-cols-1 md:grid-cols-3 gap-8 p-8 rounded-[2.5rem] bg-[#2D5A27]/5 border-2 border-[#2D5A27]/10">
           <div><label class="field-label !text-[#2D5A27]">7. Sale Price (THB)</label><input type="number" id="Sale_Price" class="field-input !bg-white font-800" oninput="runCalc()"></div>
@@ -133,9 +133,9 @@
         <div><label class="field-label">18. Zone</label><select id="Zone" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">19. Bedrooms</label><select id="Bedrooms" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">20. Bathrooms</label><select id="Bathrooms" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">21. Parking</label><select id="Parking" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">21. Parking Spaces</label><select id="Parking" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">22. Kitchen Type</label><select id="Kitchen_Type" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">23. Direction</label><select id="Direction" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">23. Direction Facing</label><select id="Direction" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">24. Electricity</label><select id="Electricity" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">25. Pool Size</label><input id="Pool_Size" class="field-input"></div>
         <div><label class="field-label">26. Pool Depth</label><input id="Pool_Depth" class="field-input"></div>
@@ -146,9 +146,9 @@
         <div><label class="field-label">31. Ownership</label><select id="Ownership_Type" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">32. Title Deed</label><select id="Land_Title_Deed_Type" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">33. Transfer Exp.</label><input id="Transfer_Expenses" class="field-input"></div>
-        <div><label class="field-label">34. Badge</label><select id="Badge" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">34. Badge Type</label><select id="Badge" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">35. Build Stage</label><select id="Build_Stage" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">36. GPS</label><input id="Coordinates" class="field-input" placeholder="12.56, 99.95"></div>
+        <div><label class="field-label">36. GPS Coordinates</label><input id="Coordinates" class="field-input"></div>
         <div class="col-span-full"><label class="field-label">37. Description</label><textarea id="Description" rows="4" class="field-input"></textarea></div>
         <div class="col-span-full bg-[#F3F6F3] p-6 rounded-2xl border-2 border-dashed border-[#2D5A27]/20 mt-4">
           <label class="field-label !text-[#2D5A27]">38. Visibility</label>
@@ -178,7 +178,6 @@
           const opts = meta[el.id] || [];
           if(opts.length > 0) el.innerHTML = `<option value="">-- Select --</option>` + opts.map(v => `<option value="${v}">${v}</option>`).join('');
         });
-        if(document.getElementById('Project_Name')) document.getElementById('Project_Name').value = "CoCo Hua Hin 88";
       } catch (e) { console.error("Init Error"); }
     }
 
