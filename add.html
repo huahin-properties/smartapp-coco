@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <title>Add Asset | CoCo Hua Hin 88 V1.6</title>
+  <title>Add Asset | CoCo Hua Hin 88 V1.7</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -41,11 +41,15 @@
   </style>
 </head>
 <body>
+  <input type="hidden" id="HP_ID" value="MASTER_ENTRY">
+  <input type="hidden" id="Listing_Type" value="Sale">
+  <input type="hidden" id="Type" value="Pool Villa">
+
   <div class="content-wrapper">
     <div class="bg-[#2D5A27] rounded-[2.5rem] p-10 text-white flex justify-between items-center mb-8 shadow-2xl relative overflow-hidden">
       <div class="relative z-10">
-        <p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">CoCo Hua Hin 88 | Management</p>
-        <h1 class="text-4xl font-800 tracking-tighter italic Sarabun uppercase">ADD NEW ASSET</h1>
+        <p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">CoCo Hua Hin 88 | Plug & Play</p>
+        <h1 class="text-4xl font-800 tracking-tighter italic Sarabun uppercase">ENROLL ASSET</h1>
       </div>
       <i class="fas fa-leaf absolute right-[-20px] bottom-[-20px] text-white/5 text-9xl"></i>
     </div>
@@ -61,20 +65,20 @@
           <span class="field-label">Main Image <span>รูปภาพหน้าปก</span></span>
           <div id="thumbPreview" class="thumb-stage flex items-center justify-center overflow-hidden"><i class="fas fa-cloud-upload-alt text-4xl text-slate-200"></i></div>
           <button onclick="document.getElementById('file_thumb').click()" class="w-full py-4 bg-blue-600 text-white rounded-xl font-800 text-xs uppercase">Upload Cover Image</button>
-          <div id="status_thumb" class="mini-status"><i class="fas fa-circle-notch animate-spin"></i> Syncing to Firebase...</div>
+          <div id="status_thumb" class="mini-status"><i class="fas fa-circle-notch animate-spin"></i> Firebase Syncing...</div>
           <input type="file" id="file_thumb" class="hidden" accept="image/*" onchange="handleUpload(this, 'thumb')">
         </div>
         <div class="input-card">
           <span class="field-label">Visual Gallery <span>อัลบั้มรูปภาพ</span></span>
           <div id="galleryPreview" class="h-48 bg-slate-50 rounded-2xl p-3 grid grid-cols-4 gap-2 overflow-y-auto mb-3"></div>
           <button onclick="document.getElementById('file_gallery').click()" class="w-full py-4 bg-purple-600 text-white rounded-xl font-800 text-xs uppercase">Add Album Photos</button>
-          <div id="status_album" class="mini-status"><i class="fas fa-circle-notch animate-spin"></i> Processing Album...</div>
+          <div id="status_album" class="mini-status"><i class="fas fa-circle-notch animate-spin"></i> Processing...</div>
           <input type="file" id="file_gallery" class="hidden" multiple accept="image/*" onchange="handleUpload(this, 'album')">
         </div>
       </div>
 
       <div class="input-card">
-        <span class="field-label">Asset Documents (PDF) <span>จัดการไฟล์เอกสาร</span></span>
+        <span class="field-label">Master Documents (PDF) <span>จัดการไฟล์เอกสาร</span></span>
         <div class="space-y-3 mt-4">
           <div class="pdf-row">
             <div class="flex-1"><span class="text-[10px] font-800 block text-slate-400 uppercase">Floor Plan</span><span id="txt-FloorPlan_PDF" class="text-[11px] font-700 text-[#2D5A27] truncate italic">No file selected</span></div>
@@ -106,11 +110,8 @@
 
     <div id="tab-info" class="tab-content space-y-6">
       <div class="input-card grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div><label class="field-label">1. HP_ID</label><input id="HP_ID" class="field-input font-800" readonly placeholder="Auto-generated"></div>
-        <div><label class="field-label">2. Listing Type</label><select id="Listing_Type" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">3. Asset Category</label><select id="Type" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">4. Project Name</label><select id="Project_Name" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">5. Plot Reference</label><input id="Plot" class="field-input" placeholder="เช่น M17"></div>
+        <div><label class="field-label">5. Plot Reference</label><input id="Plot" class="field-input" placeholder="e.g. M17"></div>
         <div><label class="field-label">6. Sales Status</label><select id="Status" class="field-input dynamic-opt"></select></div>
 
         <div class="col-span-full grid grid-cols-1 md:grid-cols-3 gap-8 p-8 rounded-[2.5rem] bg-[#2D5A27]/5 border-2 border-[#2D5A27]/10">
@@ -118,7 +119,7 @@
           <div><label class="field-label">8. Living Area (m2)</label><input type="number" id="Living_Area_sq_m" class="field-input !bg-white" oninput="runCalc()"></div>
           <div><label class="field-label">9. Price per m2</label><input type="number" id="Price_sq_m" class="field-input" readonly value="0"></div>
           <div class="col-span-full border-t border-[#2D5A27]/10 pt-6 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div><label class="field-label font-800">10. Common Fee Rate</label><input type="number" id="Common_Fee_Rate" class="field-input !bg-white" oninput="runCalc()" placeholder="เช่น 4"></div>
+            <div><label class="field-label font-800">10. Common Fee Rate</label><input type="number" id="Common_Fee_Rate" class="field-input !bg-white" oninput="runCalc()" placeholder="e.g. 4"></div>
             <div><label class="field-label">11. Monthly Fee</label><input id="Monthly_Common_Fee" class="field-input" readonly value="0"></div>
             <div><label class="field-label">12. Yearly Fee</label><input id="Common_Fee_Yearly" class="field-input" readonly value="0"></div>
           </div>
@@ -132,12 +133,12 @@
         <div><label class="field-label">18. Zone</label><select id="Zone" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">19. Bedrooms</label><select id="Bedrooms" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">20. Bathrooms</label><select id="Bathrooms" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">21. Parking Spaces</label><select id="Parking" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">21. Parking</label><select id="Parking" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">22. Kitchen Type</label><select id="Kitchen_Type" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">23. Direction Facing</label><select id="Direction" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">23. Direction</label><select id="Direction" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">24. Electricity</label><select id="Electricity" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">25. Pool Size</label><input id="Pool_Size" class="field-input" placeholder="เช่น 4x8"></div>
-        <div><label class="field-label">26. Pool Depth</label><input id="Pool_Depth" class="field-input" placeholder="เช่น 1.2"></div>
+        <div><label class="field-label">25. Pool Size</label><input id="Pool_Size" class="field-input"></div>
+        <div><label class="field-label">26. Pool Depth</label><input id="Pool_Depth" class="field-input"></div>
         <div><label class="field-label">27. Pool System</label><select id="Pool_System" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">28. View Type</label><select id="View_Type" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">29. Water Source</label><select id="Water_Source" class="field-input dynamic-opt"></select></div>
@@ -145,12 +146,12 @@
         <div><label class="field-label">31. Ownership</label><select id="Ownership_Type" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">32. Title Deed</label><select id="Land_Title_Deed_Type" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">33. Transfer Exp.</label><input id="Transfer_Expenses" class="field-input"></div>
-        <div><label class="field-label">34. Badge Type</label><select id="Badge" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">34. Badge</label><select id="Badge" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">35. Build Stage</label><select id="Build_Stage" class="field-input dynamic-opt"></select></div>
-        <div><label class="field-label">36. GPS Coordinates</label><input id="Coordinates" class="field-input" placeholder="12.56, 99.95"></div>
+        <div><label class="field-label">36. GPS</label><input id="Coordinates" class="field-input" placeholder="12.56, 99.95"></div>
         <div class="col-span-full"><label class="field-label">37. Description</label><textarea id="Description" rows="4" class="field-input"></textarea></div>
         <div class="col-span-full bg-[#F3F6F3] p-6 rounded-2xl border-2 border-dashed border-[#2D5A27]/20 mt-4">
-          <label class="field-label !text-[#2D5A27]">38. System Visibility Status</label>
+          <label class="field-label !text-[#2D5A27]">38. Visibility</label>
           <select id="System_Status" class="field-input !bg-white !font-700 dynamic-opt"></select>
         </div>
       </div>
@@ -163,23 +164,22 @@
   <input type="hidden" id="Customer_PDF">
   <input type="hidden" id="Agent_PDF">
 
-  <div class="save-bar"><button id="btn_save" onclick="saveData()" class="btn-update shadow-2xl">PUBLISH ASSET TO VAULT</button></div>
+  <div class="save-bar"><button id="btn_save" onclick="saveData()" class="btn-update shadow-2xl">PUBLISH ASSET</button></div>
 
   <script>
     const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
-    let gallery = [], thumbUrl = "", pdfUrls = {}, currentHpId = "MASTER_ENTRY";
+    let gallery = [], thumbUrl = "", pdfData = {}, currentHpId = "MASTER_ENTRY";
 
     async function init() {
       try {
         const res = await (await fetch(API, { method:'POST', body: JSON.stringify({ mode: 'getMetadata' }) })).json();
-        // Support both {ok: true, data: {}} and {data: {}} formats
-        const meta = res.data || res;
+        const meta = res.data;
         document.querySelectorAll('select.dynamic-opt').forEach(el => {
           const opts = meta[el.id] || [];
           if(opts.length > 0) el.innerHTML = `<option value="">-- Select --</option>` + opts.map(v => `<option value="${v}">${v}</option>`).join('');
         });
         if(document.getElementById('Project_Name')) document.getElementById('Project_Name').value = "CoCo Hua Hin 88";
-      } catch (e) { console.error("Metadata Load Failed:", e); }
+      } catch (e) { console.error("Init Error"); }
     }
 
     async function compressImage(file) {
@@ -205,17 +205,13 @@
       if(document.getElementById(statusId)) document.getElementById(statusId).classList.add('active');
 
       for(let f of Array.from(input.files)) {
-        const isImg = f.type.includes("image");
-        const base64 = isImg ? await compressImage(f) : await new Promise(r => { const rd = new FileReader(); rd.readAsDataURL(f); rd.onload = () => r(rd.result.split(',')[1]); });
-        
-        try {
-          const res = await (await fetch(API, { method:'POST', body: JSON.stringify({ mode:'uploadFile', target, hpId: currentHpId, data: base64, type: f.type, name: f.name }) })).json();
-          if(res.ok) {
-            if(target === 'thumb') { thumbUrl = res.url; renderMainThumb(res.url); }
-            else if(target === 'album') { gallery.push(res.url); renderGallery(); }
-            else if(fieldId) { pdfUrls[fieldId] = res.url; syncPdfUI(fieldId, res.url, f.name); }
-          }
-        } catch (e) { console.error("Upload Error:", e); }
+        const base64 = f.type.includes("image") ? await compressImage(f) : await new Promise(r => { const rd = new FileReader(); rd.readAsDataURL(f); rd.onload = () => r(rd.result.split(',')[1]); });
+        const res = await (await fetch(API, { method:'POST', body: JSON.stringify({ mode:'uploadFile', target, hpId: currentHpId, data: base64, type: f.type, name: f.name }) })).json();
+        if(res.ok) {
+          if(target === 'thumb') { thumbUrl = res.url; renderMainThumb(res.url); }
+          else if(target === 'album') { gallery.push(res.url); renderGallery(); }
+          else { pdfData[fieldId] = res.url; syncPdfUI(fieldId, res.url, f.name); }
+        }
       }
       if(document.getElementById(statusId)) document.getElementById(statusId).classList.remove('active');
     }
@@ -234,11 +230,7 @@
 
     function syncPdfUI(id, url, name) {
       const txt = document.getElementById('txt-'+id); const view = document.getElementById('view-'+id);
-      if (url) { 
-        txt.innerText = name || "Attached ✅"; 
-        if(view) view.classList.remove('hidden'); 
-        if(document.getElementById(id)) document.getElementById(id).value = url; 
-      }
+      if (url) { txt.innerText = name || "Attached ✅"; if(view) view.classList.remove('hidden'); document.getElementById(id).value = url; }
     }
 
     function runCalc() {
@@ -254,23 +246,12 @@
     }
 
     async function saveData() {
-      if(!confirm("Are you sure to publish this asset?")) return;
-      const btn = document.getElementById('btn_save');
-      btn.innerText = "PUBLISHING TO MASTER DATABASE...";
-      btn.disabled = true;
-
+      if(!confirm("Submit Asset to Vault?")) return;
+      document.getElementById('btn_save').innerText = "PUBLISHING...";
       const p = { mode: "addUnit" };
-      // Collect all inputs and selects including hidden ones
       document.querySelectorAll('input, select, textarea').forEach(el => { if(el.id) p[el.id] = el.value; });
-      
-      try {
-        const res = await (await fetch(API, { method: 'POST', body: JSON.stringify(p) })).json();
-        if(res.ok) { alert("SUCCESS! Asset Published."); location.reload(); }
-        else { alert("Error: " + res.msg); }
-      } catch (e) { alert("Network Error. Check console."); }
-      
-      btn.innerText = "PUBLISH ASSET TO VAULT";
-      btn.disabled = false;
+      const res = await (await fetch(API, { method: 'POST', body: JSON.stringify(p) })).json();
+      if(res.ok) { alert("SUCCESS! ✅"); location.reload(); }
     }
 
     function switchTab(t) {
@@ -278,8 +259,7 @@
       document.getElementById('tab-' + t).classList.add('active');
       document.getElementById('btn-' + t).classList.add('active');
     }
-    
-    function viewFile(id) { if(pdfUrls[id]) window.open(pdfUrls[id], '_blank'); }
+    function viewFile(id) { if(pdfData[id]) window.open(pdfData[id], '_blank'); }
     window.onload = init;
   </script>
 </body>
