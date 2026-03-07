@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Edit Asset | CoCo Hua Hin 88 V4.17</title>
+  <title>Edit Asset | CoCo Hua Hin 88 V4.18</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -25,17 +25,15 @@
     .img-tile { position: relative; aspect-ratio: 1; border-radius: 1rem; overflow: hidden; border: 1px solid #eee; }
     .img-x { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border-radius: 50%; background: rgba(239,68,68,0.9); color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; border: 2px solid white; font-size: 10px; }
     .bulk-check { position: absolute; top: 8px; left: 8px; width: 20px; height: 20px; z-index: 10; cursor: pointer; }
-    .pdf-row { display: flex; align-items: center; gap: 15px; background: #F9F9F8; padding: 15px; border-radius: 1.2rem; margin-bottom: 10px; border: 1px solid rgba(0,0,0,0.03); }
-    .pdf-icon { width: 45px; height: 45px; background: #E8F0E7; color: var(--brand); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
-    .btn-pdf-action { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; transition: 0.2s; cursor: pointer; border: none; }
     .save-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255,255,255,0.98); border-top: 1px solid #eee; padding: 25px 20px; z-index: 1000; text-align: center; }
     .btn-update { background: var(--brand); color: white; width: 100%; max-width: 800px; height: 70px; border-radius: 50px; font-weight: 800; text-transform: uppercase; font-size: 20px; box-shadow: 0 10px 30px rgba(45,90,39,0.2); }
     .mini-status { font-size: 9px; font-weight: 800; text-transform: uppercase; color: var(--brand); display: none; margin-top: 5px; }
     .mini-status.active { display: flex; align-items: center; gap: 5px; }
+
     .ownership-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 10px; }
     .own-item { display: flex; align-items: center; gap: 10px; background: #F9F9F8; padding: 10px 15px; border-radius: 10px; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
     .own-item:hover { background: #F0F2F0; }
-    .own-item input { width: 18px; height: 18px; accent-color: var(--brand); }
+    .own-item input { width: 18px; height: 18px; cursor: pointer; accent-color: var(--brand); }
     .own-item span { font-size: 13px; font-weight: 600; color: #444; }
   </style>
 </head>
@@ -46,15 +44,17 @@
     </div>
     <div class="tab-bar">
       <button id="btn-photo" class="tab-btn active" onclick="switchTab('photo')">Visual Assets</button>
-      <button id="btn-info" class="tab-btn" onclick="switchTab('info')">Specifications</button>
+      <button id="btn-info" class="tab-btn" onclick="switchTab('info')">Specifications (38 Items)</button>
     </div>
 
     <div id="tab-photo" class="tab-content active space-y-6">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div class="input-card">
           <span class="field-label">Main Image <span>รูปภาพหน้าปก</span></span>
-          <div id="thumbPreview" class="relative w-full aspect-video rounded-2xl bg-slate-50 border-2 border-dashed border-slate-200 flex items-center justify-center overflow-hidden"><i class="fas fa-cloud-upload-alt text-4xl text-slate-200"></i></div>
-          <button onclick="document.getElementById('file_thumb').click()" class="w-full py-4 bg-blue-600 text-white rounded-xl font-800 mt-4 text-xs">UPDATE COVER</button>
+          <div id="thumbPreview" class="relative w-full aspect-video rounded-2xl bg-slate-50 border-2 border-dashed border-slate-200 flex items-center justify-center overflow-hidden">
+            <i class="fas fa-cloud-upload-alt text-4xl text-slate-200"></i>
+          </div>
+          <button onclick="document.getElementById('file_thumb').click()" class="w-full py-4 bg-blue-600 text-white rounded-xl font-800 mt-4 text-xs uppercase">UPDATE COVER IMAGE</button>
           <div id="status_thumb" class="mini-status"><i class="fas fa-circle-notch animate-spin"></i> Syncing...</div>
           <input type="file" id="file_thumb" class="hidden" accept="image/*" onchange="handleUpload(this, 'thumb')"><input type="hidden" id="Thumbnail_Image">
         </div>
@@ -64,7 +64,7 @@
             <button id="bulkDelBtn" onclick="bulkDelete()" class="text-[10px] font-800 text-red-500 uppercase border border-red-200 px-3 py-1 rounded-lg hidden">Delete Selected</button>
           </div>
           <div id="galleryPreview" class="h-48 bg-slate-50 rounded-2xl p-3 grid grid-cols-4 gap-2 overflow-y-auto mb-3"></div>
-          <button onclick="document.getElementById('file_gallery').click()" class="w-full py-4 bg-purple-600 text-white rounded-xl font-800 text-xs">ADD VISUALS</button>
+          <button onclick="document.getElementById('file_gallery').click()" class="w-full py-4 bg-purple-600 text-white rounded-xl font-800 text-xs uppercase">ADD NEW VISUALS</button>
           <div id="status_album" class="mini-status"><i class="fas fa-circle-notch animate-spin"></i> Syncing...</div>
           <input type="file" id="file_gallery" class="hidden" multiple accept="image/*" onchange="handleUpload(this, 'album')"><input type="hidden" id="Album_Image">
         </div>
@@ -80,7 +80,7 @@
         
         <div><label class="field-label">4. Project Name <span>ชื่อโครงการ</span></label><input id="Project_Name" class="field-input font-800" readonly value="CoCo Hua Hin 88"></div>
         
-        <div><label class="field-label">5. Plot Reference <span>หมายเลขแปลง</span></label><input id="Plot" class="field-input"></div>
+        <div><label class="field-label">5. Plot Reference <span>หมายเลขแปลง</span></label><input id="Plot" class="field-input" placeholder="เช่น M17"></div>
         
         <div><label class="field-label">6. Sales Status <span>สถานะขาย</span></label><select id="Status" class="field-input dynamic-opt"></select></div>
         
@@ -94,15 +94,56 @@
             <div><label class="field-label">12. Yearly Fee</label><input id="Common_Fee_Yearly" class="field-input" readonly value="0"></div>
           </div>
         </div>
+
+        <div><label class="field-label">13. Land Area (m²) <span>พื้นที่ดิน (ม²)</span></label><input type="number" id="Land_Area_sq_m" class="field-input"></div>
+        <div><label class="field-label">14. Land Area (sq.w) <span>พื้นที่ดิน (ตร.ว.)</span></label><input type="number" id="Land_Area_sq_w" class="field-input"></div>
+        <div><label class="field-label">15. Furnishing <span>การตกแต่ง</span></label><select id="Furnishing" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">16. District <span>อำเภอ</span></label><select id="District" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">17. Sub-District <span>ตำบล</span></label><select id="SubDistrict" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">18. Zone <span>โซน</span></label><select id="Zone" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">19. Bedrooms <span>ห้องนอน</span></label><select id="Bedrooms" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">20. Bathrooms <span>ห้องน้ำ</span></label><select id="Bathrooms" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">21. Parking <span>ที่จอดรถ</span></label><select id="Parking" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">22. Kitchen <span>สไตล์ครัว</span></label><select id="Kitchen_Type" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">23. Direction <span>ทิศหน้าบ้าน</span></label><select id="Direction" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">24. Electricity <span>ระบบไฟฟ้า</span></label><select id="Electricity" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">25. Pool Size</label><input id="Pool_Size" class="field-input"></div>
+        <div><label class="field-label">26. Pool Depth</label><input id="Pool_Depth" class="field-input"></div>
+        <div><label class="field-label">27. Pool System</label><select id="Pool_System" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">28. View Profile</label><select id="View_Type" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">29. Water Source</label><select id="Water_Source" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">30. Extras</label><select id="Extras" class="field-input dynamic-opt"></select></div>
+        
+        <div class="col-span-1 md:col-span-2">
+          <label class="field-label">31. Ownership <span>การถือครอง (Multi-Select)</span></label>
+          <div class="ownership-grid">
+            <label class="own-item"><input type="checkbox" name="own_opt" value="Thai Freehold"> <span>Thai Freehold</span></label>
+            <label class="own-item"><input type="checkbox" name="own_opt" value="Foreign Freehold"> <span>Foreign Freehold</span></label>
+            <label class="own-item"><input type="checkbox" name="own_opt" value="Company Ownership"> <span>Company Ownership</span></label>
+          </div>
+          <input type="hidden" id="Ownership_Type">
+        </div>
+
+        <div><label class="field-label">32. Title Deed</label><select id="Land_Title_Deed_Type" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">33. Transfer Exp.</label><input id="Transfer_Expenses" class="field-input"></div>
+        <div><label class="field-label">34. marketing Badge</label><select id="Badge" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">35. Build Stage</label><select id="Build_Stage" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">36. GPS Coordinates</label><input id="Coordinates" class="field-input"></div>
+        <div class="col-span-full"><label class="field-label">37. Description</label><textarea id="Description" rows="4" class="field-input"></textarea></div>
+        <div class="col-span-full bg-slate-100 p-6 rounded-2xl border-2 border-dashed border-slate-300">
+          <label class="field-label !text-blue-600 font-800">38. Visibility <span>สถานะในระบบ</span></label>
+          <select id="System_Status" class="field-input !bg-white dynamic-opt"></select>
+        </div>
       </div>
     </div>
   </div>
-  <div class="save-bar"><button id="btn_save" onclick="saveData()" class="btn-update shadow-2xl">PUBLISH UPDATES</button></div>
+
+  <div class="save-bar"><button id="btn_save" onclick="saveData()" class="btn-update shadow-2xl uppercase">Publish Updates to CoCo Vault</button></div>
 
   <script>
     const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
     const hpId = new URLSearchParams(window.location.search).get('id');
-    let gallery = [], thumbUrl = "", pdfData = {};
+    let gallery = [], thumbUrl = "";
 
     async function init() {
       if (!hpId) return;
@@ -111,7 +152,6 @@
         if (metaRes.ok) {
           document.querySelectorAll('select.dynamic-opt').forEach(el => {
             let opts = metaRes.data[el.id] || [];
-            // ข้อ 3: กรองเอา Rented ออก
             if(el.id === 'Status') opts = opts.filter(v => v !== 'Rented');
             el.innerHTML = `<option value="">-- Select --</option>` + opts.map(v => `<option value="${v}">${v}</option>`).join('');
           });
@@ -119,7 +159,13 @@
         const unitRes = await (await fetch(`${API}?mode=getUnitDetail&id=${hpId}`)).json();
         if (unitRes.ok) {
           const u = unitRes.data;
-          Object.keys(u).forEach(k => { const el = document.getElementById(k); if (el) el.value = u[k]; });
+          Object.keys(u).forEach(k => { 
+            const el = document.getElementById(k); if (el) el.value = u[k]; 
+            if (k === 'Ownership_Type' && u[k]) {
+              const vals = u[k].split(',').map(s => s.trim());
+              document.querySelectorAll('input[name="own_opt"]').forEach(cb => { if (vals.includes(cb.value)) cb.checked = true; });
+            }
+          });
           document.getElementById('displayPlot').innerText = "EDIT ASSET: " + (u.Plot || u.HP_ID);
           thumbUrl = u.Thumbnail_Image || ""; renderMainThumb(thumbUrl);
           gallery = u.Album_Image ? u.Album_Image.split(',').filter(Boolean) : []; renderGallery();
@@ -170,7 +216,7 @@
       document.getElementById('bulkDelBtn').classList.toggle('hidden', gallery.length === 0);
     }
 
-    async function deleteThumb() { if(confirm("Remove cover image?")) { const oldUrl = thumbUrl; thumbUrl = ""; renderMainThumb(""); await fetch(API, { method:'POST', body: JSON.stringify({ mode:'deleteFiles', urls: [oldUrl] }) }); } }
+    async function deleteThumb() { if(confirm("Remove?")) { const old = thumbUrl; thumbUrl = ""; renderMainThumb(""); await fetch(API, { method:'POST', body: JSON.stringify({ mode:'deleteFiles', urls: [old] }) }); } }
 
     async function bulkDelete() {
       const checked = Array.from(document.querySelectorAll('.bulk-check:checked'));
@@ -195,6 +241,8 @@
 
     async function saveData() {
       if(!confirm("Update Asset?")) return;
+      const owns = Array.from(document.querySelectorAll('input[name="own_opt"]:checked')).map(cb => cb.value);
+      document.getElementById('Ownership_Type').value = owns.join(', ');
       document.getElementById('btn_save').innerText = "SYNCING UPDATES...";
       const p = { mode: "updateUnit", HP_ID: hpId, Thumbnail_Image: thumbUrl, Album_Image: gallery.join(',') };
       document.querySelectorAll('input, select, textarea').forEach(el => { if(el.id) p[el.id] = el.value; });
