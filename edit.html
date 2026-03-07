@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Edit Asset | CoCo Hua Hin 88 luxury V4.22</title>
+  <title>Edit Asset | CoCo Hua Hin 88 V4.22</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -30,7 +30,6 @@
     .mini-status { font-size: 9px; font-weight: 800; text-transform: uppercase; color: var(--brand); display: none; margin-top: 5px; }
     .mini-status.active { display: flex; align-items: center; gap: 5px; }
 
-    /* 🎯 Custom Style สำหรับ Multi-Select Ownership */
     .ownership-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 10px; }
     .own-item { display: flex; align-items: center; gap: 10px; background: #F9F9F8; padding: 10px 15px; border-radius: 10px; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
     .own-item:hover { background: #F0F2F0; }
@@ -41,13 +40,9 @@
 <body>
   <div class="content-wrapper">
     <div class="bg-[#2D5A27] rounded-[2.5rem] p-10 text-white flex justify-between items-center mb-8 shadow-2xl relative overflow-hidden">
-      <div class="relative z-10">
-        <p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">CoCo Hua Hin 88 | Editor Suite</p>
-        <h1 id="displayPlot" class="text-4xl font-800 tracking-tighter italic Sarabun uppercase">EDIT ASSET</h1>
-      </div>
+      <div class="relative z-10"><p class="text-white/60 font-800 uppercase tracking-widest text-[10px] mb-2">CoCo Hua Hin 88 | Editor Suite</p><h1 id="displayPlot" class="text-4xl font-800 tracking-tighter italic Sarabun uppercase">EDIT ASSET</h1></div>
       <i class="fas fa-leaf absolute right-[-20px] bottom-[-20px] text-white/5 text-9xl"></i>
     </div>
-
     <div class="tab-bar">
       <button id="btn-photo" class="tab-btn active" onclick="switchTab('photo')">Visual Assets</button>
       <button id="btn-info" class="tab-btn" onclick="switchTab('info')">Specifications (38 Items)</button>
@@ -60,7 +55,7 @@
           <div id="thumbPreview" class="relative w-full aspect-video rounded-2xl bg-slate-50 border-2 border-dashed border-slate-200 flex items-center justify-center overflow-hidden">
             <i class="fas fa-cloud-upload-alt text-4xl text-slate-200"></i>
           </div>
-          <button onclick="document.getElementById('file_thumb').click()" class="w-full py-4 bg-blue-600 text-white rounded-xl font-800 mt-4 text-xs uppercase">UPDATE COVER IMAGE</button>
+          <button onclick="document.getElementById('file_thumb').click()" class="w-full py-4 bg-blue-600 text-white rounded-xl font-800 mt-4 text-xs uppercase">UPDATE COVER</button>
           <div id="status_thumb" class="mini-status"><i class="fas fa-circle-notch animate-spin"></i> Syncing...</div>
           <input type="file" id="file_thumb" class="hidden" accept="image/*" onchange="handleUpload(this, 'thumb')"><input type="hidden" id="Thumbnail_Image">
         </div>
@@ -70,7 +65,7 @@
             <button id="bulkDelBtn" onclick="bulkDelete()" class="text-[10px] font-800 text-red-500 uppercase border border-red-200 px-3 py-1 rounded-lg hidden">Delete Selected</button>
           </div>
           <div id="galleryPreview" class="h-48 bg-slate-50 rounded-2xl p-3 grid grid-cols-4 gap-2 overflow-y-auto mb-3"></div>
-          <button onclick="document.getElementById('file_gallery').click()" class="w-full py-4 bg-purple-600 text-white rounded-xl font-800 text-xs uppercase">ADD NEW VISUALS</button>
+          <button onclick="document.getElementById('file_gallery').click()" class="w-full py-4 bg-purple-600 text-white rounded-xl font-800 text-xs uppercase">ADD VISUALS</button>
           <div id="status_album" class="mini-status"><i class="fas fa-circle-notch animate-spin"></i> Syncing...</div>
           <input type="file" id="file_gallery" class="hidden" multiple accept="image/*" onchange="handleUpload(this, 'album')"><input type="hidden" id="Album_Image">
         </div>
@@ -85,9 +80,9 @@
         
         <div><label class="field-label">3. Asset Category <span>ประเภท</span></label><input id="Type" class="field-input font-800" readonly value="Pool Villa"></div>
         
-        <div><label class="field-label">4. Project Name <span>ชื่อโครงการ</span></label><input id="Project_Name" class="field-input font-800" readonly value="CoCo Hua Hin 88 luxury"></div>
+        <div><label class="field-label">4. Project Name <span>ชื่อโครงการ</span></label><input id="Project_Name" class="field-input font-800" readonly value="CoCo Hua Hin 88"></div>
         
-        <div><label class="field-label">5. Plot Reference <span>หมายเลขแปลง</span></label><input id="Plot" class="field-input"></div>
+        <div><label class="field-label">5. Plot Reference <span>หมายเลขแปลง</span></label><input id="Plot" class="field-input" placeholder="เช่น M17"></div>
         
         <div><label class="field-label">6. Sales Status <span>สถานะขาย</span></label><select id="Status" class="field-input dynamic-opt"></select></div>
         
@@ -102,8 +97,8 @@
           </div>
         </div>
 
-        <div><label class="field-label">13. Land Area (m²) <span>พื้นที่ดิน (ม²)</span></label><input type="number" id="Land_Area_sq_m" class="field-input"></div>
-        <div><label class="field-label">14. Land Area (sq.w) <span>พื้นที่ดิน (ตร.ว.)</span></label><input type="number" id="Land_Area_sq_w" class="field-input"></div>
+        <div><label class="field-label">13. Land Area (m²)</label><input type="number" id="Land_Area_sq_m" class="field-input"></div>
+        <div><label class="field-label">14. Land Area (sq.w)</label><input type="number" id="Land_Area_sq_w" class="field-input"></div>
         <div><label class="field-label">15. Furnishing</label><select id="Furnishing" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">16. District</label><select id="District" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">17. Sub-District</label><select id="SubDistrict" class="field-input dynamic-opt"></select></div>
@@ -135,14 +130,14 @@
           <input type="hidden" id="Ownership_Type">
         </div>
 
-        <div><label class="field-label">32. Land Title Deed</label><select id="Land_Title_Deed_Type" class="field-input dynamic-opt"></select></div>
+        <div><label class="field-label">32. Title Deed</label><select id="Land_Title_Deed_Type" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">33. Transfer Exp.</label><input id="Transfer_Expenses" class="field-input"></div>
         <div><label class="field-label">34. Marketing Badge</label><select id="Badge" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">35. Build Stage</label><select id="Build_Stage" class="field-input dynamic-opt"></select></div>
         <div><label class="field-label">36. GPS Coordinates</label><input id="Coordinates" class="field-input"></div>
         <div class="col-span-full"><label class="field-label">37. Property Description</label><textarea id="Description" rows="4" class="field-input"></textarea></div>
         <div class="col-span-full bg-slate-100 p-6 rounded-2xl border-2 border-dashed border-slate-300">
-          <label class="field-label !text-blue-600 font-800">38. System Visibility <span>สถานะในระบบ</span></label>
+          <label class="field-label !text-blue-600 font-800">38. Visibility <span>สถานะในระบบ</span></label>
           <select id="System_Status" class="field-input !bg-white dynamic-opt"></select>
         </div>
       </div>
@@ -227,7 +222,7 @@
       document.getElementById('bulkDelBtn').classList.toggle('hidden', gallery.length === 0);
     }
 
-    async function deleteThumb() { if(confirm("Remove?")) { const old = thumbUrl; thumbUrl = ""; renderMainThumb(""); await fetch(API, { method:'POST', body: JSON.stringify({ mode:'deleteFiles', urls: [old] }) }); } }
+    async function deleteThumb() { if(confirm("Remove Cover?")) { const oldUrl = thumbUrl; thumbUrl = ""; renderMainThumb(""); await fetch(API, { method:'POST', body: JSON.stringify({ mode:'deleteFiles', urls: [oldUrl] }) }); } }
 
     async function bulkDelete() {
       const checked = Array.from(document.querySelectorAll('.bulk-check:checked'));
@@ -252,8 +247,8 @@
 
     async function saveData() {
       if(!confirm("Update Asset?")) return;
-      const owns = Array.from(document.querySelectorAll('input[name="own_opt"]:checked')).map(cb => cb.value);
-      document.getElementById('Ownership_Type').value = owns.join(', ');
+      const selectedOwns = Array.from(document.querySelectorAll('input[name="own_opt"]:checked')).map(cb => cb.value);
+      document.getElementById('Ownership_Type').value = selectedOwns.join(', ');
       document.getElementById('btn_save').innerText = "SYNCING UPDATES...";
       const p = { mode: "updateUnit", HP_ID: hpId, Thumbnail_Image: thumbUrl, Album_Image: gallery.join(',') };
       document.querySelectorAll('input, select, textarea').forEach(el => { if(el.id) p[el.id] = el.value; });
@@ -270,4 +265,3 @@
   </script>
 </body>
 </html>
-
