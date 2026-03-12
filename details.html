@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-  <title>Asset Specifications | CoCo Hua Hin 88 V4.18</title>
+  <title>Asset Specifications | CoCo Hua Hin 88 V4.20</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
@@ -14,7 +14,7 @@
     header{position:fixed;top:0;width:100%;height:55px;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);z-index:1000;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 15px}
     .back{text-decoration:none;color:var(--gold);font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px}
 
-    /* 🎯 Mirroring Master Image Standard 100% */
+    /* 🎯 Gallery Container & Card Style */
     .gallery-container{margin-top:65px;padding:15px 15px 0;max-width:1100px;margin:0 auto;}
     .gallery-card{background:#000;border-radius: 18px;border:1px solid var(--border);overflow:hidden;box-shadow: 0 10px 30px rgba(45,90,39,0.1);margin-bottom:20px;}
     .main-stage{position:relative;width:100%;aspect-ratio:16/14;background:#eee;overflow:hidden;border-radius: 18px 18px 0 0;}
@@ -44,8 +44,8 @@
     .pdf-label { color: var(--navy); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
     .pdf-icon { color: var(--pdf-red); font-size: 1.35rem; }
     
-    /* 🎯 Floating Admin Edit Button */
-    .admin-float { position: fixed; bottom: 85px; right: 20px; width: 50px; height: 50px; background: var(--gold); border: 2px solid #FFF; border-radius: 50%; display: none; align-items: center; justify-content: center; color: #FFF; font-size: 20px; z-index: 9999; text-decoration: none; box-shadow: 0 10px 25px rgba(45,90,39,0.3); transition: 0.3s; }
+    /* 🎯 Floating Admin Edit Button (CoCo Green Theme) */
+    .admin-float { position: fixed; bottom: 85px; right: 20px; width: 52px; height: 52px; background: #2D5A27; border: 2px solid #FFF; border-radius: 50%; display: none; align-items: center; justify-content: center; color: #FFF; font-size: 22px; z-index: 9999; text-decoration: none; box-shadow: 0 10px 25px rgba(0,0,0,0.2); transition: 0.3s; }
     .admin-float:active { transform: scale(0.9); }
 
     .footer{position:fixed;bottom:0;width:100%;background:#FFFFFF;padding:12px 15px;border-top:1px solid var(--border);z-index:1000}
@@ -61,7 +61,7 @@
     <div class="gallery-container">
       <div class="gallery-card">
         <div class="main-stage">
-          <img id="mainImg" class="main-img" src="">
+          <img id="mainImg" class="main-img" src="" loading="lazy">
           <div class="nav-arrow" style="left:10px" onclick="changeSlide(-1)">❮</div>
           <div class="nav-arrow" style="right:10px" onclick="changeSlide(1)">❯</div>
           <div class="tag-count" id="countLabel">0 / 0</div>
@@ -131,7 +131,7 @@
       </div>
     </main>
 
-    <a id="adminEditBtn" href="#" class="admin-float"><i class="fas fa-edit"></i></a>
+    <a id="adminEditBtn" href="#" class="admin-float"><i class="fas fa-pencil-alt"></i></a>
 
     <div class="footer"><a href="https://line.me/R/ti/p/@qap7218t" class="btn-chat">💬 Live Chat Concierge</a></div>
   </div>
@@ -147,8 +147,14 @@
     async function init() { 
       if(!hpId) { hideSplash(); return; } 
       
-      // 🎯 เช็คสิทธิ์แอดมินก่อนแสดงผลปุ่มลอย
-      checkAdminStatus();
+      // ✅ Secure Role Check for Admin Edit Icon
+      const session = localStorage.getItem('admin_session');
+      const project = localStorage.getItem('admin_project');
+      if (session === 'active' && (project === 'CoCo' || project === 'All')) {
+        const btn = document.getElementById('adminEditBtn');
+        btn.href = `edit.html?id=${hpId}`;
+        btn.style.display = 'flex';
+      }
 
       try { 
         const res = await fetch(`${SCRIPT_URL}?mode=getUnitDetail&id=${hpId}`); 
@@ -156,17 +162,6 @@
         if(json.ok) renderData(json.data); 
         hideSplash(); 
       } catch(e) { hideSplash(); } 
-    }
-
-    // 🎯 ฟังก์ชันเช็คแอดมิน (สามารถปรับเปลี่ยนเงื่อนไขได้ตามที่คุณต้องการ)
-    function checkAdminStatus() {
-      const isAdmin = localStorage.getItem('is_admin') === 'true'; // สมมติว่าเก็บค่าไว้ใน LocalStorage
-      // หรือตรวจสอบผ่านตัวแปรแวดล้อมอื่นๆ
-      if (isAdmin) {
-        const btn = document.getElementById('adminEditBtn');
-        btn.href = `edit.html?id=${hpId}`; // ลิ้งก์ไปยังหน้าแก้ไขของ ID นั้นๆ
-        btn.style.display = 'flex';
-      }
     }
     
     function hideSplash() { const s = document.getElementById('pageSplash'); if(s) { s.style.opacity = '0'; setTimeout(()=>s.style.display='none', 400); } }
