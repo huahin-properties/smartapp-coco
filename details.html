@@ -11,10 +11,14 @@
     body{background-color:var(--navy-dark);color:var(--navy);font-family:'Montserrat',sans-serif;-webkit-font-smoothing:antialiased}
     #pageSplash{position:fixed;inset:0;background:var(--navy-dark);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10000;transition:opacity 0.4s}
     .splash-brand{color:var(--gold);font-size:1.2rem;font-weight:800;letter-spacing:4px;text-transform:uppercase;font-family: 'Playfair Display', serif;}
+    
     header{position:fixed;top:0;width:100%;height:55px;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);z-index:1000;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 15px}
     .back{text-decoration:none;color:var(--gold);font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px}
 
-    /* 🎯 Gallery Container & Card Style */
+    /* 🎯 สไตล์ไอคอน Admin/Logout มุมขวาบน */
+    .admin-link { color: var(--gold); font-size: 1.25rem; text-decoration: none; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; transition: 0.3s; }
+    .admin-link:active { transform: scale(0.9); }
+
     .gallery-container{margin-top:65px;padding:15px 15px 0;max-width:1100px;margin:0 auto;}
     .gallery-card{background:#000;border-radius: 18px;border:1px solid var(--border);overflow:hidden;box-shadow: 0 10px 30px rgba(45,90,39,0.1);margin-bottom:20px;}
     .main-stage{position:relative;width:100%;aspect-ratio:16/14;background:#eee;overflow:hidden;border-radius: 18px 18px 0 0;}
@@ -44,7 +48,6 @@
     .pdf-label { color: var(--navy); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
     .pdf-icon { color: var(--pdf-red); font-size: 1.35rem; }
     
-    /* 🎯 Floating Admin Edit Button (CoCo Green Theme) */
     .admin-float { position: fixed; bottom: 85px; right: 20px; width: 52px; height: 52px; background: #2D5A27; border: 2px solid #FFF; border-radius: 50%; display: none; align-items: center; justify-content: center; color: #FFF; font-size: 22px; z-index: 9999; text-decoration: none; box-shadow: 0 10px 25px rgba(0,0,0,0.2); transition: 0.3s; }
     .admin-float:active { transform: scale(0.9); }
 
@@ -55,7 +58,13 @@
 </head>
 <body>
   <div id="pageSplash"><div class="splash-brand">COCO HUA HIN 88</div></div>
-  <header><a href="index.html" class="back">✕ Close</a><div style="font-weight:800;color:var(--gold);font-family: 'Playfair Display', serif;">SPECIFICATIONS</div><div style="width:40px;"></div></header>
+  <header>
+    <a href="index.html" class="back">✕ Close</a>
+    <div style="font-weight:800;color:var(--gold);font-family: 'Playfair Display', serif;">SPECIFICATIONS</div>
+    <a href="gateway.html" id="adminGateBtn" class="admin-link">
+      <i class="fas fa-user-circle"></i>
+    </a>
+  </header>
 
   <div id="mainUI">
     <div class="gallery-container">
@@ -144,22 +153,44 @@
     
     function getDistance(lat1, lon1, lat2, lon2) { const R = 6371; const dLat = (lat2-lat1)*Math.PI/180; const dLon = (lon2-lon1)*Math.PI/180; const a = Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2); return R*(2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a)))*1.35; }
     
+    // 🎯 ระบบจัดการสถานะปุ่ม Admin/Logout
+    function checkAuthUI() {
+      const btn = document.getElementById('adminGateBtn');
+      const isLoggedIn = localStorage.getItem('admin_session') === 'active';
+      if (isLoggedIn) {
+        btn.innerHTML = '<i class="fas fa-sign-out-alt"></i>';
+        btn.onclick = function(e) {
+          e.preventDefault();
+          if(confirm("คุณต้องการออกจากระบบใช่หรือไม่?")) {
+            localStorage.clear();
+            location.reload();
+          }
+        };
+      } else {
+        btn.innerHTML = '<i class="fas fa-user-circle"></i>';
+        btn.onclick = null;
+      }
+    }
+
     async function init() { 
+      checkAuthUI();
       if(!hpId) { hideSplash(); return; } 
       
-      // ✅ Secure Role Check for Admin Edit Icon
       const session = localStorage.getItem('admin_session');
       const project = localStorage.getItem('admin_project');
-      if (session === 'active' && (project === 'CoCo' || project === 'All')) {
-        const btn = document.getElementById('adminEditBtn');
-        btn.href = `edit.html?id=${hpId}`;
-        btn.style.display = 'flex';
-      }
 
       try { 
         const res = await fetch(`${SCRIPT_URL}?mode=getUnitDetail&id=${hpId}`); 
         const json = await res.json(); 
-        if(json.ok) renderData(json.data); 
+        if(json.ok) {
+          renderData(json.data);
+          // 🛡️ เช็คสิทธิ์โชว์ปุ่มแก้ไข (เฉพาะ CoCo หรือ All เท่านั้น)
+          if (session === 'active' && (project === 'CoCo' || project === 'All')) {
+            const btn = document.getElementById('adminEditBtn');
+            btn.href = `edit.html?id=${hpId}`;
+            btn.style.display = 'flex';
+          }
+        } 
         hideSplash(); 
       } catch(e) { hideSplash(); } 
     }
