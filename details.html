@@ -2,327 +2,219 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-  <title>Asset Specifications | CoCo Hua Hin 88 V4.15</title>
+  <title>Asset Specifications | CoCo Hua Hin 88 V4.16</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <style>
-    /* 🎯 ปรับโทนสีให้เป็น CoCo (เขียว-ทอง) */
     :root{--navy:#1A3017;--navy-dark:#F8FAF8;--gold:#2D5A27;--accent:#CEA86C;--border:rgba(45,90,39,0.15);--card-bg:#FFFFFF;--pdf-red: #E02424;}
     *{box-sizing:border-box;margin:0;padding:0}
     body{background-color:var(--navy-dark);color:var(--navy);font-family:'Montserrat',sans-serif;-webkit-font-smoothing:antialiased}
-    
-    #gatekeeper{position:fixed;inset:0;background:var(--navy-dark);z-index:10001;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px}
     #pageSplash{position:fixed;inset:0;background:var(--navy-dark);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10000;transition:opacity 0.4s}
     .splash-brand{color:var(--gold);font-size:1.2rem;font-weight:800;letter-spacing:4px;text-transform:uppercase;font-family: 'Playfair Display', serif;}
-    
     header{position:fixed;top:0;width:100%;height:55px;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);z-index:1000;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 15px}
     .back{text-decoration:none;color:var(--gold);font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px}
-
-    .gallery-container{
-      margin-top:65px;
-      padding:15px 15px 0; 
-      max-width:1100px;
-      margin:0 auto;
-    }
-    .gallery-card{
-      background:#000;
-      border-radius: 18px; 
-      border:1px solid var(--border);
-      overflow:hidden;
-      box-shadow: 0 10px 30px rgba(45,90,39,0.1);
-      margin-bottom:20px;
-    }
-    .main-stage{
-      position:relative;
-      width:100%;
-      aspect-ratio:16/14; 
-      background:#eee;
-      overflow:hidden;
-      border-radius: 18px 18px 0 0; 
-    }
-
+    .gallery-container{margin-top:65px;padding:15px 15px 0;max-width:1100px;margin:0 auto;}
+    .gallery-card{background:#000;border-radius: 18px;border:1px solid var(--border);overflow:hidden;box-shadow: 0 10px 30px rgba(45,90,39,0.1);margin-bottom:20px;}
+    .main-stage{position:relative;width:100%;aspect-ratio:16/10;background:#eee;overflow:hidden;border-radius: 18px 18px 0 0;}
     .main-img{width:100%;height:100%; object-fit:cover; transition:opacity 0.3s}
     .nav-arrow{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.6);color:var(--gold);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10}
     .thumb-row{display:flex;gap:10px;padding:12px;overflow-x:auto;scrollbar-width:none;background:rgba(45,90,39,0.03)}
     .thumb{width:90px;aspect-ratio:16/10;border-radius:8px;object-fit:cover;opacity:0.5;cursor:pointer;border:2px solid transparent;flex-shrink:0;transition:0.2s}
     .thumb.active{opacity:1;border-color:var(--gold)}
     .tag-count{position:absolute;right:15px;bottom:15px;background:rgba(0,0,0,0.6);color:white;padding:4px 10px;border-radius:50px;font-size:10px;font-weight:600}
-    
     .content{padding:10px 15px 120px;max-width:900px;margin:0 auto}
-    .info-card{background:var(--card-bg);border-radius:12px;padding:22px;margin-bottom:15px;border:1px solid var(--border); display: none; box-shadow: 0 5px 15px rgba(0,0,0,0.02); }
-    .info-card.has-data { display: block; }
-    .field-wrap { display: none; margin-bottom: 12px; } 
-    .field-wrap.has-val { display: block; }
+    .info-card{background:var(--card-bg);border-radius:12px;padding:22px;margin-bottom:15px;border:1px solid var(--border); box-shadow: 0 5px 15px rgba(0,0,0,0.02); }
     .section-title{font-size:0.65rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:2px;margin-bottom:18px;display:flex;align-items:center;gap:8px}
     .section-title::after{content:'';flex:1;height:1px;background:var(--border)}
     .label{font-size:0.55rem;color:#6B7A68;text-transform:uppercase;font-weight:600;letter-spacing:1.2px;margin-bottom:3px}
     .val{font-size:0.85rem;font-weight:500;color:var(--navy)}
     .gold-txt{color:var(--accent);font-weight:700}
     .grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+    .nearby-grid { display: grid; grid-template-columns: 1fr; gap: 2px; }
     .nearby-item{display:flex;justify-content:space-between;padding:10px 0;border-bottom:0.5px solid var(--border)}
     .loc-name{font-size:0.78rem;font-weight:400}
     .loc-dist{font-size:0.75rem;font-weight:500;color:var(--gold)}
-    .map-box{width:100%;aspect-ratio:1/1;max-height:500px;border-radius:12px;overflow:hidden;border:1px solid var(--border);margin:10px 0}
-    #leafletMap{width:100%;height:100%;background:#F3F6F3}
-    .pdf-download-bar { display: none; background: #FFFFFF; border: 1.5px solid var(--border); padding: 18px 20px; border-radius: 15px; text-decoration: none; align-items: center; justify-content: space-between; margin-top: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-    
-    .share-stack { margin-top: 25px; text-align: center; background: rgba(45,90,39,0.03); padding: 25px 15px; border-radius: 20px; border: 1px solid var(--border); }
-    .share-icons { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 15px; }
-    .share-btn { text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 6px; transition: 0.3s; }
-    .share-btn:active { transform: scale(0.9); }
-    .share-btn i { font-size: 26px; }
-    .share-btn span { font-size: 9px; font-weight: 700; color: #6B7A68; text-transform: uppercase; }
-    .icon-fb { color: #1877F2; } .icon-msgr { color: #0084FF; } .icon-wa { color: #25D366; } .icon-tg { color: #0088CC; }
-    .icon-line { color: #06C755; } .icon-mail { color: #EA4335; } .icon-copy { color: #9AB; } .icon-share { color: var(--gold); }
-
+    .map-box { width: 100%; height: 230px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); margin: 10px 0; }
+    .btn-nav { width: 100%; background: var(--navy); color: #FFF; text-decoration: none; padding: 14px; border-radius: 8px; display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 600; font-size: 0.85rem; margin-top: 10px; transition: 0.3s; }
+    .btn-nav:active { transform: scale(0.98); }
+    .pdf-bar { display: none; background: #FFFFFF; border: 1.5px solid var(--border); padding: 18px 20px; border-radius: 15px; text-decoration: none; align-items: center; justify-content: space-between; margin-top: 15px; transition: 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+    .pdf-label { color: var(--navy); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+    .pdf-icon { color: var(--pdf-red); font-size: 1.35rem; }
     .footer{position:fixed;bottom:0;width:100%;background:#FFFFFF;padding:12px 15px;border-top:1px solid var(--border);z-index:1000}
     .btn-chat{background:var(--gold);color:#FFFFFF;text-decoration:none;padding:15px;border-radius:6px;display:block;text-align:center;font-size:0.88rem;letter-spacing:2px;text-transform:uppercase;font-weight:800}
-    @media(min-width:768px){.nearby-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 30px}}
+    @media (min-width: 768px) { .nearby-grid { grid-template-columns: 1fr 1fr; gap: 0 30px; } }
   </style>
 </head>
 <body>
-<div id="gatekeeper">
-  <i class="fas fa-lock" style="font-size:50px;color:var(--gold);margin-bottom:20px;"></i>
-  <h2 style="color:var(--gold);font-weight:800;margin-bottom:10px;">ASSET UNAVAILABLE</h2>
-  <a href="index.html" style="background:var(--gold);color:#FFFFFF;padding:12px 30px;border-radius:50px;font-weight:800;text-decoration:none;text-transform:uppercase;font-size:11px;">Back to Catalog</a>
-</div>
-<div id="pageSplash"><div class="splash-brand">COCO HUA HIN 88</div></div>
-<header><a href="index.html" class="back">✕ Close</a><div style="font-weight:800;color:var(--gold);font-family: 'Playfair Display', serif;">SPECIFICATIONS</div><div style="width:40px;"></div></header>
+  <div id="pageSplash"><div class="splash-brand">COCO HUA HIN 88</div></div>
+  <header><a href="index.html" class="back">✕ Close</a><div style="font-weight:800;color:var(--gold);font-family: 'Playfair Display', serif;">SPECIFICATIONS</div><div style="width:40px;"></div></header>
 
-<div id="mainUI">
-  <div class="gallery-container">
-    <div class="gallery-card">
-      <div class="main-stage">
-        <img id="mainImg" class="main-img" src="" loading="lazy">
-        <div class="nav-arrow" style="left:10px" onclick="changeSlide(-1)">❮</div>
-        <div class="nav-arrow" style="right:10px" onclick="changeSlide(1)">❯</div>
-        <div class="tag-count" id="countLabel">0 / 0</div>
+  <div id="mainUI">
+    <div class="gallery-container">
+      <div class="gallery-card">
+        <div class="main-stage">
+          <img id="mainImg" class="main-img" src="">
+          <div class="nav-arrow" style="left:10px" onclick="changeSlide(-1)">❮</div>
+          <div class="nav-arrow" style="right:10px" onclick="changeSlide(1)">❯</div>
+          <div class="tag-count" id="countLabel">0 / 0</div>
+        </div>
+        <div class="thumb-row" id="thumbStrip"></div>
       </div>
-      <div class="thumb-row" id="thumbStrip"></div>
     </div>
+
+    <main class="content">
+      <div class="info-card">
+        <h1 id="pPlot" style="font-family:'Playfair Display',serif; font-size: 1.8rem; color: var(--gold); margin-bottom: 5px; font-weight:800;">Plot ...</h1>
+        <div id="pLocText" style="font-size: 0.75rem; color: #6B7A68; margin-bottom: 20px;">📍 -</div>
+        <div id="pPrice" style="font-size: 1.4rem; font-weight: 700; color: var(--gold); margin-bottom: 20px;">฿0</div>
+        <div class="grid">
+          <div><div class="label">Bed / Bath</div><div class="val" id="vBB">-</div></div>
+          <div><div class="label">Living Area</div><div class="val" id="vLiving">-</div></div>
+          <div><div class="label">Land Size</div><div class="val" id="vLand">-</div></div>
+          <div><div class="label">Price per Sq.m</div><div class="val gold-txt" id="vPriceSq">-</div></div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <h2 class="section-title">Specifications</h2>
+        <div class="grid">
+          <div><div class="label">Status</div><div class="val" id="vStatus">-</div></div>
+          <div><div class="label">Furnishing</div><div class="val" id="vFurnish">-</div></div>
+          <div><div class="label">District</div><div class="val" id="vDistrict">-</div></div>
+          <div><div class="label">Sub-district</div><div class="val" id="vSubDistrict">-</div></div>
+          <div><div class="label">Zone</div><div class="val gold-txt" id="vZone">-</div></div>
+          <div><div class="label">Pool System</div><div class="val" id="vPoolSys">-</div></div>
+          <div><div class="label">Pool Info</div><div class="val" id="vPool">-</div></div>
+          <div><div class="label">Kitchen Type</div><div class="val" id="vKitchen">-</div></div>
+          <div><div class="label">Parking</div><div class="val" id="vParking">-</div></div>
+          <div><div class="label">Direction</div><div class="val" id="vDirect">-</div></div>
+          <div class="col-span-full"><div class="label">Utility Info</div><div class="val" id="vUtil">-</div></div>
+        </div>
+      </div>
+
+      <div class="info-card" style="border-left: 4px solid var(--gold);">
+        <h2 class="section-title">Ownership & Fees</h2>
+        <div class="grid">
+          <div><div class="label">Monthly Fee</div><div class="val" id="vFeeM">-</div></div>
+          <div><div class="label">Yearly Total</div><div class="val gold-txt" id="vFeeY">-</div></div>
+          <div><div class="label">Ownership</div><div class="val" id="vOwner">-</div></div>
+          <div><div class="label">Transfer Exp.</div><div class="val" id="vTransfer">-</div></div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <h2 class="section-title">Description</h2>
+        <p id="vDesc" style="font-size: 0.82rem; line-height: 1.8; color: #444; font-weight: 300; white-space: pre-line;">-</p>
+      </div>
+
+      <div class="info-card">
+        <h2 class="section-title">Location & Navigation</h2>
+        <div class="map-box" id="mapBox" style="display:none;"><iframe id="mapFrame" width="100%" height="100%" frameborder="0"></iframe></div>
+        <a id="navLink" href="" target="_blank" class="btn-nav" style="display:none;"><i class="fas fa-location-arrow"></i> Start GPS Navigation</a>
+      </div>
+
+      <div class="info-card">
+        <h2 class="section-title">Nearby Lifestyle & Amenities</h2>
+        <div id="nearbyGrid" class="nearby-grid"></div>
+        <a id="floorPlanBar" href="#" target="_blank" class="pdf-bar">
+          <span class="pdf-label">Floor Plan PDF document</span>
+          <i class="fas fa-file-pdf pdf-icon"></i>
+        </a>
+      </div>
+    </main>
+
+    <div class="footer"><a href="https://line.me/R/ti/p/@qap7218t" class="btn-chat">💬 Live Chat Concierge</a></div>
   </div>
 
-  <main class="content">
-    <div class="info-card has-data">
-      <div class="flex justify-between items-start">
-        <div><div style="font-size:0.6rem;color:var(--gold);font-weight:800;margin-bottom:5px;" id="pID"></div><h1 id="pPlot" style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--gold);margin-bottom:5px;font-weight:800;"></h1></div>
-        <div id="w-badge" class="field-wrap"><div class="val gold-txt" id="vBadge" style="font-size:0.65rem; border:1px solid var(--border); padding:4px 10px; border-radius:4px; text-transform:uppercase;"></div></div>
-      </div>
-      <div id="pLocText" style="font-size:0.75rem;color:#6B7A68;margin-bottom:20px;"></div>
-      <div id="pPrice" style="font-size:1.4rem;font-weight:700;color:var(--gold);margin-bottom:20px;"></div>
-      <div class="grid">
-        <div id="w-bb" class="field-wrap"><div class="label">Bed / Bath</div><div class="val" id="vBB"></div></div>
-        <div id="w-living" class="field-wrap"><div class="label">Living Area</div><div class="val" id="vLiving"></div></div>
-        <div id="w-land" class="field-wrap"><div class="label">Land Size (m²)</div><div class="val" id="vLand"></div></div>
-        <div id="w-landW" class="field-wrap"><div class="label">Land Size (sq.w)</div><div class="val" id="vLandW"></div></div>
-        <div id="w-pricesq" class="field-wrap"><div class="label">Price per Sq.m</div><div class="val gold-txt" id="vPriceSq"></div></div>
-        <div id="w-created" class="field-wrap"><div class="label">Listing Date</div><div class="val" id="vCreated"></div></div>
-      </div>
-    </div>
+  <script>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
+    const hpId = new URLSearchParams(window.location.search).get('id');
+    let images = [], idx = 0;
+    const LANDMARKS = [{ name: "Hua Hin Beach", lat: 12.5696, lon: 99.9602 }, { name: "Cicada Market", lat: 12.5342, lon: 99.9655 }, { name: "Bluport Hua Hin Mall", lat: 12.5518, lon: 99.9631 }, { name: "Bangkok Hospital", lat: 12.5532, lon: 99.9610 }, { name: "Night Market", lat: 12.5714, lon: 99.9575 }, { name: "Black Mountain Golf", lat: 12.6146, lon: 99.8924 }, { name: "Market Village", lat: 12.5598, lon: 99.9602 }, { name: "Vana Nava", lat: 12.5273, lon: 99.9642 }, { name: "Railway Station", lat: 12.5674, lon: 99.9548 }, { name: "Khao Takiab Beach", lat: 12.5186, lon: 99.9774 }, { name: "Hua Hin Airport", lat: 12.6370, lon: 99.9515 }, { name: "Water Park", lat: 12.6046, lon: 99.8897 }];
+    
+    function getDistance(lat1, lon1, lat2, lon2) { const R = 6371; const dLat = (lat2-lat1)*Math.PI/180; const dLon = (lon2-lon1)*Math.PI/180; const a = Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2); return R*(2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a)))*1.35; }
+    
+    async function init() { 
+      if(!hpId) { hideSplash(); return; } 
+      try { 
+        const res = await fetch(`${SCRIPT_URL}?mode=getUnitDetail&id=${hpId}`); 
+        const json = await res.json(); 
+        if(json.ok) renderData(json.data); 
+        hideSplash(); 
+      } catch(e) { hideSplash(); } 
+    }
+    
+    function hideSplash() { const s = document.getElementById('pageSplash'); if(s) { s.style.opacity = '0'; setTimeout(()=>s.style.display='none', 400); } }
+    
+    function renderData(u) {
+      const p = parseFloat(String(u.Sale_Price || 0).replace(/[^0-9.]/g, '')) || 0; 
+      const a = parseFloat(String(u.Living_Area_sq_m).replace(/[^0-9.]/g, '')) || 1;
+      document.getElementById('pPlot').textContent = `Plot ${u.Plot || '-'}`;
+      document.getElementById('pLocText').textContent = `📍 ${u.SubDistrict || '-'}, ${u.District || '-'} (${u.Zone || '-'})`;
+      document.getElementById('pPrice').textContent = `฿${p.toLocaleString()}`;
+      document.getElementById('vBB').textContent = `${u.Bedrooms || 0} Bed | ${u.Bathrooms || 0} Bath`;
+      document.getElementById('vLiving').textContent = `${u.Living_Area_sq_m || '-'} m²`;
+      document.getElementById('vLand').textContent = `${u.Land_Area_sq_m || '-'} m²`;
+      document.getElementById('vPriceSq').textContent = `฿${Math.round(p/a).toLocaleString()} / m²`;
+      document.getElementById('vFeeM').textContent = `฿${(parseFloat(u.Common_Fee_Rate)||0).toLocaleString()} / m²`;
+      document.getElementById('vFeeY').textContent = `฿${Math.round((parseFloat(u.Common_Fee_Rate)||0)*a*12).toLocaleString()} / Yr`;
+      document.getElementById('vOwner').textContent = `${u.Ownership_Type || '-'} (${u.Land_Title_Deed_Type || '-'})`;
+      document.getElementById('vTransfer').textContent = u.Transfer_Expenses || "-";
+      document.getElementById('vStatus').textContent = u.Status || "-"; 
+      document.getElementById('vFurnish').textContent = u.Furnishing || "-";
+      document.getElementById('vDistrict').textContent = u.District || "-"; 
+      document.getElementById('vSubDistrict').textContent = u.SubDistrict || "-"; 
+      document.getElementById('vZone').textContent = u.Zone || "-";
+      document.getElementById('vPoolSys').textContent = u.Pool_System || "-"; 
+      document.getElementById('vPool').textContent = `${u.Pool_Size || '-'} (${u.Pool_Depth || '-'})`;
+      document.getElementById('vKitchen').textContent = u.Kitchen_Type || "-"; 
+      document.getElementById('vParking').textContent = u.Parking || "-";
+      document.getElementById('vDirect').textContent = u.Direction || "-"; 
+      document.getElementById('vUtil').textContent = `Elec: ${u.Electricity || '-'} | Water: ${u.Water_Source || '-'}`;
+      document.getElementById('vDesc').textContent = u.Description || "-";
 
-    <div class="info-card" id="card-specs">
-      <h2 class="section-title">Specifications</h2>
-      <div class="grid">
-        <div id="w-status" class="field-wrap"><div class="label">Status</div><div class="val" id="vStatus"></div></div>
-        <div id="w-build" class="field-wrap"><div class="label">Build Stage</div><div class="val" id="vBuild"></div></div>
-        <div id="w-furnish" class="field-wrap"><div class="label">Furnishing</div><div class="val" id="vFurnish"></div></div>
-        <div id="w-view" class="field-wrap"><div class="label">View Type</div><div class="val" id="vView"></div></div>
-        <div id="w-district" class="field-wrap"><div class="label">District</div><div class="val" id="vDistrict"></div></div>
-        <div id="w-sub" class="field-wrap"><div class="label">Sub-district</div><div class="val" id="vSubDistrict"></div></div>
-        <div id="w-zone" class="field-wrap"><div class="label">Zone</div><div class="val gold-txt" id="vZone"></div></div>
-        <div id="w-poolsys" class="field-wrap"><div class="label">Pool System</div><div class="val" id="vPoolSys"></div></div>
-        <div id="w-pool" class="field-wrap"><div class="label">Pool Info</div><div class="val" id="vPool"></div></div>
-        <div id="w-kitchen" class="field-wrap"><div class="label">Kitchen Type</div><div class="val" id="vKitchen"></div></div>
-        <div id="w-parking" class="field-wrap"><div class="label">Parking</div><div class="val" id="vParking"></div></div>
-        <div id="w-direct" class="field-wrap"><div class="label">Direction</div><div class="val" id="vDirect"></div></div>
-        <div id="w-extras" class="field-wrap" style="grid-column: span 2;"><div class="label">Extra Features</div><div class="val gold-txt" id="vExtras"></div></div>
-        <div id="w-util" class="field-wrap" style="grid-column: span 2;"><div class="label">Utility Info</div><div class="val" id="vUtil"></div></div>
-      </div>
-    </div>
+      if (u.FloorPlan_PDF && u.FloorPlan_PDF !== "#" && u.FloorPlan_PDF.startsWith('http')) {
+        const bar = document.getElementById('floorPlanBar');
+        bar.href = u.FloorPlan_PDF;
+        bar.style.display = 'flex';
+      }
 
-    <div class="info-card" id="card-finance" style="border-left:4px solid var(--gold);">
-      <h2 class="section-title">Ownership & Fees</h2>
-      <div class="grid">
-        <div id="w-feeM" class="field-wrap"><div class="label">Monthly Fee</div><div class="val" id="vFeeM"></div></div>
-        <div id="w-feeY" class="field-wrap"><div class="label">Yearly Total</div><div class="val gold-txt" id="vFeeY"></div></div>
-        <div id="w-owner" class="field-wrap"><div class="label">Ownership</div><div class="val" id="vOwner"></div></div>
-        <div id="w-title" class="field-wrap"><div class="label">Title Deed</div><div class="val" id="vTitle"></div></div>
-        <div id="w-transfer" class="field-wrap"><div class="label">Transfer Exp.</div><div class="val" id="vTransfer"></div></div>
-      </div>
-    </div>
-
-    <div class="info-card" id="card-desc">
-      <h2 class="section-title">Description</h2>
-      <p id="vDesc" style="font-size:0.82rem;line-height:1.8;color:#444;white-space:pre-line;"></p>
-    </div>
-
-    <div class="info-card" id="mapSection">
-      <h2 class="section-title">Location & Navigation</h2>
-      <div class="map-box"><div id="leafletMap"></div></div>
-    </div>
-
-    <div class="info-card" id="amenitiesSection">
-      <h2 class="section-title">Nearby Lifestyle & Amenities</h2>
-      <div id="nearbyGrid" class="nearby-grid"></div>
+      // 🎯 ส่วนแผนที่ของ CoCo: แสดงผลเสมอโดยไม่เช็ค Map_Visibility
+      if (u.Coordinates && u.Coordinates !== "#" && u.Coordinates.includes(',')) {
+        document.getElementById('mapBox').style.display='block'; 
+        document.getElementById('navLink').style.display='flex';
+        const coords = u.Coordinates.trim();
+        document.getElementById('mapFrame').src = `https://maps.google.com/maps?q=${coords}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+        document.getElementById('navLink').href = `https://www.google.com/maps?q=${coords}`;
+        
+        const [la, lo] = coords.split(','); 
+        const grid = document.getElementById('nearbyGrid');
+        grid.innerHTML = LANDMARKS.map(loc => { 
+          const d = getDistance(parseFloat(la), parseFloat(lo), loc.lat, loc.lon); 
+          return `<div class="nearby-item"><div><div class="loc-name">${loc.name}</div><div class="loc-time">${Math.ceil(d*1.5)} mins drive</div></div><div class="loc-dist">${d.toFixed(1)} km</div></div>`; 
+        }).join('');
+      }
       
-      <a id="pdfBarMaster" href="#" target="_blank" class="pdf-download-bar">
-        <span style="color:var(--gold);font-weight:800;font-size:0.82rem;text-transform:uppercase;">Download Floor Plan PDF</span>
-        <i class="fas fa-file-pdf text-red-600 text-xl"></i>
-      </a>
-
-      <div class="share-stack">
-        <div style="font-size: 14px; color: var(--gold); font-weight: 800; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-          <i class="fas fa-share-nodes"></i> SHARE THIS ASSET
-        </div>
-        <div class="share-icons">
-          <a href="#" onclick="sH('fb')" class="share-btn"><i class="fab fa-facebook icon-fb"></i><span>Facebook</span></a>
-          <a href="#" onclick="sH('msgr')" class="share-btn"><i class="fab fa-facebook-messenger icon-msgr"></i><span>Messenger</span></a>
-          <a href="#" onclick="sH('wa')" class="share-btn"><i class="fab fa-whatsapp icon-wa"></i><span>WhatsApp</span></a>
-          <a href="#" onclick="sH('tg')" class="share-btn"><i class="fab fa-telegram icon-tg"></i><span>Telegram</span></a>
-          <a href="#" onclick="sH('line')" class="share-btn"><i class="fab fa-line icon-line"></i><span>LINE</span></a>
-          <a href="#" onclick="sH('mail')" class="share-btn"><i class="fas fa-envelope icon-mail"></i><span>Email</span></a>
-          <a href="#" onclick="sH('copy')" class="share-btn"><i class="fas fa-link icon-copy"></i><span>Copy Link</span></a>
-          <a href="#" onclick="sH('native')" class="share-btn"><i class="fas fa-share-nodes icon-share"></i><span>Share More</span></a>
-        </div>
-      </div>
-    </div>
-  </main>
-</div>
-
-<div class="footer"><a href="https://line.me/R/ti/p/@qap7218t" class="btn-chat">💬 Live Chat Concierge</a></div>
-
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-const SCRIPT_URL='https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec';
-const hpId=new URLSearchParams(window.location.search).get('id');
-const LANDMARKS=[ {name:'Hua Hin Beach',lat:12.5696,lon:99.9602}, {name:'Night Market',lat:12.5714,lon:99.9575}, {name:'Bluport Mall',lat:12.5518,lon:99.9631}, {name:'Bangkok Hospital',lat:12.5532,lon:99.9610}, {name:'Cicada Market',lat:12.5342,lon:99.9655}, {name:'Market Village',lat:12.5598,lon:99.9602}, {name:'Black Mountain Golf',lat:12.6146,lon:99.8924}, {name:'Vana Nava Water Park',lat:12.5273,lon:99.9642}, {name:'Banyan Golf Club',lat:12.5124,lon:99.9145}, {name:'Hua Hin Airport',lat:12.6366,lon:99.9515}, {name:'True Arena Sports',lat:12.5365,lon:99.9585}, {name:'Hua Hin Clock Tower',lat:12.5702,lon:99.9582} ];
-let images=[], idx=0, leafletMap=null;
-
-function sH(p){
-  const u = window.location.href; const t = `Check out this CoCo Plot: ${hpId}`;
-  if(p==='fb') window.open(`https://www.facebook.com/sharer/sharer.php?u=${u}`,'_blank');
-  if(p==='msgr') window.open(`fb-messenger://share/?link=${u}`,'_blank');
-  if(p==='wa') window.open(`https://api.whatsapp.com/send?text=${t} ${u}`,'_blank');
-  if(p==='tg') window.open(`https://t.me/share/url?url=${u}&text=${t}`,'_blank');
-  if(p==='line') window.open(`https://social-plugins.line.me/lineit/share?url=${u}`,'_blank');
-  if(p==='mail') window.open(`mailto:?subject=${t}&body=${u}`);
-  if(p==='copy'){ navigator.clipboard.writeText(u); alert('Link Copied! ✅'); }
-  if(p==='native'){ if(navigator.share){ navigator.share({title:t, url:u}); } }
-}
-
-function syncField(valId, wrapId, value) {
-  const el = document.getElementById(valId);
-  const wrap = document.getElementById(wrapId);
-  if (value && value !== "-" && value !== "0" && value !== "" && value !== "undefined") {
-    el.textContent = value;
-    wrap.classList.add('has-val');
-    wrap.closest('.info-card').classList.add('has-data');
-    return true;
-  }
-  return false;
-}
-
-function hideSplash(){ 
-  const s=document.getElementById('pageSplash'); 
-  if(s){ s.style.opacity='0'; setTimeout(()=>s.style.display='none',400); } 
-}
-
-async function init(){
-  if(!hpId) { hideSplash(); return; }
-  const cacheKey = `cache_detail_${hpId}`;
-  const cachedData = localStorage.getItem(cacheKey);
-  if(cachedData){ renderData(JSON.parse(cachedData)); }
-  try{
-    const res = await fetch(`${SCRIPT_URL}?mode=getUnitDetail&id=${encodeURIComponent(hpId)}`);
-    const json = await res.json();
-    if(json.ok){
-      if(json.data.System_Status && json.data.System_Status!=='Online'){
-        document.getElementById('gatekeeper').style.display='flex';
-        document.getElementById('mainUI').style.display='none';
-      } else {
-        localStorage.setItem(cacheKey, JSON.stringify(json.data));
-        renderData(json.data);
-      }
+      images = u.Album_Image ? u.Album_Image.split(',').map(x=>x.trim()).filter(Boolean) : [u.Thumbnail_Image];
+      if (images.length > 0) { renderThumbs(); setMain(0); }
     }
-  } catch(e){ console.error("Sync Err"); }
-  finally { hideSplash(); }
-}
-
-function safeNum(x){return parseFloat(String(x||'').replace(/[^0-9.\-]/g,''))||0;}
-function getDistance(lat1,lon1,lat2,lon2){ const R=6371,dLat=(lat2-lat1)*Math.PI/180,dLon=(lon2-lon1)*Math.PI/180; const a=Math.sin(dLat/2)**2+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2; return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a))*1.35; }
-
-function renderData(u){
-  const p=safeNum(u.Sale_Price||0);
-  const a=Math.max(safeNum(u.Living_Area_sq_m||1),1);
-  document.getElementById('pID').textContent = u.HP_ID;
-  document.getElementById('pPlot').textContent = `Plot ${u.Plot||'-'}`;
-  document.getElementById('pLocText').textContent = `📍 ${u.SubDistrict||''}, ${u.District||''} (${u.Zone||''})`;
-  document.getElementById('pPrice').textContent = p ? `฿${Math.round(p).toLocaleString()}` : 'Price on Request';
-  
-  // ✅ ใช้ฟังก์ชันดึง Badge ตรงตามระบบ CoCo
-  syncField('vBadge', 'w-badge', u.Badge);
-  syncField('vCreated', 'w-created', u.Created_Date);
-  syncField('vBB', 'w-bb', `${u.Bedrooms||''} Bed | ${u.Bathrooms||''} Bath`);
-  syncField('vLiving', 'w-living', u.Living_Area_sq_m ? `${u.Living_Area_sq_m} m²` : "");
-  syncField('vLand', 'w-land', u.Land_Area_sq_m ? `${u.Land_Area_sq_m} m²` : "");
-  syncField('vLandW', 'w-landW', u.Land_Area_sq_w ? `${u.Land_Area_sq_w} sq.w` : "");
-  if(p && u.Living_Area_sq_m) syncField('vPriceSq', 'w-pricesq', `฿${Math.round(p/a).toLocaleString()} / m²`);
-  
-  syncField('vStatus', 'w-status', u.Status);
-  syncField('vBuild', 'w-build', u.Build_Stage);
-  syncField('vFurnish', 'w-furnish', u.Furnishing);
-  syncField('vView', 'w-view', u.View_Type);
-  syncField('vDistrict', 'w-district', u.District);
-  syncField('vSubDistrict', 'w-sub', u.SubDistrict);
-  syncField('vZone', 'w-zone', u.Zone);
-  syncField('vPoolSys', 'w-poolsys', u.Pool_System);
-  syncField('vPool', 'w-pool', u.Pool_Size ? `${u.Pool_Size} (${u.Pool_Depth||''})` : "");
-  syncField('vKitchen', 'w-kitchen', u.Kitchen_Type);
-  syncField('vParking', 'w-parking', u.Parking);
-  syncField('vDirect', 'w-direct', u.Direction);
-  syncField('vExtras', 'w-extras', u.Extras);
-  syncField('vUtil', 'w-util', u.Electricity ? `Elec: ${u.Electricity} | Water: ${u.Water_Source||''}` : "");
-  
-  syncField('vFeeM', 'w-feeM', u.Common_Fee_Rate ? `฿${u.Common_Fee_Rate} / m²` : "");
-  if(u.Common_Fee_Rate && u.Living_Area_sq_m) syncField('vFeeY', 'w-feeY', `฿${Math.round(u.Common_Fee_Rate * a * 12).toLocaleString()} / Yr`);
-  
-  syncField('vOwner', 'w-owner', u.Ownership_Type);
-  syncField('vTitle', 'w-title', u.Land_Title_Deed_Type);
-  syncField('vTransfer', 'w-transfer', u.Transfer_Expenses);
-  
-  const desc = document.getElementById('vDesc');
-  if(u.Description) { desc.textContent = u.Description; desc.closest('.info-card').classList.add('has-data'); }
-  
-  if (u.FloorPlan_PDF && u.FloorPlan_PDF.startsWith('http')) {
-    const bar = document.getElementById('pdfBarMaster'); bar.href = u.FloorPlan_PDF; bar.style.display = 'flex';
-  }
-
-  const coords = String(u.Coordinates||'').split(',');
-  if(coords.length === 2){
-    const lat = Number(coords[0]), lon = Number(coords[1]);
-    if(u.Map_Visibility !== 'Hide') {
-      document.getElementById('mapSection').classList.add('has-data');
-      if(!leafletMap) {
-        leafletMap = L.map('leafletMap',{zoomControl:false, attributionControl:false}).setView([lat, lon], 14);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(leafletMap);
-        L.marker([lat, lon]).addTo(leafletMap);
-      }
+    
+    function setMain(i) { 
+      idx = (i + images.length) % images.length; 
+      const mainImg = document.getElementById('mainImg'); 
+      mainImg.style.opacity = '0.5'; 
+      setTimeout(() => { 
+        mainImg.src = images[idx]; 
+        mainImg.style.opacity = '1'; 
+        document.getElementById('countLabel').textContent = `${idx + 1} / ${images.length}`; 
+        document.querySelectorAll('.thumb').forEach((t, k) => t.classList.toggle('active', k === idx)); 
+      }, 150); 
     }
-    document.getElementById('amenitiesSection').classList.add('has-data');
-    document.getElementById('nearbyGrid').innerHTML = LANDMARKS.map(loc => {
-      const d = getDistance(lat, lon, loc.lat, lon);
-      return `<div class="nearby-item"><div><div class="loc-name">${loc.name}</div><div class="loc-time">${Math.ceil(d*1.5)} mins drive</div></div><div class="loc-dist">${d.toFixed(1)} km</div></div>`;
-    }).join('');
-  }
-  images = u.Album_Image ? u.Album_Image.split(',').map(x=>x.trim()).filter(Boolean) : [u.Thumbnail_Image];
-  renderThumbs(); setMain(0);
-}
-
-function setMain(i){ idx=(i+images.length)%images.length; document.getElementById('mainImg').src=images[idx]; document.getElementById('countLabel').textContent=`${idx+1} / ${images.length}`; document.querySelectorAll('.thumb').forEach((t,k)=>t.classList.toggle('active',k===idx)); }
-function changeSlide(n){setMain(idx+n);}
-function renderThumbs(){ document.getElementById('thumbStrip').innerHTML=images.map((src,i)=> `<img class="thumb" src="${src}" onclick="setMain(${i})" loading="lazy">`).join(''); }
-window.onload = init;
-</script>
+    
+    function changeSlide(n) { setMain(idx + n); }
+    function renderThumbs() { document.getElementById('thumbStrip').innerHTML = images.map((src, i) => `<img class="thumb" src="${src}" onclick="setMain(${i})">`).join(''); }
+    
+    window.onload = init;
+  </script>
 </body>
 </html>
