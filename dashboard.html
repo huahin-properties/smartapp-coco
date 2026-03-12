@@ -11,16 +11,22 @@
     .unit-row { background: white; border: 1px solid rgba(45, 90, 39, 0.1); border-radius: 1.2rem; padding: 15px; margin-bottom: 12px; display: flex; align-items: center; gap: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); transition: 0.2s; }
     .unit-row:active { transform: scale(0.98); }
     .status-badge { font-size: 8px; font-weight: 800; padding: 3px 8px; border-radius: 50px; text-transform: uppercase; border: 1px solid currentColor; }
+    
+    /* 🎯 สไตล์ปุ่ม Logout */
+    .logout-btn { position: fixed; top: 15px; right: 15px; background: rgba(239, 68, 68, 0.1); border: 1px solid #EF4444; color: #EF4444; padding: 8px 16px; border-radius: 12px; font-size: 11px; font-weight: 800; display: flex; align-items: center; gap: 8px; transition: 0.3s; cursor: pointer; z-index: 9999; }
+    .logout-btn:hover { background: #EF4444; color: white; }
   </style>
 </head>
 <body>
+  <button onclick="handleLogout()" class="logout-btn"><i class="fas fa-power-off"></i> Logout</button>
+
   <div class="flex justify-between items-center mb-8 mt-4 px-2">
     <div>
       <h1 class="text-xl font-800 uppercase text-[#2D5A27]">CoCo Dashboard</h1>
       <p id="authBadge" class="text-[9px] font-700 text-slate-400 uppercase tracking-widest"></p>
     </div>
     <div class="flex gap-4 items-center">
-      <button onclick="localStorage.clear(); location.href='gateway.html';" class="text-slate-400 font-800 text-[9px] uppercase hover:text-red-500">Logout</button>
+      <button onclick="handleLogout()" class="text-slate-400 font-800 text-[9px] uppercase hover:text-red-500">Exit</button>
       <button onclick="location.href='add.html'" class="bg-[#2D5A27] text-white px-5 py-2.5 rounded-xl font-800 text-[10px] uppercase shadow-lg shadow-green-900/20"><i class="fas fa-plus mr-2"></i>Add Unit</button>
     </div>
   </div>
@@ -39,8 +45,15 @@
     const TARGET_PROJECT = "CoCo Hua Hin 88";
     let data = [];
 
+    // 🎯 ฟังก์ชัน Logout
+    function handleLogout() {
+      if(confirm("ต้องการออกจากระบบเพื่อเปลี่ยนผู้ใช้งานใช่หรือไม่?")) {
+        localStorage.clear();
+        location.href = 'gateway.html';
+      }
+    }
+
     async function init() {
-      // 🔐 Check Authority (Allows Master or CoCo Admin)
       const session = localStorage.getItem('admin_session');
       const project = localStorage.getItem('admin_project');
       const role = localStorage.getItem('admin_role');
