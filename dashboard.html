@@ -17,7 +17,7 @@
   <div class="flex justify-between items-center mb-8 mt-4 px-2">
     <div>
       <h1 class="text-xl font-800 uppercase text-[#2D5A27]">CoCo Dashboard</h1>
-      <p class="text-[9px] font-700 text-slate-400 uppercase tracking-widest">Luxury Home Management</p>
+      <p id="authBadge" class="text-[9px] font-700 text-slate-400 uppercase tracking-widest"></p>
     </div>
     <div class="flex gap-4 items-center">
       <button onclick="localStorage.clear(); location.href='gateway.html';" class="text-slate-400 font-800 text-[9px] uppercase hover:text-red-500">Logout</button>
@@ -36,66 +36,49 @@
 
   <script>
     const API = "https://script.google.com/macros/s/AKfycbyOnZc6s05eGvHR5XmRnRPAat8vNZpf8cFhL2GiAFjWld-2OBf2OqgP07RU07UTZgDXxA/exec";
-    const TARGET_PROJECT = "CoCo Hua Hin 88"; // 🎯 ล็อกโครงการเป้าหมายที่นี่
+    const TARGET_PROJECT = "CoCo Hua Hin 88";
     let data = [];
 
     async function init() {
-      // 🔐 1. Identity Check
+      // 🔐 Check Authority (Allows Master or CoCo Admin)
       const session = localStorage.getItem('admin_session');
       const project = localStorage.getItem('admin_project');
+      const role = localStorage.getItem('admin_role');
       if (session !== 'active' || (project !== 'CoCo' && project !== 'All')) { 
         location.href = 'gateway.html'; 
         return; 
       }
-
-      // ✅ 2. Instant View: โหลดจาก Cache ทันที (Spec 3)
-      const cached = localStorage.getItem('cache_coco_dash');
-      if (cached) { 
-        data = JSON.parse(cached); 
-        render(data); 
-      }
+      document.getElementById('authBadge').innerText = `Verified: ${role}`;
 
       try {
         const res = await fetch(`${API}?mode=getListSmall`);
         const allData = await res.json();
-        
-        // 🎯 3. Strict Lockdown: กรองเอาเฉพาะข้อมูล CoCo 100%
         data = allData.filter(u => u.Project_Name === TARGET_PROJECT);
-
-        // ✅ 4. Update Cache & Render
         localStorage.setItem('cache_coco_dash', JSON.stringify(data));
         render(data);
-      } catch (e) { 
-        console.error("Dashboard Sync Failed");
-      }
+      } catch (e) { console.error("Sync Failed"); }
     }
 
     function render(items) {
       const listEl = document.getElementById('list');
       if (items.length === 0) {
-        listEl.innerHTML = `<div class="text-center py-20 text-slate-300 font-700 uppercase text-xs">No entries found for CoCo</div>`;
+        listEl.innerHTML = `<div class="text-center py-20 text-slate-300 font-700 uppercase text-xs">No entries found</div>`;
         return;
       }
-      
       listEl.innerHTML = items.map(u => `
         <div class="unit-row">
-          <img src="${u.Thumbnail_Image || 'https://via.placeholder.com/150'}" 
-               class="w-16 h-16 rounded-xl object-cover bg-slate-100"
-               onerror="this.src='https://via.placeholder.com/150?text=No+Img'">
-          
+          <img src="${u.Thumbnail_Image || 'https://via.placeholder.com/150'}" class="w-16 h-16 rounded-xl object-cover bg-slate-100">
           <div class="flex-1 min-width-0">
             <div class="flex items-center gap-2 mb-1">
               <div class="text-[9px] text-slate-400 font-800 uppercase">#${u.HP_ID}</div>
               <div class="status-badge ${u.System_Status === 'Online' ? 'text-green-500' : 'text-slate-400'}">${u.System_Status}</div>
             </div>
             <div class="font-800 text-sm truncate uppercase text-[#2D5A27]">Plot ${u.Plot || 'N/A'}</div>
-            <div class="text-[9px] text-[#C9A84C] font-800 uppercase tracking-tighter mt-0.5">
+            <div class="text-[9px] text-[#CEA86C] font-800 uppercase tracking-tighter mt-0.5">
               ${u.Status} | ${u.Bedrooms} BED | ${u.Bathrooms} BATH
             </div>
           </div>
-
-          <button onclick="location.href='edit.html?id=${u.HP_ID}'" 
-                  class="bg-slate-50 p-3.5 rounded-2xl hover:bg-[#2D5A27] hover:text-white transition-all text-slate-400 border border-slate-100">
+          <button onclick="location.href='edit.html?id=${u.HP_ID}'" class="bg-slate-50 p-3.5 rounded-2xl hover:bg-[#2D5A27] hover:text-white transition-all text-slate-400 border border-slate-100">
             <i class="fas fa-edit text-xs"></i>
           </button>
         </div>`).join('');
@@ -103,13 +86,9 @@
 
     function filter() {
       const q = document.getElementById('sI').value.toLowerCase();
-      const filtered = data.filter(u => 
-        u.HP_ID.toLowerCase().includes(q) || 
-        (u.Plot && u.Plot.toLowerCase().includes(q))
-      );
+      const filtered = data.filter(u => u.HP_ID.toLowerCase().includes(q) || (u.Plot && u.Plot.toLowerCase().includes(q)));
       render(filtered);
     }
-
     window.onload = init;
   </script>
 </body>
